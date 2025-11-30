@@ -1,10 +1,10 @@
 import {Entity, PrimaryGeneratedColumn, Column, OneToOne} from "typeorm";
 
-export enum tipo_categoria {
+export enum ResiduoCategoria {
     COMUM = 'Comum',
     ESPECIAL = 'Especial'
 }
-export type ResiduoCategoria  = 'Comum' | 'Especial';
+
 @Entity("residuo")
 export class ResiduoModel {
 
@@ -14,10 +14,13 @@ export class ResiduoModel {
     @Column({length: 50, unique: true, nullable: false})
     nome!: string;
 
-    @Column({type: 'enum', enum: tipo_categoria, nullable: false})
-    categoria!: tipo_categoria;
+    @Column({type: 'enum',
+             enum: ResiduoCategoria, 
+             nullable: false,
+             name: 'tipo_categoria'})
+    tipo_categoria!: ResiduoCategoria;
 
-    @Column({type: 'text'})
+    @Column({type: 'text', nullable: true})
     descricao!: string;
 
 }
