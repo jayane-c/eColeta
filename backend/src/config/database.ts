@@ -4,18 +4,21 @@ import path = require('path')
 import { EnderecoModel } from '../models/EnderecoModel'
 import { MoradorModel } from '../models/MoradorModel'
 import { ResiduoModel } from '../models/ResiduoModel'
+import { CooperativaModel } from '../models/CooperativaModel'
+import { EcoletorModel } from '../models/EcoletorModel'
+import { ColetaModel } from '../models/ColetaModel'
 
 
 dotenv.config({path: path.resolve(__dirname, '../../../.env') })
 
 const AppDataSource = new DataSource ({
-    type: 'postgres',
+    type: process.env.DB_TYPE as any,
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
     username: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
-    entities: [EnderecoModel, MoradorModel, ResiduoModel], 
+    entities: [EnderecoModel, MoradorModel, ResiduoModel, CooperativaModel, EcoletorModel, ColetaModel], 
     synchronize: true,
     logging: false,
 })  
