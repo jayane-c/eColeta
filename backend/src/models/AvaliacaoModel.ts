@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Unique, Column, ManyToOne, JoinColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Unique, Column, JoinColumn, OneToOne } from "typeorm";
 import { ColetaModel } from './ColetaModel';
 
 @Entity("avaliacao")
@@ -11,7 +11,7 @@ export class AvaliacaoModel {
     @Column({type: 'int', nullable: false})
     fk_coleta!: number;
 
-    @Column({type: 'tinyint', nullable: false})
+    @Column({type: 'smallint', nullable: false})
     nota!: number;
     
     @Column({type: 'text', nullable: true})
@@ -20,7 +20,7 @@ export class AvaliacaoModel {
     @Column({type: 'timestamp', nullable: false})
     data_avaliacao!: Date;
 
-    @ManyToOne(() => ColetaModel)
+    @OneToOne(() => ColetaModel, coleta => coleta.avaliacao)
     @JoinColumn({ name: 'fk_coleta', referencedColumnName: 'id_coleta' })
     coleta!: ColetaModel;
 }

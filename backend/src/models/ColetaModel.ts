@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToOne, OneToMany, JoinColumn } from "typeorm";
 import { MoradorModel } from "./MoradorModel";
 import { EcoletorModel } from "./EcoletorModel";
-//import { AvaliacaoModel } from "./AvaliacaoModel";
+import { AvaliacaoModel } from "./AvaliacaoModel";
 //import { TransacaoModel } from "./TransacaoModel";
 //import { ItensColetaModel } from "./ItensColetaModel";
 
@@ -28,10 +28,10 @@ export class ColetaModel {
     })
     status_coleta!: StatusColeta;
 
-    @Column({ type: 'datetime', name: 'data_solicitacao'})
+    @Column({ type: 'timestamp', nullable: true})
     data_solicitacao!: Date;
 
-    @Column({ type: 'datetime', name: 'data_agendada', nullable: true})
+    @Column({ type: 'timestamp', nullable: true})
     data_agendada!: Date;
 
     @Column({ length: 255, nullable: true})
@@ -39,8 +39,8 @@ export class ColetaModel {
 
     //Relacionamentos - Comentados por enquanto
 
-    //@OnetoOne(() => AvaliacaoModel, (avaliacao) => avaliacao.coleta)
-    //avaliacao!: AvaliacaoModel;
+    @OneToOne(() => AvaliacaoModel, avaliacao => avaliacao.coleta)
+    avaliacao!: AvaliacaoModel;
 
     //@OneToOne(() => TransacaoModel, (transacao) => transacao.coleta)
     //transacao!: TransacaoModel;
