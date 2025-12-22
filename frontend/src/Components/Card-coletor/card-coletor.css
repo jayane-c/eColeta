@@ -1,0 +1,59 @@
+.card-coletor-container {
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    width: 21%;
+    height: 100%;
+    border-radius: 1rem;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    gap: 1rem;
+    
+
+}
+
+.card-logo-coletor {
+    overflow: hidden;
+    border: 1px solid green;
+    width: 100%;
+    text-align: center;
+}
+
+.card-logo-coletor img {
+    width: 15rem;
+}
+
+.card-coletor-container h3 {
+    margin-top: 1rem;
+    font-size: 1.5em;
+    font-weight: 500;
+    letter-spacing: 0.050rem;
+    color: #0E5A3B;
+}
+
+.card-coletor-container p {
+    text-align: center;
+    margin: 0.2rem;
+    color: #0E5A3B;
+}
+
+.btn-coletor {
+    padding: 1rem;
+    border-radius: 15rem;
+    background: linear-gradient(to right, #024D21, #04B34D);
+    color: white;
+    border: none;
+    margin-bottom: 1rem;
+    width: 50%;
+    font-size: 0.90em;
+    font-weight: bold;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+
+}
+
+.btn-coletor:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
