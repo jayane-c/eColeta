@@ -1,6 +1,7 @@
 import { AppDataSource } from "../config/database";
 import { MoradorModel } from "../models/MoradorModel"
 import { EnderecoModel } from "../models/EnderecoModel";
+import bcrypt from 'bcryptjs';
 
 export class MoradorService {
     private moradorRepository = AppDataSource.getRepository(MoradorModel);
@@ -21,7 +22,9 @@ export class MoradorService {
         await queryRunner.startTransaction();
 
         try {
-            const hashedSenha = senha; // Implementar hash de senha aqui
+            // hash de senha
+            const salt = await bcrypt.genSalt(10);
+            const senhaHash = await bcrypt.hash(senha, salt);
 
             // Criar e salvar o endereço primeiro
             const novoEndereco = queryRunner.manager.create(EnderecoModel, {
@@ -36,7 +39,7 @@ export class MoradorService {
                 email,
                 cpf,
                 telefone,
-                senha: hashedSenha,
+                senha: senhaHash,
                 endereco: enderecoSalvo
             });
             const moradorSalvo = await queryRunner.manager.save(MoradorModel, novoMorador);
