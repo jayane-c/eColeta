@@ -1,8 +1,8 @@
 //import { useState } from 'react'
 import Home from './Components/Home/home'
-import CadastroMorador from './Pages/Cadastro/Morador/CadastroMorador'
-import CadastroColetor from './Pages/Cadastro/Coletor/CadastroColetor'
-import CadastroCooperativa from './Pages/Cadastro/Cooperativa/CadastroCooperativa'
+import CadastroMorador from './pages/cadastro/morador/CadastroMorador'
+import CadastroColetor from './pages/cadastro/coletor/CadastroColetor'
+import CadastroCooperativa from './pages/cadastro/cooperativa/CadastroCooperativa'
 
 
 function App() {
