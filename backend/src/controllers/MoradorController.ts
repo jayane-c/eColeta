@@ -5,8 +5,8 @@ export class MoradorController {
     private moradorService = new MoradorService();
 
     public async getProfile(req: Request, res: Response): Promise<Response> {
-        // const userId = Number(req.user.id); // Futuro JWT
-        const userId = 1; 
+
+        const userId = (req as any).user.id;
 
         try {
             const morador = await this.moradorService.findById(userId);
@@ -21,8 +21,9 @@ export class MoradorController {
     }
 
     public async updateProfile(req: Request, res: Response): Promise<Response> {
-        // const userId = Number(req.user.id);
-        const userId = 1; 
+
+        const userId = (req as any).user.id;
+
         const { nome, telefone } = req.body;
 
         try {
@@ -37,8 +38,8 @@ export class MoradorController {
     }
 
     public async deleteProfile(req: Request, res: Response): Promise<Response> {
-        // const userId = Number(req.user.id);
-        const userId = 4;
+        
+        const userId = (req as any).user.id;
 
         try {
             await this.moradorService.delete(userId);
