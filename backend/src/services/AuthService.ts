@@ -1,6 +1,7 @@
 import { AppDataSource } from "../config/database";
 import { MoradorModel } from "../models/MoradorModel";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 export class AuthService {
 
@@ -22,8 +23,22 @@ export class AuthService {
             throw new Error("Credenciais inválidas.");
         }
 
-        // Gerar token JWT aqui (não implementado)
-        const token = "token-fake-service";
+        // Gerar token JWT
+        const secret = process.env.JWT_SECRET;
+        if (!secret) {
+            throw new Error("JWT_SECRET não foi definido como variavel de ambiente")
+        }
+
+        const token = jwt.sign(
+            {
+                id: user.id_morador,
+                tipo: 'morador'
+            },
+            secret,
+            { expiresIn: '1d' }
+            
+        );
+        //------------------------------------------------------------------
 
         return {
             token,

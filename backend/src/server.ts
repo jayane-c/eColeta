@@ -8,9 +8,9 @@ const app = express();
 app.use(express.json());
 
 // Rotas de autenticação
-app.use('/api/v1/auth', authRoutes);
+app.use('/auth', authRoutes);
 // Rotas do morador
-app.use('/api/v1/morador', userMoradorRoutes);
+app.use('/morador', userMoradorRoutes);
 
 // Iniciar o servidor após conectar ao banco de dados
 
