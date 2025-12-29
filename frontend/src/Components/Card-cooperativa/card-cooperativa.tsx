@@ -1,5 +1,6 @@
 import './card-cooperativa.css'
 import Cooperativa from '../../assets/Logo-cooperativa/cooperativa.png'
+import { Link } from 'react-router-dom'
 
 export default function Card_cooperativa() {
     return (
@@ -13,10 +14,9 @@ export default function Card_cooperativa() {
                 <p>Receba materias recicláveis de 
                     coletores cadastrados na plataforma.</p>
 
-                <button className='btn-cooperativa'>
-                    Cadastar
-
-                </button>
+                <Link to="/cadastro-cooperativa" className='btn-cooperativa'>
+                Cadastrar
+                </Link>
 
 
             </div>
