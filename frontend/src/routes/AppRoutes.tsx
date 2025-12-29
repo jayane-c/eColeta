@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
-
 import Home from '../pages/home/home'
 import CadastroMorador from "../pages/cadastro/morador/CadastroMorador"
 import CadastroColetor from "../pages/cadastro/coletor/CadastroColetor"
@@ -19,4 +18,4 @@ function AppRoutes() {
     )
 }
 
-export default AppRoutes;
+export default AppRoutes;   
