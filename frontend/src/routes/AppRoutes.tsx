@@ -3,6 +3,7 @@ import Home from '../pages/home/home'
 import CadastroMorador from "../pages/cadastro/morador/CadastroMorador"
 import CadastroColetor from "../pages/cadastro/coletor/CadastroColetor"
 import CadastroCooperativa from "../pages/cadastro/cooperativa/CadastroCooperativa"
+import DashboardColetor from "../pages/dashboard/coletor/DashboardColetor"
 
 function AppRoutes() {
     return (
@@ -12,6 +13,7 @@ function AppRoutes() {
                 <Route path="/cadastro-morador" element={<CadastroMorador />} />
                 <Route path="/cadastro-coletor" element={<CadastroColetor />} />
                 <Route path="/cadastro-cooperativa" element={<CadastroCooperativa />} />
+                <Route path="/dashboard-coletor" element={<DashboardColetor />} />
             </Routes>
         </BrowserRouter>
 
