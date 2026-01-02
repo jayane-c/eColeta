@@ -1,11 +1,14 @@
 import { Clock, Box, CheckCircle, Trophy, Gift, Sparkles, Scale } from 'lucide-react';
+import './DashboardContentMorador.css';
 
 export default function DashboardContentMorador() {
     return (
+        
         <div className="conteudo-principal-recipiente">
             <div className="container-botao-topo">
                 <button className="botao-solicitar-coleta">
-                    <span>+</span> Solicitar Nova Coleta
+                    <span className="icone-mais">+</span>
+                    Solicitar Nova Coleta
                 </button>
             </div>
 
