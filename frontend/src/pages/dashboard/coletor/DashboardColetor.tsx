@@ -85,7 +85,7 @@ function DashboardColetor() {
 
         </div>
 
-        {/* RENDERIZAÇÃO CONDICIONAL DA TELA DE DETALHES */}
+  
         {mostrarModal && coletaAtiva && (
           <DetalheColetas
             coleta={coletaAtiva}
