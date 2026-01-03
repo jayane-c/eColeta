@@ -18,8 +18,6 @@ function CadastroColetor() {
     const [cidade, setCidade] = useState('');
     const [veiculo, setVeiculo] = useState('');
     const [cnh, setCnh] = useState('');
-    const [placa, setPlaca] = useState('');
-    const [carga, setCarga] = useState('');
     const [erroDados, setErroDados] = useState('');
     const [erroEndereco, setErroEndereco] = useState('');
     const [erroSenha, setErroSenha] = useState('');
@@ -47,7 +45,7 @@ function CadastroColetor() {
         }
 
 
-        if (!veiculo || !cnh || !placa || !carga) {
+        if (!veiculo || !cnh) {
             setErroVeiculo('Preencha os dados do veículo');
             return;
         }
@@ -76,8 +74,6 @@ function CadastroColetor() {
             veiculo: {
                 veiculo,
                 cnh,
-                placa,
-                carga
             }
         };
 
@@ -214,23 +210,6 @@ function CadastroColetor() {
                                 value={cnh}
                                 onChange={(e) => setCnh(e.target.value)}
                             />
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="section">
-                            <label>Placa</label>
-                            <input type="text"
-                                value={placa}
-                                onChange={(e) => setPlaca(e.target.value)}
-                            />
-                        </div>
-                        <div className="section">
-                            <label>Capacidade de carga</label>
-                            <input type="text"
-                                value={carga}
-                                onChange={(e) => setCarga(e.target.value)}
-                            />
-
                         </div>
                     </div>
                     <h3 className="section-title">
