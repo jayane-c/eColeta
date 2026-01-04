@@ -7,7 +7,7 @@ import Card_cooperativa from '../../Components/Card-cooperativa/card-cooperativa
 import Hero from '../../Components/Hero/hero'
 import Como_funciona from '../../Components/Como-funciona/como-funciona'
 import Footer from '../../Components/Footer/footer'
-import Botao_descarte from '../../Components/Botao-descarte/botao-descarte'
+import { CardOrientacao } from '../../Components/cardOrientacao/CardOrientacao'
 
 
 
@@ -21,7 +21,7 @@ export default function Home() {
                     <Hero />
                 </section>
 
-                    <Botao_descarte/>
+                    <CardOrientacao/>
 
                 <section className='cards'>
                     <Card_morador />

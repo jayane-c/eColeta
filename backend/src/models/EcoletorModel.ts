@@ -9,7 +9,7 @@ export class EcoletorModel {
     @PrimaryGeneratedColumn({ name: 'id_ecoletor' })
     id_ecoletor!: number;
 
-    @ManyToOne(() => CooperativaModel, cooperativa => cooperativa.coletores, { nullable: false })
+    @ManyToOne(() => CooperativaModel, cooperativa => cooperativa.coletores, { nullable: true })
     @JoinColumn({ name: 'fk_cooperativa' })
     cooperativa!: CooperativaModel;
 
@@ -24,6 +24,9 @@ export class EcoletorModel {
 
     @Column({ length: 14, unique: true, nullable: false })
     cpf!: string;
+
+    @Column({ length: 15, nullable: false })
+    telefone!: string;
 
     @Column({ type: 'varchar', length: 50, nullable: false})
     veiculo_tipo!: string;  

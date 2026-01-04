@@ -2,6 +2,9 @@ import express from 'express';
 import { initializeDatabase } from './config/database';
 import authRoutes from './routes/AuthRoutes';
 import userMoradorRoutes from './routes/UserMoradorRoutes';
+import ResiduoRoutes from "./routes/ResiduoRoutes";
+import { coletaRoutes } from './routes/ColetaRoutes';
+
 
 // Middleware para parsear JSON
 const app = express();
@@ -11,6 +14,10 @@ app.use(express.json());
 app.use('/auth', authRoutes);
 // Rotas do morador
 app.use('/morador', userMoradorRoutes);
+// Rotas para coletas
+app.use("/coletas", coletaRoutes);
+// Rota para listar residuo
+app.use('/residuos', ResiduoRoutes);
 
 // Iniciar o servidor após conectar ao banco de dados
 

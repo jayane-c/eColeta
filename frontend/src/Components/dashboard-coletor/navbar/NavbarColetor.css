@@ -1,0 +1,51 @@
+.navbar-coletor {
+  width: 100%;
+  background-color: #fff;
+  border-bottom: 1px solid #cce3d3;
+}
+
+.navbar-container {
+  margin: 0 auto;
+  padding: 25px 20px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.navbar-logo {
+ height: 36px;
+ width: auto;
+}
+
+.navbar-left h1 {
+  font-size: 18px;
+  color: #115e59;
+  margin: 0;
+}
+
+.navbar-left p {
+  font-size: 14px;
+  color: #4b7c75;
+  margin: 0;
+}
+
+.navbar-button {
+  background-color: #22c55e;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.navbar-button:hover {
+  background-color: #16a34a;
+}

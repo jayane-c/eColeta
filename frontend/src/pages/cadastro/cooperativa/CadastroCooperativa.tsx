@@ -1,8 +1,10 @@
 import './CadastroCooperativa.css'
 import { FaUser, FaIdCard, FaPhone, FaEnvelope, FaMapMarkerAlt, FaLock, FaBuilding, FaRecycle } from "react-icons/fa";
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function CadastroCooperativa() {
+    const navigate = useNavigate();
 
     const [nomeEmpresa, setNomeEmpresa] = useState('');
     const [nomeResponsavel, setNomeResonsavel] = useState('');
@@ -29,8 +31,6 @@ function CadastroCooperativa() {
     const [erroSenha, setErroSenha] = useState('');
     const [erroMateriais, setErroMateriais] = useState('');
 
-
-
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
 
@@ -38,7 +38,6 @@ function CadastroCooperativa() {
         setErroEndereco('');
         setErroSenha('');
         setErroMateriais('')
-
 
         if (!nomeEmpresa || !nomeResponsavel || !cnpj || !telefone || !email) {
             setErroDados('Preencha todos os dados pessoais');
@@ -48,7 +47,6 @@ function CadastroCooperativa() {
         if (!cep || !rua || !numero || !bairro || !cidade) {
             setErroEndereco('Preencha o endereço completo');
             return;
-
         }
 
         if (!papel && !papelao && !plastico && !metal && !vidro && !eletronicos && !oleoDeCozinha) {
@@ -59,9 +57,7 @@ function CadastroCooperativa() {
         if (!senha || senha !== confirmarSenha) {
             setErroSenha('As senhas não conferem');
             return;
-
         }
-
 
         const cooperativa = {
             nomeEmpresa,
@@ -70,230 +66,94 @@ function CadastroCooperativa() {
             telefone,
             email,
             endereco: {
-                cep,
-                rua,
-                numero,
-                complemento,
-                bairro,
-                cidade,
+                cep, rua, numero, complemento, bairro, cidade,
             },
             materiais: {
-                papel, 
-                papelao,
-                plastico,
-                metal,
-                vidro,
-                eletronicos,
-                oleoDeCozinha
+                papel, papelao, plastico, metal, vidro, eletronicos, oleoDeCozinha
             },
             senha,
         };
 
         console.log("Cadastro Válido:", cooperativa);
-
+        navigate('/dashboard-cooperativa');
     };
 
     return (
         <div className="cadastro-page">
             <div className="cadastro-card">
-
                 <h2>Cadastro de cooperativa</h2>
                 <p className="subtitle">Preencha os dados da cooperativa</p>
                 {erroDados && <p className="erro">{erroDados}</p>}
+
                 <form className="cadastro-form" onSubmit={handleSubmit}>
                     <div className="section">
-                        <label className="label-icon">
-                            <FaBuilding />
-                            Nome da empresa
-                        </label>
-                        <input type="text"
-                            value={nomeEmpresa}
-                            onChange={(e) => setNomeEmpresa(e.target.value)}
-                        />
+                        <label className="label-icon"><FaBuilding /> Nome da empresa</label>
+                        <input type="text" value={nomeEmpresa} onChange={(e) => setNomeEmpresa(e.target.value)} />
                     </div>
-                    <div className="row">
-                        <div className="section">
-                            <label className="label-icon">
-                                <FaUser />
-                                Nome do responsável
-                            </label>
-                            <input type="text"
-                                value={nomeResponsavel}
-                                onChange={(e) => setNomeResonsavel(e.target.value)}
-                            />
-                        </div>
 
-                        <div className="section">
-                            <label className="label-icon">
-                                <FaIdCard />
-                                CNPJ
-                            </label>
-                            <input type="text" placeholder="00.000.000/0000-00"
-                                value={cnpj}
-                                onChange={(e) => setCnpj(e.target.value)}
-                            />
-                        </div>
-                    </div>
                     <div className="row">
                         <div className="section">
-                            <label className="label-icon">
-                                <FaPhone />
-                                Telefone
-                            </label>
-                            <input type="tel" placeholder='(00) 00000-0000'
-                                value={telefone}
-                                onChange={(e) => setTelefone(e.target.value)}
-                            />
+                            <label className="label-icon"><FaUser /> Nome do responsável</label>
+                            <input type="text" value={nomeResponsavel} onChange={(e) => setNomeResonsavel(e.target.value)} />
                         </div>
                         <div className="section">
-                            <label className="label-icon">
-                                <FaEnvelope />
-                                Email
-                            </label>
-                            <input type="text"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
+                            <label className="label-icon"><FaIdCard /> CNPJ</label>
+                            <input type="text" placeholder="00.000.000/0000-00" value={cnpj} onChange={(e) => setCnpj(e.target.value)} />
                         </div>
                     </div>
-                    <h3 className="section-title">
-                        <FaMapMarkerAlt />
-                        Endereço
-                    </h3>
+
+                    <div className="row">
+                        <div className="section">
+                            <label className="label-icon"><FaPhone /> Telefone</label>
+                            <input type="tel" placeholder='(00) 00000-0000' value={telefone} onChange={(e) => setTelefone(e.target.value)} />
+                        </div>
+                        <div className="section">
+                            <label className="label-icon"><FaEnvelope /> Email</label>
+                            <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
+                        </div>
+                    </div>
+
+                    <h3 className="section-title"><FaMapMarkerAlt /> Endereço</h3>
                     {erroEndereco && <p className="erro">{erroEndereco}</p>}
                     <div className="row">
-                        <div className="section">
-                            <label>CEP</label>
-                            <input type="text" placeholder="00000-000"
-                                value={cep}
-                                onChange={(e) => setCep(e.target.value)}
-                            />
-                        </div>
-                        <div className="section">
-                            <label>Rua/Avenida</label>
-                            <input type="text"
-                                value={rua}
-                                onChange={(e) => setRua(e.target.value)}
-                            />
-                        </div>
+                        <div className="section"><label>CEP</label><input type="text" value={cep} onChange={(e) => setCep(e.target.value)} /></div>
+                        <div className="section"><label>Rua/Avenida</label><input type="text" value={rua} onChange={(e) => setRua(e.target.value)} /></div>
+                    </div>
 
-                    </div>
                     <div className="row">
-                        <div className="section">
-                            <label>Número</label>
-                            <input type="text"
-                                value={numero}
-                                onChange={(e) => setNumero(e.target.value)}
-                            />
-                        </div>
-                        <div className="section">
-                            <label>Complemento</label>
-                            <input type="text" placeholder="apto, bloco, etc."
-                                value={complemento}
-                                onChange={(e) => setComplemento(e.target.value)}
-                            />
-                        </div>
+                        <div className="section"><label>Número</label><input type="text" value={numero} onChange={(e) => setNumero(e.target.value)} /></div>
+                        <div className="section"><label>Complemento</label><input type="text" value={complemento} onChange={(e) => setComplemento(e.target.value)} /></div>
                     </div>
+
                     <div className="row">
-                        <div className="section">
-                            <label>Bairro</label>
-                            <input type="text"
-                                value={bairro}
-                                onChange={(e) => setBairro(e.target.value)}
-                            />
-                        </div>
-                        <div className="section">
-                            <label>Cidade</label>
-                            <input type="text"
-                                value={cidade}
-                                onChange={(e) => setCidade(e.target.value)}
-                            />
-                        </div>
+                        <div className="section"><label>Bairro</label><input type="text" value={bairro} onChange={(e) => setBairro(e.target.value)} /></div>
+                        <div className="section"><label>Cidade</label><input type="text" value={cidade} onChange={(e) => setCidade(e.target.value)} /></div>
                     </div>
-                    <h3 className='section-title'>
-                        <FaRecycle />
-                        Materiais aceitos
-                    </h3>
+
+                    <h3 className='section-title'><FaRecycle /> Materiais aceitos</h3>
                     {erroMateriais && <p className="erro">{erroMateriais}</p>}
                     <div className='checkbox-group'>
-                        <label className='checkbox-label'>
-                            <input type="checkbox"
-                                checked={papel}
-                                onChange={() => setPapel(!papel)}
-                            />
-                            Papel
-                        </label>
-                        <label className='checkbox-label'>
-                            <input type="checkbox"
-                                checked={papelao}
-                                onChange={() => setPapelao(!papelao)}
-                            />
-                            Papelão
-                        </label>
-                        <label className='checkbox-label'>
-                            <input type="checkbox"
-                                checked={plastico}
-                                onChange={() => setPlastico(!plastico)}
-                            />
-                            Plástico
-                        </label>
-                        <label className='checkbox-label'>
-                            <input type="checkbox"
-                                checked={metal}
-                                onChange={() => setMetal(!metal)}
-                            />
-                            Metal
-                        </label>
-                        <label className='checkbox-label'>
-                            <input type="checkbox"
-                                checked={vidro}
-                                onChange={() => setVidro(!vidro)}
-                            />
-                            Vidro
-                        </label>
-                        <label className='checkbox-label'>
-                            <input type="checkbox"
-                                checked={eletronicos}
-                                onChange={() => setEletronicos(!eletronicos)}
-                            />
-                            Eletrônicos
-                        </label>
-                        <label className='checkbox-label'>
-                            <input type="checkbox"
-                                checked={oleoDeCozinha}
-                                onChange={() => setOleoDeCozinha(!oleoDeCozinha)}
-                            />
-                            Óleo de cozinha
-                        </label>
+                        <label className='checkbox-label'><input type="checkbox" checked={papel} onChange={() => setPapel(!papel)} /> Papel</label>
+                        <label className='checkbox-label'><input type="checkbox" checked={papelao} onChange={() => setPapelao(!papelao)} /> Papelão</label>
+                        <label className='checkbox-label'><input type="checkbox" checked={plastico} onChange={() => setPlastico(!plastico)} /> Plástico</label>
+                        <label className='checkbox-label'><input type="checkbox" checked={metal} onChange={() => setMetal(!metal)} /> Metal</label>
+                        <label className='checkbox-label'><input type="checkbox" checked={vidro} onChange={() => setVidro(!vidro)} /> Vidro</label>
+                        <label className='checkbox-label'><input type="checkbox" checked={eletronicos} onChange={() => setEletronicos(!eletronicos)} /> Eletrônicos</label>
+                        <label className='checkbox-label'><input type="checkbox" checked={oleoDeCozinha} onChange={() => setOleoDeCozinha(!oleoDeCozinha)} /> Óleo de cozinha</label>
                     </div>
 
-                    <h3 className="section-title">
-                        <FaLock />
-                        Senha
-                    </h3>
+                    <h3 className="section-title"><FaLock /> Senha</h3>
                     {erroSenha && <p className="erro">{erroSenha}</p>}
                     <div className="row">
-                        <div className="section">
-                            <label>Senha</label>
-                            <input type="password"
-                                value={senha}
-                                onChange={(e) => setSenha(e.target.value)}
-                            />
-                        </div>
-                        <div className="section">
-                            <label>Confirmar senha</label>
-                            <input type="password"
-                                value={confirmarSenha}
-                                onChange={(e) => setConfirmarSenha(e.target.value)}
-                            />
-                        </div>
+                        <div className="section"><label>Senha</label><input type="password" value={senha} onChange={(e) => setSenha(e.target.value)} /></div>
+                        <div className="section"><label>Confirmar senha</label><input type="password" value={confirmarSenha} onChange={(e) => setConfirmarSenha(e.target.value)} /></div>
                     </div>
-                    <button className="btn-criar">Criar Conta</button>
+
+                    <button type="submit" className="btn-criar">Criar Conta</button>
                 </form>
             </div>
-
         </div>
     )
 }
 
-export default CadastroCooperativa
+export default CadastroCooperativa;

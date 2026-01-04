@@ -1,0 +1,88 @@
+.coleta-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    border: 1px solid #e2e8f0;
+}
+
+
+.coleta-info {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1.5fr 1fr 0.8fr; 
+    gap: 15px;
+    flex: 1; 
+    align-items: center;
+}
+
+.coleta-info div {
+    font-size: 0.9rem;
+    color: #475569;
+}
+
+.coleta-info strong {
+    color: #1e293b;
+    display: inline-block;
+    margin-right: 4px;
+}
+
+.coleta-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-left: 20px;
+}
+
+.btn-aceitar, .btn-recusar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 110px;
+    font-size: 0.85rem;
+}
+
+.btn-aceitar { background-color: #2d6a4f; color: white; }
+.btn-recusar { background-color: #c94b4b; color: white; }
+
+.titulo-secao {
+    font-size: 1.5rem;
+    color: #14532D;
+    margin-bottom: 24px;
+    font-weight: bold;
+    text-align: left; 
+}
+
+.coletas-container {
+    width: 100%;
+    margin-top: 30px;
+}
+
+/* 🟢 ADICIONE ISSO NO SEU CSS */
+.endereco-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  align-items: center;
+}
+
+.link-mapa {
+  color: #1a5235; 
+  font-size: 0.85rem;
+  text-decoration: underline;
+  font-weight: bold;
+  transition: color 0.2s;
+}
+
+.link-mapa:hover {
+  color: #2e7d32;
+  text-decoration: none;
+}

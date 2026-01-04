@@ -1,0 +1,25 @@
+.botao-descarte {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #f0fdf4;
+    color: #10b981;
+    border: 1px solid #dcfce7;
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.botao-descarte:hover {
+    background-color: #19815e;
+    color: #ffffff;
+    transform: translateY(-2px);
+    border-color: #19815e;
+}
+
+.botao-descarte:hover svg {
+    stroke: #ffffff;
+}

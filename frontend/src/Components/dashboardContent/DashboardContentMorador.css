@@ -1,0 +1,186 @@
+.conteudo-principal-recipiente {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    font-family: 'Inter', sans-serif;
+
+    padding-top: 90px;
+}
+
+.container-botao-topo {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 28px;
+}
+
+.botao-solicitar-coleta {
+    background: linear-gradient(135deg, #2f80ff, #1c6eff);
+    color: #ffffff;
+    border: none;
+
+    padding: 14px 30px;
+    border-radius: 999px;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+
+    box-shadow: 0 10px 20px rgba(46, 128, 255, 0.25);
+    transition: all 0.3s ease;
+}
+
+.botao-solicitar-coleta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 26px rgba(46, 128, 255, 0.35);
+}
+
+.botao-solicitar-coleta:active {
+    transform: translateY(0);
+    box-shadow: 0 8px 16px rgba(46, 128, 255, 0.25);
+}
+
+.icone-mais {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.cartao-pontos-destaque {
+    background: linear-gradient(90deg, #FF9100 0%, #FF7000 100%);
+    border-radius: 20px;
+    padding: 30px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+.grade-cartoes-status {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    width: 100%;
+}
+
+.cartao-status-individual {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border: 1px solid #f0f0f0;
+}
+
+.icone-status {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.texto-status {
+    display: flex;
+    flex-direction: column;
+}
+
+.titulo-status {
+    color: #64748b;
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+.valor-status {
+    font-size: 1.3rem;
+    color: #333;
+    font-weight: bold;
+    margin: 0;
+}
+
+.fundo-laranja {
+    background: #fff4e5;
+}
+
+.fundo-azul {
+    background: #e6f0ff;
+}
+
+.fundo-verde {
+    background: #e6fcf5;
+}
+
+.painel-pontos-esquerda {
+    flex: 1;
+}
+
+.cabecalho-principal {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.caixa-trofeu {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.texto-pontos-grande h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+.grade-estatisticas-internas {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 15px;
+}
+
+.mini-card-transparente {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 15px;
+    padding: 15px 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.mini-card-transparente strong {
+    font-size: 1.8rem;
+    margin-top: 5px;
+}
+
+.botao-troca-lateral {
+    background: white;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-left: 30px;
+    margin-top: 46px;
+    cursor: pointer;
+}
+.botao-troca-lateral:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 26px rgba(46, 128, 255, 0.35);
+}
+
+.texto-botao-lateral {
+    text-align: left;
+    color: #FF9100;
+}
