@@ -9,7 +9,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 0 40px;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f1f5f9;
     z-index: 1000;
 }
 
@@ -48,18 +48,8 @@
     color: #6b7280;
 }
 
-.botao-navegacao {
-    background-color: #D1FAE5;
-    color: #065F46;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.botao-navegacao:hover {
-    background-color: #059669;
-    color: #ffffff;
+.navegacao-direita {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }

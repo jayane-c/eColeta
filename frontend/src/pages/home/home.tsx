@@ -1,4 +1,4 @@
-import Barra_de_navegacao from '../../Components/Barra-de-navegacao/barra-de-navegacao'
+import Barra_de_navegacao from '../../Components/Barra-de-navegacao/Barra-de-navegacao'
 import './home.css'
 import '../../CSS/global.css'
 import Card_morador from '../../Components/Card-morador/card-morador'
@@ -7,7 +7,7 @@ import Card_cooperativa from '../../Components/Card-cooperativa/card-cooperativa
 import Hero from '../../Components/Hero/hero'
 import Como_funciona from '../../Components/Como-funciona/como-funciona'
 import Footer from '../../Components/Footer/footer'
-import Botao_descarte from '../../Components/Botao-descarte/botao-descarte'
+import Botao_descarte from '../../Components/BotaoDescarte/BotaoDescarte'
 
 
 

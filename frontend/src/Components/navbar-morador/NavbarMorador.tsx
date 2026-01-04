@@ -1,12 +1,17 @@
 import '../../CSS/global.css';
 import './NavbarMorador.css';
 import iconeReciclagem from "../../assets/Logo/recycleIcon.png"; 
+import { useNavigate } from "react-router-dom";
+import BotaoDescarte from "../BotaoDescarte/BotaoDescarte";
+import BotaoSair from "../botaoSair/BotaoSair";
 
 interface PropriedadesNavbar {
     nome: string;
 }
 
 export default function NavbarMorador({ nome }: PropriedadesNavbar) {
+    const navigate = useNavigate();
+
     return (
         <header className="navegacao-recipiente">
             <div className="navegacao-esquerda">
@@ -18,9 +23,11 @@ export default function NavbarMorador({ nome }: PropriedadesNavbar) {
                     <span>Painel do Morador</span>
                 </div>
             </div>
-            <button className="botao-navegacao">
-                 Guia de Separação
-            </button>
+
+            <div className="navegacao-direita">
+                <BotaoDescarte onClick={() => navigate("/guia-morador")} />
+                <BotaoSair onSair={() => navigate("/")} />
+            </div>
         </header>
     );
 }

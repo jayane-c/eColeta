@@ -6,6 +6,7 @@ import CadastroCooperativa from "../pages/cadastro/cooperativa/CadastroCooperati
 import DashboardColetor from "../pages/dashboard/coletor/DashboardColetor"
 import DashboardMorador from "../pages/dashboard/morador/DashboardMorador"
 import PerfilColetor from "../pages/perfil-coletor/PerfilColetor"
+import DashboardCooperativa from "../pages/dashboard/cooperativa/DashboardCooperativa"
 
 
 function AppRoutes() {
@@ -19,6 +20,7 @@ function AppRoutes() {
                 <Route path="/dashboard-coletor" element={<DashboardColetor />} />
                 <Route path="/dashboard-morador" element={<DashboardMorador/>}/>
                 <Route path="/perfil" element={<PerfilColetor />} />
+                <Route path="/dashboard-cooperativa" element={<DashboardCooperativa/>} />
             </Routes>
         </BrowserRouter>
 
