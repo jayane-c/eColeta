@@ -44,7 +44,6 @@ function CadastroColetor() {
     const [erroVeiculo, setErroVeiculo] = useState('');
     const [carregando, setCarregando] = useState(false); 
 
-   
     useEffect(() => {
         const cepLimpo = cep.replace(/\D/g, ''); 
         if (cepLimpo.length === 8) {
@@ -64,7 +63,6 @@ function CadastroColetor() {
         }
     }, [cep]); 
 
-    
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
@@ -73,46 +71,32 @@ function CadastroColetor() {
         setErroVeiculo('');
         setErroSenha('');
 
-        
         if (!nome || !cpf || !email || !telefone) return setErroDados('Preencha todos os dados pessoais');
         if (!cep || !rua || !numero || !bairro || !cidade) return setErroEndereco('Preencha o endereço completo');
         if (!veiculo || !cnh) return setErroVeiculo('Preencha os dados do veículo');
         if (!senha || senha !== confirmarSenha) return setErroSenha('As senhas não conferem');
 
-       
         const coletor = {
             nome,
             cpf: cpf.replace(/\D/g, ''),
             email,
             telefone: telefone.replace(/\D/g, ''),
-            endereco:
-             { cep, rua, numero, complemento, bairro, cidade },
+            endereco: { cep, rua, numero, complemento, bairro, cidade },
             senha,
             veiculo: { tipo: veiculo, cnh }
         };
 
         try {
             setCarregando(true);
-
-           
             console.log("Enviando dados para o servidor...", coletor);
         
-          /*  
-           const response = await fetch('api_aqui', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(coletor)
-        }); */
+            await new Promise(resolve => setTimeout(resolve, 1500)); 
 
-       await new Promise(resolve => setTimeout(resolve, 1500)); 
+            alert("Cadastro realizado com sucesso!");
+            navigate("/dashboard-coletor");
 
-        alert("Cadastro realizado com sucesso!");
-        navigate("/dashboard-coletor");
-
-
-        } catch (error) {
+        } catch { 
+           
             setErroDados("Erro ao conectar com o servidor. Tente novamente.");
         } finally {
             setCarregando(false); 
