@@ -4,6 +4,7 @@ import { MoradorModel } from "../models/MoradorModel";
 import { ItemColetaModel } from "../models/ItemColetaModel";
 import { ResiduoModel } from "../models/ResiduoModel";
 import { ICreateColetaDTO } from "../DTOs/IColetaDTO";
+import { EcoletorModel } from "../models/EcoletorModel";
 
 export class ColetaService {
     private coletaRepository = AppDataSource.getRepository(ColetaModel);
@@ -73,4 +74,24 @@ export class ColetaService {
             order: { data_solicitacao: 'ASC' }
         });
     }
+
+    async aceitarColeta(id_coleta: number, id_ecoletor: number){
+            const coleta = await this.coletaRepository.findOne({ where: { id_coleta } });
+
+            if (!coleta) throw new Error("Coleta não encontrada");
+            
+            if (coleta.status_coleta !== 'Pendente') {
+                throw new Error("Esta coleta já foi aceita por outro ecoletor ou não está pendente.");
+            }
+
+            const ecoletorRepo = AppDataSource.getRepository(EcoletorModel);
+            const ecoletor = await ecoletorRepo.findOne({ where: { id_ecoletor } });
+
+            if (!ecoletor) throw new Error("Ecoletor inválido");
+
+            coleta.ecoletor = ecoletor;
+            coleta.status_coleta = 'Aceito';
+
+            return this.coletaRepository.save(coleta);
+        }
 }
