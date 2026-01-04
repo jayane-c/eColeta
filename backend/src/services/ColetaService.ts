@@ -1,13 +1,14 @@
 import { AppDataSource } from "../config/database";
 import { ColetaModel } from "../models/ColetaModel";
 import { MoradorModel } from "../models/MoradorModel";
-import { ItensColetaModel } from "../models/ItensColetaModel";
+import { ItemColetaModel } from "../models/ItemColetaModel";
 import { ResiduoModel } from "../models/ResiduoModel";
 import { ICreateColetaDTO } from "../DTOs/IColetaDTO";
 
 export class ColetaService {
     private coletaRepository = AppDataSource.getRepository(ColetaModel);
     private moradorRepository = AppDataSource.getRepository(MoradorModel);
+    private itemRepo = AppDataSource.getRepository(ItemColetaModel);
 
     async create(dados: ICreateColetaDTO) {
         const { id_morador, data_agendada, observacoes, itens } = dados;
@@ -39,10 +40,10 @@ export class ColetaService {
                     throw new Error(`Resíduo com ID ${item.fk_residuo} não encontrado.`);
                 }
 
-                const novoItemColeta = queryRunner.manager.create(ItensColetaModel, {
+                const novoItemColeta = queryRunner.manager.create(ItemColetaModel, {
                     coleta: coletaSalva,
                     residuo,
-                    quantidade: item.quantidade
+                    quantidade_estimada: item.quantidade
                 });
                 await queryRunner.manager.save(novoItemColeta);
             }
@@ -60,7 +61,7 @@ export class ColetaService {
     async listarPorMorador(id_morador: number) {
         return this.coletaRepository.find({
             where: { morador: { id_morador } },
-            relations: ['ecoletor', 'itensColeta', 'itensColeta.residuo'],
+            relations: ['ecoletor', 'itens', 'itens.residuo'],
             order: { data_solicitacao: 'DESC' }
         });
     }
@@ -68,7 +69,7 @@ export class ColetaService {
     async listarDisponiveis() {
         return this.coletaRepository.find({
             where: { status_coleta: 'Pendente' },
-            relations: ['morador', 'morador.endereco', 'ItensColeta', 'ItensColeta.residuo'],
+            relations: ['morador', 'morador.endereco', 'itens', 'itens.residuo'],
             order: { data_solicitacao: 'ASC' }
         });
     }
