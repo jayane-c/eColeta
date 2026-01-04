@@ -1,4 +1,4 @@
-import Barra_de_navegacao from '../../Components/Barra-de-navegacao/Barra-de-navegacao'
+import Barra_de_navegacao from '../../Components/Barra-de-navegacao/barra-de-navegacao'
 import './home.css'
 import '../../CSS/global.css'
 import Card_morador from '../../Components/Card-morador/card-morador'
