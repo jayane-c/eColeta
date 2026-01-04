@@ -4,6 +4,7 @@ import NavbarColetor from "../../../Components/dashboard-coletor/navbar/NavbarCo
 import ColetasDisponiveis from "../../../Components/dashboard-coletor/coletas-disponiveis/ColetasDisponiveis";
 import { useState } from "react";
 import DetalheColetas from "../../../Components/dashboard-coletor/detalhe-coletas/DetalheColetas"
+import { Package, Truck, CheckCircle } from "lucide-react";
 
 function DashboardColetor() {
   const [totalDisponiveis, setTotalDisponiveis] = useState(0)
@@ -47,26 +48,25 @@ function DashboardColetor() {
             <CardResumo
               titulo="Disponíveis"
               valor={totalDisponiveis}
-              icon="📦"
+              icon={<Package size={24} />}
               colorClass="orange"
             />
 
             <CardResumo
               titulo="Em Andamento"
               valor={totalAndamento}
-              icon="✈️"
+              icon={<Truck size={24} />}
               colorClass="blue"
             />
 
             <CardResumo
               titulo="Finalizadas"
               valor={totalFinalizadas}
-              icon="✅"
+              icon={<CheckCircle size={24} />}
               colorClass="green"
             />
           </div>
 
-          {/* NOVO: Card de Atalho para a Coleta Ativa */}
           {coletaAtiva && !mostrarModal && (
             <div className="alerta-coleta-ativa" onClick={() => setMostrarModal(true)}>
               <p>🚀 Você tem uma coleta em andamento: <strong>{coletaAtiva.material}</strong></p>
