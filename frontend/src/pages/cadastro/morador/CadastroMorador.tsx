@@ -29,7 +29,6 @@ function CadastroMorador() {
         setErroEndereco('');
         setErroSenha('');
 
-
         if (!nome || !cpf || !email || !telefone) {
             setErroDados('Preencha todos os dados pessoais');
             return;
@@ -60,9 +59,12 @@ function CadastroMorador() {
             },
             senha,
         };
+        
+        localStorage.setItem('usuarioLogado', JSON.stringify(morador));
+        localStorage.setItem('usuarioNome', nome); 
+        localStorage.setItem('usuarioTipo', 'morador');
 
-        console.log("Cadastro Válido:", morador);
-
+        console.log("Cadastro Válido e Salvo:", morador);
         navigate("/dashboard-morador");
     };
 
@@ -79,7 +81,12 @@ function CadastroMorador() {
                         <label className="label-icon">
                             <FaUser /> Nome Completo
                         </label>
-                        <input type="text" value={nome} onChange={(e) => setNome(e.target.value)} />
+                        <input 
+                            type="text" 
+                            value={nome} 
+                            onChange={(e) => setNome(e.target.value)} 
+                            required 
+                        />
                     </div>
 
                     <div className="row">
