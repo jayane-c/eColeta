@@ -1,5 +1,5 @@
 import "./NavbarColetor.css"
-import logo from "../../../assets/dashboard.jpeg"
+import logo from "../../../assets/Logo/coletor.png"
 import { useNavigate } from "react-router-dom"; 
 
 

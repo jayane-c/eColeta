@@ -1,5 +1,5 @@
 import '../Barra-de-navegacao/barra-de-navegacao.css';
-import Logo from '../../assets/Logo-ecoleta/logo.png';
+import Logo from '../../assets/Logo/logo.png';
 import '../../CSS/global.css'
 export default function Barra_de_navegacao() {
     return (
