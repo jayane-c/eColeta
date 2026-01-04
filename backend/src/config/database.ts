@@ -8,7 +8,7 @@ import { CooperativaModel } from '../models/CooperativaModel'
 import { EcoletorModel } from '../models/EcoletorModel'
 import { ColetaModel } from '../models/ColetaModel'
 import { AvaliacaoModel } from '../models/AvaliacaoModel'
-import { ItensColetaModel } from '../models/ItensColetaModel'
+import { ItemColetaModel } from '../models/ItemColetaModel'
 import { TransacaoModel } from '../models/TransacaoModel'
 
 
@@ -22,7 +22,7 @@ export const AppDataSource = new DataSource ({
     username: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
-    entities: [EnderecoModel, MoradorModel, ResiduoModel, CooperativaModel, EcoletorModel, ColetaModel, AvaliacaoModel, ItensColetaModel, TransacaoModel], 
+    entities: [EnderecoModel, MoradorModel, ResiduoModel, CooperativaModel, EcoletorModel, ColetaModel, AvaliacaoModel, ItemColetaModel, TransacaoModel], 
     synchronize: true,
     logging: false,
 })  

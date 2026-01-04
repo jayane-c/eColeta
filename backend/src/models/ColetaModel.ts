@@ -3,7 +3,7 @@ import { MoradorModel } from "./MoradorModel";
 import { EcoletorModel } from "./EcoletorModel";
 import { AvaliacaoModel } from "./AvaliacaoModel";
 import { TransacaoModel } from "./TransacaoModel";
-import { ItensColetaModel } from "./ItensColetaModel";
+import { ItemColetaModel } from "./ItemColetaModel";
 import { CooperativaModel } from "./CooperativaModel";
 
 export type StatusColeta = 'Pendente' | 'Aceito' | 'A Caminho' | 'Entregue_Coop' | 'Concluido' | 'Cancelado';
@@ -48,7 +48,7 @@ export class ColetaModel {
     @OneToOne(() => TransacaoModel, (transacao) => transacao.coleta)
     transacao!: TransacaoModel;
 
-    @OneToMany(() => ItensColetaModel, (ItensColeta) => ItensColeta.coleta)
-    ItensColeta!: ItensColetaModel[];
+    @OneToMany(() => ItemColetaModel, (item) => item.coleta, { cascade: true })
+    itens!: ItemColetaModel[];
 
 }
