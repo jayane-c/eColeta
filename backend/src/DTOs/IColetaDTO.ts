@@ -3,7 +3,7 @@ export interface IItemColetaDTO {
     quantidade: number;
 }
 
-export interface ICreateCOletaDTO {
+export interface ICreateColetaDTO {
     data_agendada: string | Date;
     observacoes?: string;
     itens: IItemColetaDTO[];
