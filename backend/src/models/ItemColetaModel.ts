@@ -2,11 +2,11 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToOne, ManyToOne, JoinColumn
 import { ColetaModel } from './ColetaModel';
 import { ResiduoModel } from './ResiduoModel';
 
-@Entity('ItensColeta')
-export class ItensColetaModel {
+@Entity('item_coleta')
+export class ItemColetaModel {
 
     @PrimaryGeneratedColumn()
-    id_ItensColeta!: number;
+    id_item_coleta!: number;
 
     @ManyToOne(() => ResiduoModel)
     @JoinColumn({ name: 'fk_residuo' })
