@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react"; 
 import "./PerfilColetor.css";
+import {  User,  Mail, Phone, IdCard, MapPin, Package, TrendingUp } from "lucide-react";
 
 function PerfilColetor() {
   const navigate = useNavigate();
@@ -50,7 +51,7 @@ function PerfilColetor() {
         <header className="perfil-header-card">
           <div className="avatar-section">
             <div className="avatar-placeholder">
-               <span className="user-icon-svg">👤</span>
+              <User size={48} color="#00897b" />
             </div>
           </div>
           <div className="user-details">
@@ -63,12 +64,12 @@ function PerfilColetor() {
         <main className="perfil-content-box">
           <div className="stats-row">
             <div className="stat-card">
-              <div className="icon-circle green-bg">📦</div>
+              <div className="icon-circle green-bg"><Package size={24} color="#00897b" /></div>
               <strong>{usuario.coletasRealizadas}</strong>
               <p>Coletas Realizadas</p>
             </div>
             <div className="stat-card">
-              <div className="icon-circle blue-bg">📈</div>
+              <div className="icon-circle blue-bg"><TrendingUp size={24} color="#2196f3" /></div>
               <strong>{usuario.pesoTotal} kg</strong>
               <p>Material Coletado</p>
             </div>
@@ -80,19 +81,19 @@ function PerfilColetor() {
             <h3 className="data-title-centered">Dados Pessoais</h3>
             <div className="data-grid-centered">
               <div className="data-item">
-                <label>📧 Email</label>
+                <label><Mail size={16} /> Email</label>
                 <p>{usuario.email}</p>
               </div>
               <div className="data-item">
-                <label>📞 Telefone</label>
+                <label><Phone size={16} /> Telefone</label>
                 <p>{usuario.telefone}</p>
               </div>
               <div className="data-item">
-                <label>🆔 CPF</label>
+                <label><IdCard size={16} /> CPF</label>
                 <p>{usuario.cpf}</p>
               </div>
               <div className="data-item">
-                <label>📍 Localização</label>
+                <label><MapPin size={16} /> Localização</label>
                 <p>{usuario.localizacao}</p>
               </div>
             </div>
