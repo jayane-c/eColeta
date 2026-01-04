@@ -1,0 +1,19 @@
+.recipiente-dashboard-principal {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    /* Cor uniforme para todo o fundo */
+    background-color: #f0fdfa; 
+}
+
+.conteudo-central {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding: 30px 60px;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    background-color: transparent; 
+}
