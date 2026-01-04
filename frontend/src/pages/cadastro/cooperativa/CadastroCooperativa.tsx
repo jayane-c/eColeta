@@ -1,11 +1,9 @@
 import './CadastroCooperativa.css'
 import { FaUser, FaIdCard, FaPhone, FaEnvelope, FaMapMarkerAlt, FaLock, FaBuilding, FaRecycle } from "react-icons/fa";
 import { useState } from 'react';
-// 1. MUDANÇA: Importando o navigate para redirecionar
 import { useNavigate } from 'react-router-dom';
 
 function CadastroCooperativa() {
-    // 2. MUDANÇA: Inicializando a navegação
     const navigate = useNavigate();
 
     const [nomeEmpresa, setNomeEmpresa] = useState('');
@@ -77,8 +75,6 @@ function CadastroCooperativa() {
         };
 
         console.log("Cadastro Válido:", cooperativa);
-
-        // 3. MUDANÇA: Redireciona para a dashboard assim que o cadastro é validado
         navigate('/dashboard-cooperativa');
     };
 
