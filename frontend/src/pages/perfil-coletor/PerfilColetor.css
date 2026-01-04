@@ -123,11 +123,13 @@
 }
 
 .data-item label {
-    display: block;
+    display: inline-flex;
     color: #0d9488;
     font-weight: 600;
     margin-bottom: 8px;
     font-size: 0.9rem;
+    gap: 8px;
+
 }
 
 .data-item p {
