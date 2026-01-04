@@ -56,7 +56,7 @@ function CadastroColetor() {
         setErroVeiculo('');
         setErroSenha('');
 
-        // Validações
+        
         if (!nome || !cpf || !email || !telefone) return setErroDados('Preencha todos os dados pessoais');
         if (!cep || !rua || !numero || !bairro || !cidade) return setErroEndereco('Preencha o endereço completo');
         if (!veiculo || !cnh) return setErroVeiculo('Preencha os dados do veículo');
@@ -65,13 +65,13 @@ function CadastroColetor() {
        
         const coletor = {
             nome,
-            cpf,
+            cpf: cpf.replace(/\D/g, ''),
             email,
-            telefone,
+            telefone: telefone.replace(/\D/g, ''),
             endereco:
              { cep, rua, numero, complemento, bairro, cidade },
             senha,
-            veiculo: { veiculo, cnh }
+            veiculo: { tipo: veiculo, cnh }
         };
 
         try {
@@ -80,8 +80,19 @@ function CadastroColetor() {
            
             console.log("Enviando dados para o servidor...", coletor);
         
-            
-            await new Promise(resolve => setTimeout(resolve, 2000));
+          /*  
+           const response = await fetch('api_aqui', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(coletor)
+        }); */
+
+       await new Promise(resolve => setTimeout(resolve, 1500)); 
+
+        alert("Cadastro realizado com sucesso!");
+        navigate("/dashboard-coletor");
 
             alert("Cadastro realizado com sucesso!");
             navigate("/dashboard-coletor"); 
