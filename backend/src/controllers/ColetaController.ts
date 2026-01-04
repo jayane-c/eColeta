@@ -53,4 +53,17 @@ export class ColetaController {
             return res.status(500).json({ message: "Erro ao buscar coletas disponíveis." });
         }
     }
+
+    public async aceitar(req: Request, res: Response): Promise<Response> {
+        try{
+            const { id } = req.params; // Vem da URL /coletas/:id/aceitar
+            const user = (req as any).user;
+
+            const coletaAtualizada = await this.coletaService.aceitarColeta(Number(id), user.id);
+
+            return res.status(200).json({ message: "Coleta aceita!", coleta: coletaAtualizada });
+        } catch (error:any) {
+            return res.status(400).json({ message: error.message });
+        }
+    }
 }
