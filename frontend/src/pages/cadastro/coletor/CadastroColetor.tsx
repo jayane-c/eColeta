@@ -35,6 +35,10 @@ const maskCEP = (value: string) => {
     .substring(0, 9);
 };
 
+const maskCNH = (value: string) => {
+  return value.replace(/\D/g, "").substring(0, 11);
+};
+
 function CadastroColetor() {
   const navigate = useNavigate();
 
@@ -275,8 +279,10 @@ function CadastroColetor() {
               <input
                 required
                 type="text"
+                placeholder="00000000000"
                 value={cnh}
-                onChange={(e) => setCnh(e.target.value)}
+                maxLength={11}
+                onChange={(e) => setCnh(maskCNH(e.target.value))}
               />
             </div>
           </div>
