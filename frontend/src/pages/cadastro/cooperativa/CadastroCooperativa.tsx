@@ -9,7 +9,7 @@ import {
   FaBuilding,
   FaRecycle
 } from "react-icons/fa";
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function CadastroCooperativa() {
@@ -94,7 +94,6 @@ function CadastroCooperativa() {
         <h2><FaBuilding /> Cadastro de Cooperativa</h2>
 
         <form className="cadastro-form" onSubmit={handleSubmit}>
-          {/* Identificação */}
           <div className="section">
             <label><FaUser /> Nome da Empresa</label>
             <input value={nomeEmpresa} onChange={e => setNomeEmpresa(e.target.value)} required />
@@ -120,7 +119,7 @@ function CadastroCooperativa() {
             <label><FaEnvelope /> Email</label>
             <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
           </div>
-         
+          
           <h3><FaMapMarkerAlt /> Endereço</h3>
           <div className="endereco-grid">
             <div className="section">
@@ -133,15 +132,16 @@ function CadastroCooperativa() {
             </div>
             <div className="section full">
               <label>Rua</label>
-              <input value={rua} readOnly />
+          
+              <input value={rua} onChange={e => setRua(e.target.value)} />
             </div>
             <div className="section">
               <label>Bairro</label>
-              <input value={bairro} readOnly />
+              <input value={bairro} onChange={e => setBairro(e.target.value)} />
             </div>
             <div className="section">
               <label>Cidade</label>
-              <input value={cidade} readOnly />
+              <input value={cidade} onChange={e => setCidade(e.target.value)} />
             </div>
             <div className="section full">
               <label>Complemento</label>
@@ -149,7 +149,6 @@ function CadastroCooperativa() {
             </div>
           </div>
 
-          {/* Materiais Aceitos */}
           <h3><FaRecycle /> Materiais Aceitos</h3>
           <div className="checkbox-group">
             <label><input type="checkbox" checked={papel} onChange={() => setPapel(!papel)} /> Papel</label>
@@ -161,7 +160,6 @@ function CadastroCooperativa() {
             <label><input type="checkbox" checked={oleoDeCozinha} onChange={() => setOleoDeCozinha(!oleoDeCozinha)} /> Óleo</label>
           </div>
 
-          {/* Segurança */}
           <h3><FaLock /> Segurança</h3>
           <div className="row">
             <div className="section">

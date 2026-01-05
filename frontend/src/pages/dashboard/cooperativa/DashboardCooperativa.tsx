@@ -6,22 +6,17 @@ import MateriaisAceitos from '../../../Components/materiaisAceitos/MateriaisAcei
 import Footer from '../../../Components/Footer/footer';
 
 export default function DashboardCooperativa() {
-    const nomeDaCooperativa = "CoopRecicla São Paulo";
-
-    const meusMateriais = ["papel", "plastico", "metal", "oleo"]; 
-
     return (
         <div className="recipiente-dashboard-principal">
-            <NavbarCooperativa nome={nomeDaCooperativa} />
+            <NavbarCooperativa />
 
             <div className="conteudo-central">
                 <DashBoardContentCooperativa />
-                <HistoricoCooperativa materiaisSelecionados={meusMateriais} />
-                <MateriaisAceitos materiaisSelecionados={meusMateriais} />
+                <HistoricoCooperativa /> 
+                <MateriaisAceitos />
             </div>
-            <div>
-                <Footer/>
-            </div>
+            
+            <Footer/>
         </div>
     );
 }

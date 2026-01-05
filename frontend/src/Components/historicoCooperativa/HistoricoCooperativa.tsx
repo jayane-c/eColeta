@@ -11,10 +11,14 @@ const nomesFiltro = {
 };
 
 interface HistoricoProps {
-  materiaisSelecionados: string[];
+  // O '?' torna a propriedade opcional para não dar erro no Dashboard
+  materiaisSelecionados?: string[];
 }
 
-export default function HistoricoCooperativa({ materiaisSelecionados }: HistoricoProps) {
+export default function HistoricoCooperativa({ 
+  // Se não vier nada, ele usa as chaves do dicionário acima por padrão
+  materiaisSelecionados = Object.keys(nomesFiltro) 
+}: HistoricoProps) {
   return (
     <div className="quadro-historico-coop">
       <div className="cabecalho-historico">
