@@ -175,12 +175,39 @@
     margin-top: 46px;
     cursor: pointer;
 }
+.botao-troca-lateral {
+    background: white;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-left: 30px;
+    margin-top: 46px;
+    
+    /* CORREÇÕES PARA O CLIQUE */
+    cursor: pointer !important;
+    position: relative;
+    z-index: 10;
+    pointer-events: auto; /* Garante que capture o mouse */
+    
+    transition: all 0.2s ease;
+}
+
 .botao-troca-lateral:hover {
     transform: translateY(-2px);
-    box-shadow: 0 14px 26px rgba(46, 128, 255, 0.35);
+    /* Ajustado para uma sombra que combina mais com o branco/laranja */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    background-color: #fffaf0; /* Leve destaque ao passar o mouse */
+}
+
+.botao-troca-lateral:active {
+    transform: translateY(0);
 }
 
 .texto-botao-lateral {
     text-align: left;
     color: #FF9100;
+    pointer-events: none; /* Evita que o texto interfira no clique do botão */
 }
