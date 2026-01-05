@@ -1,29 +1,22 @@
 import '../Barra-de-navegacao/barra-de-navegacao.css';
 import Logo from '../../assets/Logo/logo.png';
-import '../../CSS/global.css'
+
 export default function Barra_de_navegacao() {
     return (
-        <>
-      
-            <div className="barra-de-navegacao-container">
-                <div className="logo-descricao">
-                    <div className="logo">
-                        <img src={Logo} />
-                    </div>
-                </div>
-
-                <nav className="navbar">
-                    <ul className="menu">
+        <header className="header-fix">
+            <div className="header-content">
+                <img src={Logo} alt="eColeta" className="logo-img" />
+                
+                <nav className="nav-menu">
+                    <ul>
                         <li>Inicio</li>
                         <li>Sobre</li>
                         <li>Como Funciona</li>
                         <li>Contato</li>
                     </ul>
-
-                    <button className="btn-entrar">Entrar</button>
+                    <button className="btn-entrar-fix">Entrar</button>
                 </nav>
-
             </div>
-        </>
-    )
+        </header>
+    );
 }
