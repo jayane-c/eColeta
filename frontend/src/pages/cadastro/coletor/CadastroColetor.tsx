@@ -63,6 +63,7 @@ function CadastroColetor() {
   const [erroVeiculo, setErroVeiculo] = useState("");
   const [carregando, setCarregando] = useState(false);
 
+  // Busca de CEP automática (posicionada corretamente fora do handleSubmit)
   useEffect(() => {
     const cepLimpo = cep.replace(/\D/g, "");
     if (cepLimpo.length === 8) {
@@ -78,9 +79,7 @@ function CadastroColetor() {
             setErroEndereco("CEP não encontrado.");
           }
         })
-        .catch(() =>
-          setErroEndereco("Erro ao buscar servidor de CEP.")
-        );
+        .catch(() => setErroEndereco("Erro ao buscar servidor de CEP."));
     }
   }, [cep]);
 
@@ -92,28 +91,37 @@ function CadastroColetor() {
     setErroVeiculo("");
     setErroSenha("");
 
-    if (!nome || !cpf || !email || !telefone)
-      return setErroDados("Preencha todos os dados pessoais");
+    // Validações
+    if (!nome || !cpf || !email || !telefone) return setErroDados('Preencha todos os dados pessoais');
+    if (!cep || !rua || !numero || !bairro || !cidade) return setErroEndereco('Preencha o endereço completo');
+    if (!veiculo || !cnh) return setErroVeiculo('Preencha os dados do veículo');
+    if (!senha || senha !== confirmarSenha) return setErroSenha('As senhas não conferem');
 
-    if (!cep || !rua || !numero || !bairro || !cidade)
-      return setErroEndereco("Preencha o endereço completo");
-
-    if (!veiculo || !cnh)
-      return setErroVeiculo("Preencha os dados do veículo");
-
-    if (!senha || senha !== confirmarSenha)
-      return setErroSenha("As senhas não conferem");
+    const coletor = {
+      nome,
+      cpf: cpf.replace(/\D/g, ''),
+      email,
+      telefone: telefone.replace(/\D/g, ''),
+      endereco: { cep, rua, numero, complemento, bairro, cidade },
+      senha,
+      veiculo: { tipo: veiculo, cnh }
+    };
 
     try {
       setCarregando(true);
+      console.log("Enviando dados para o servidor...", coletor);
+      
+      // Simulação de salvamento local e espera do servidor
       localStorage.setItem("@eColeta:nomeUsuario", nome);
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await new Promise(resolve => setTimeout(resolve, 1500)); 
+
       alert("Cadastro realizado com sucesso!");
       navigate("/dashboard-coletor");
-    } catch {
-      setErroDados("Erro ao conectar com o servidor.");
+
+    } catch { 
+      setErroDados("Erro ao conectar com o servidor. Tente novamente.");
     } finally {
-      setCarregando(false);
+      setCarregando(false); 
     }
   };
 
@@ -315,7 +323,7 @@ function CadastroColetor() {
             </div>
           </div>
 
-          <button className="btn-criar" disabled={carregando}>
+          <button className="btn-criar" type="submit" disabled={carregando}>
             {carregando ? "Cadastrando..." : "Criar Conta"}
           </button>
         </form>
