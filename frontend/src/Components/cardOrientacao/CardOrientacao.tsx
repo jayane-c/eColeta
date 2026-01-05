@@ -1,9 +1,14 @@
 import React from 'react';
 import './CardOrientacao.css';
 import comoReciclar from '../../assets/Logo/como-reciclar.png';
+import { useNavigate } from 'react-router-dom';
+
 export const CardOrientacao: React.FC = () => {
+  const navigate = useNavigate();
   return (
-    <div className="container-orientacao-float">
+    <div className="container-orientacao-float"
+    onClick={() => navigate('/guia-separacao')}
+    >
       <div className="card-branco-orientacao">
         <div className="icon-box-verde">
           <img src={comoReciclar} alt="Ícone de Reciclagem" />

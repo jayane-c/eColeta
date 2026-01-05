@@ -1,159 +1,234 @@
-import './CadastroCooperativa.css'
-import { FaUser, FaIdCard, FaPhone, FaEnvelope, FaMapMarkerAlt, FaLock, FaBuilding, FaRecycle } from "react-icons/fa";
-import { useState } from 'react';
+import './CadastroCooperativa.css';
+import {
+  FaUser,
+  FaIdCard,
+  FaPhone,
+  FaEnvelope,
+  FaMapMarkerAlt,
+  FaLock,
+  FaBuilding,
+  FaRecycle
+} from "react-icons/fa";
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function CadastroCooperativa() {
-    const navigate = useNavigate();
+const maskCNPJ = (value: string) => {
+  return value
+    .replace(/\D/g, "")
+    .replace(/^(\d{2})(\d)/, "$1.$2")
+    .replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3")
+    .replace(/\.(\d{3})(\d)/, ".$1/$2")
+    .replace(/(\d{4})(\d)/, "$1-$2")
+    .substring(0, 18);
+};
 
-    const [nomeEmpresa, setNomeEmpresa] = useState('');
-    const [nomeResponsavel, setNomeResonsavel] = useState('');
-    const [cnpj, setCnpj] = useState('');
-    const [telefone, setTelefone] = useState('');
-    const [email, setEmail] = useState('');
-    const [senha, setSenha] = useState('');
-    const [confirmarSenha, setConfirmarSenha] = useState('');
-    const [cep, setCep] = useState('');
-    const [rua, setRua] = useState('');
-    const [numero, setNumero] = useState('');
-    const [complemento, setComplemento] = useState('');
-    const [bairro, setBairro] = useState('');
-    const [cidade, setCidade] = useState('');
-    const [papel, setPapel] = useState(false);
-    const [papelao, setPapelao] = useState(false);
-    const [plastico, setPlastico] = useState(false);
-    const [metal, setMetal] = useState(false);
-    const [vidro, setVidro] = useState(false);
-    const [eletronicos, setEletronicos] = useState(false);
-    const [oleoDeCozinha, setOleoDeCozinha] = useState(false);
-    const [erroDados, setErroDados] = useState('');
-    const [erroEndereco, setErroEndereco] = useState('');
-    const [erroSenha, setErroSenha] = useState('');
-    const [erroMateriais, setErroMateriais] = useState('');
+const maskPhone = (value: string) => {
+  return value
+    .replace(/\D/g, "")
+    .replace(/^(\d{2})(\d)/, "($1) $2")
+    .replace(/(\d{5})(\d)/, "$1-$2")
+    .substring(0, 15);
+};
 
-    const handleSubmit = (event: React.FormEvent) => {
-        event.preventDefault();
+const maskCEP = (value: string) => {
+  return value
+    .replace(/\D/g, "")
+    .replace(/^(\d{5})(\d)/, "$1-$2")
+    .substring(0, 9);
+};
 
-        setErroDados('');
-        setErroEndereco('');
-        setErroSenha('');
-        setErroMateriais('')
+const CadastroCooperativa: React.FC = () => {
+  const navigate = useNavigate();
 
-        if (!nomeEmpresa || !nomeResponsavel || !cnpj || !telefone || !email) {
-            setErroDados('Preencha todos os dados pessoais');
-            return;
-        }
+  const [nomeEmpresa, setNomeEmpresa] = useState('');
+  const [nomeResponsavel, setNomeResponsavel] = useState('');
+  const [cnpj, setCnpj] = useState('');
+  const [telefone, setTelefone] = useState('');
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+  const [confirmarSenha, setConfirmarSenha] = useState('');
 
-        if (!cep || !rua || !numero || !bairro || !cidade) {
-            setErroEndereco('Preencha o endereço completo');
-            return;
-        }
+  const [cep, setCep] = useState('');
+  const [rua, setRua] = useState('');
+  const [numero, setNumero] = useState('');
+  const [complemento, setComplemento] = useState('');
+  const [bairro, setBairro] = useState('');
+  const [cidade, setCidade] = useState('');
 
-        if (!papel && !papelao && !plastico && !metal && !vidro && !eletronicos && !oleoDeCozinha) {
-            setErroMateriais('Selecione pelo menos um material aceito');
-            return;
-        }
+  const [papel, setPapel] = useState(false);
+  const [papelao, setPapelao] = useState(false);
+  const [plastico, setPlastico] = useState(false);
+  const [metal, setMetal] = useState(false);
+  const [vidro, setVidro] = useState(false);
+  const [eletronicos, setEletronicos] = useState(false);
+  const [oleoDeCozinha, setOleoDeCozinha] = useState(false);
 
-        if (!senha || senha !== confirmarSenha) {
-            setErroSenha('As senhas não conferem');
-            return;
-        }
+  const [erro, setErro] = useState<string>('');
+  const [erroEndereco, setErroEndereco] = useState<string>('');
 
-        const cooperativa = {
-            nomeEmpresa,
-            nomeResponsavel,
-            cnpj,
-            telefone,
-            email,
-            endereco: {
-                cep, rua, numero, complemento, bairro, cidade,
-            },
-            materiais: {
-                papel, papelao, plastico, metal, vidro, eletronicos, oleoDeCozinha
-            },
-            senha,
-        };
+  useEffect(() => {
+    const cepLimpo = cep.replace(/\D/g, '');
+    if (cepLimpo.length === 8) {
+      fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`)
+        .then(res => res.json())
+        .then(dados => {
+          if (!dados.erro) {
+            setRua(dados.logradouro || '');
+            setBairro(dados.bairro || '');
+            setCidade(dados.localidade || '');
+            setErroEndereco('');
+          } else {
+            setErroEndereco('CEP não encontrado.');
+          }
+        })
+        .catch(() => setErroEndereco('Erro ao buscar o CEP.'));
+    }
+  }, [cep]);
 
-        console.log("Cadastro Válido:", cooperativa);
-        navigate('/dashboard-cooperativa');
-    };
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-    return (
-        <div className="cadastro-page">
-            <div className="cadastro-card">
-                <h2>Cadastro de cooperativa</h2>
-                <p className="subtitle">Preencha os dados da cooperativa</p>
-                {erroDados && <p className="erro">{erroDados}</p>}
+    const algumMaterialSelecionado =
+      papel || papelao || plastico || metal || vidro || eletronicos || oleoDeCozinha;
 
-                <form className="cadastro-form" onSubmit={handleSubmit}>
-                    <div className="section">
-                        <label className="label-icon"><FaBuilding /> Nome da empresa</label>
-                        <input type="text" value={nomeEmpresa} onChange={(e) => setNomeEmpresa(e.target.value)} />
-                    </div>
+    if (!nomeEmpresa || !nomeResponsavel || !cnpj || !telefone || !email ||
+        !cep || !rua || !numero || !bairro || !cidade || !senha) {
+      setErro('Preencha todos os campos obrigatórios.');
+      return;
+    }
 
-                    <div className="row">
-                        <div className="section">
-                            <label className="label-icon"><FaUser /> Nome do responsável</label>
-                            <input type="text" value={nomeResponsavel} onChange={(e) => setNomeResonsavel(e.target.value)} />
-                        </div>
-                        <div className="section">
-                            <label className="label-icon"><FaIdCard /> CNPJ</label>
-                            <input type="text" placeholder="00.000.000/0000-00" value={cnpj} onChange={(e) => setCnpj(e.target.value)} />
-                        </div>
-                    </div>
+    if (erroEndereco) {
+      setErro('Corrija o CEP antes de continuar.');
+      return;
+    }
 
-                    <div className="row">
-                        <div className="section">
-                            <label className="label-icon"><FaPhone /> Telefone</label>
-                            <input type="tel" placeholder='(00) 00000-0000' value={telefone} onChange={(e) => setTelefone(e.target.value)} />
-                        </div>
-                        <div className="section">
-                            <label className="label-icon"><FaEnvelope /> Email</label>
-                            <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
-                        </div>
-                    </div>
+    if (!algumMaterialSelecionado) {
+      setErro('Selecione pelo menos um tipo de material aceito.');
+      return;
+    }
 
-                    <h3 className="section-title"><FaMapMarkerAlt /> Endereço</h3>
-                    {erroEndereco && <p className="erro">{erroEndereco}</p>}
-                    <div className="row">
-                        <div className="section"><label>CEP</label><input type="text" value={cep} onChange={(e) => setCep(e.target.value)} /></div>
-                        <div className="section"><label>Rua/Avenida</label><input type="text" value={rua} onChange={(e) => setRua(e.target.value)} /></div>
-                    </div>
+    if (senha !== confirmarSenha) {
+      setErro('As senhas não conferem.');
+      return;
+    }
 
-                    <div className="row">
-                        <div className="section"><label>Número</label><input type="text" value={numero} onChange={(e) => setNumero(e.target.value)} /></div>
-                        <div className="section"><label>Complemento</label><input type="text" value={complemento} onChange={(e) => setComplemento(e.target.value)} /></div>
-                    </div>
+    setErro('');
+    navigate('/dashboard-cooperativa');
+  };
 
-                    <div className="row">
-                        <div className="section"><label>Bairro</label><input type="text" value={bairro} onChange={(e) => setBairro(e.target.value)} /></div>
-                        <div className="section"><label>Cidade</label><input type="text" value={cidade} onChange={(e) => setCidade(e.target.value)} /></div>
-                    </div>
+  return (
+    <div className="cadastro-page">
+      <div className="cadastro-card">
+        <h2><FaBuilding /> Cadastro de Cooperativa</h2>
 
-                    <h3 className='section-title'><FaRecycle /> Materiais aceitos</h3>
-                    {erroMateriais && <p className="erro">{erroMateriais}</p>}
-                    <div className='checkbox-group'>
-                        <label className='checkbox-label'><input type="checkbox" checked={papel} onChange={() => setPapel(!papel)} /> Papel</label>
-                        <label className='checkbox-label'><input type="checkbox" checked={papelao} onChange={() => setPapelao(!papelao)} /> Papelão</label>
-                        <label className='checkbox-label'><input type="checkbox" checked={plastico} onChange={() => setPlastico(!plastico)} /> Plástico</label>
-                        <label className='checkbox-label'><input type="checkbox" checked={metal} onChange={() => setMetal(!metal)} /> Metal</label>
-                        <label className='checkbox-label'><input type="checkbox" checked={vidro} onChange={() => setVidro(!vidro)} /> Vidro</label>
-                        <label className='checkbox-label'><input type="checkbox" checked={eletronicos} onChange={() => setEletronicos(!eletronicos)} /> Eletrônicos</label>
-                        <label className='checkbox-label'><input type="checkbox" checked={oleoDeCozinha} onChange={() => setOleoDeCozinha(!oleoDeCozinha)} /> Óleo de cozinha</label>
-                    </div>
+        {erro && <div className="erro">{erro}</div>}
 
-                    <h3 className="section-title"><FaLock /> Senha</h3>
-                    {erroSenha && <p className="erro">{erroSenha}</p>}
-                    <div className="row">
-                        <div className="section"><label>Senha</label><input type="password" value={senha} onChange={(e) => setSenha(e.target.value)} /></div>
-                        <div className="section"><label>Confirmar senha</label><input type="password" value={confirmarSenha} onChange={(e) => setConfirmarSenha(e.target.value)} /></div>
-                    </div>
+        <form className="cadastro-form" onSubmit={handleSubmit}>
+          
+          <div className="section">
+            <label><FaBuilding /> Nome da Empresa</label>
+            <input required value={nomeEmpresa} onChange={e => setNomeEmpresa(e.target.value)} />
+          </div>
 
-                    <button type="submit" className="btn-criar">Criar Conta</button>
-                </form>
+          <div className="section">
+            <label><FaUser /> Responsável</label>
+            <input required value={nomeResponsavel} onChange={e => setNomeResponsavel(e.target.value)} />
+          </div>
+
+          <div className="row">
+            <div className="section">
+              <label><FaIdCard /> CNPJ</label>
+              <input
+                required
+                value={cnpj}
+                onChange={e => setCnpj(maskCNPJ(e.target.value))}
+                placeholder="00.000.000/0000-00"
+              />
             </div>
-        </div>
-    )
-}
+            <div className="section">
+              <label><FaPhone /> Telefone</label>
+              <input
+                required
+                value={telefone}
+                onChange={e => setTelefone(maskPhone(e.target.value))}
+                placeholder="(00) 00000-0000"
+              />
+            </div>
+          </div>
+
+          <div className="section">
+            <label><FaEnvelope /> Email</label>
+            <input required type="email" value={email} onChange={e => setEmail(e.target.value)} />
+          </div>
+
+          <h3><FaMapMarkerAlt /> Endereço</h3>
+          {erroEndereco && <p className="erro">{erroEndereco}</p>}
+
+          <div className="row">
+            <div className="section">
+              <label>CEP</label>
+              <input
+                required
+                value={cep}
+                onChange={e => setCep(maskCEP(e.target.value))}
+                placeholder="00000-000"
+              />
+            </div>
+            <div className="section">
+              <label>Número</label>
+              <input required value={numero} onChange={e => setNumero(e.target.value)} />
+            </div>
+          </div>
+
+          <div className="section">
+            <label>Rua</label>
+            <input required value={rua} onChange={e => setRua(e.target.value)} />
+          </div>
+
+          <div className="row">
+            <div className="section">
+              <label>Bairro</label>
+              <input required value={bairro} onChange={e => setBairro(e.target.value)} />
+            </div>
+            <div className="section">
+              <label>Cidade</label>
+              <input required value={cidade} onChange={e => setCidade(e.target.value)} />
+            </div>
+          </div>
+
+          <div className="section">
+            <label>Complemento (Opcional)</label>
+            <input value={complemento} onChange={e => setComplemento(e.target.value)} />
+          </div>
+
+          <h3><FaRecycle /> Materiais Aceitos</h3>
+          <div className="checkbox-group">
+            <label><input type="checkbox" checked={papel} onChange={() => setPapel(!papel)} /> Papel</label>
+            <label><input type="checkbox" checked={papelao} onChange={() => setPapelao(!papelao)} /> Papelão</label>
+            <label><input type="checkbox" checked={plastico} onChange={() => setPlastico(!plastico)} /> Plástico</label>
+            <label><input type="checkbox" checked={metal} onChange={() => setMetal(!metal)} /> Metal</label>
+            <label><input type="checkbox" checked={vidro} onChange={() => setVidro(!vidro)} /> Vidro</label>
+            <label><input type="checkbox" checked={eletronicos} onChange={() => setEletronicos(!eletronicos)} /> Eletrônicos</label>
+            <label><input type="checkbox" checked={oleoDeCozinha} onChange={() => setOleoDeCozinha(!oleoDeCozinha)} /> Óleo</label>
+          </div>
+
+          <h3><FaLock /> Senha</h3>
+          <div className="row">
+            <div className="section">
+              <label>Senha</label>
+              <input required type="password" value={senha} onChange={e => setSenha(e.target.value)} />
+            </div>
+            <div className="section">
+              <label>Confirmar Senha</label>
+              <input required type="password" value={confirmarSenha} onChange={e => setConfirmarSenha(e.target.value)} />
+            </div>
+          </div>
+
+          <button className="btn-criar" type="submit">Criar Conta</button>
+        </form>
+      </div>
+    </div>
+  );
+};
 
 export default CadastroCooperativa;

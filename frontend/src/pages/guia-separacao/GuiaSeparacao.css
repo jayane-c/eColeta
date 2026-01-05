@@ -1,0 +1,175 @@
+.guia-container {
+  background-color: #e0f2f1;
+  padding: 40px 20px;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  min-height: 100vh;
+}
+
+.card-guia {
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  max-width: 850px;
+  margin: 0 auto 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.guia-tag {
+  color: #00897b;
+  font-size: 14px;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.guia-titulo {
+  color: #00695c;
+  font-size: 22px;
+  margin-bottom: 25px;
+  line-height: 1.4;
+}
+
+.card-dicas-gerais {
+  background-color: #00897b;
+  color: white;
+  padding: 25px;
+  border-radius: 15px;
+}
+
+.card-dicas-gerais h3 {
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+.card-dicas-gerais ul {
+  list-style: none;
+  padding: 0;
+}
+
+.card-dicas-gerais li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  font-size: 15px;
+}
+
+.card-guia-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.card-guia-header h2 {
+  color: #004d40;
+  font-size: 20px;
+}
+
+.card-guia-corpo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.coluna h4 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  margin-bottom: 15px;
+}
+
+.coluna ul {
+  list-style: none;
+  padding: 0;
+}
+
+.coluna li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  margin-bottom: 10px;
+  color: #444;
+}
+
+.txt-pode { color: #00897b; }
+.txt-nao { color: #e53935; }
+.icon-check { color: #4db6ac; }
+.icon-x { color: #ef5350; }
+
+.box-info {
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 25px;
+}
+
+.box-info h5 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.box-info ul {
+  list-style: none;
+  padding: 0;
+}
+
+.box-info li {
+  font-size: 13px;
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+
+/* Cores das Categorias */
+.papel { color: #1e88e5; }
+.papel-bg { background-color: #e3f2fd; color: #1565c0; }
+
+.plastico { color: #e53935; }
+.plastico-bg { background-color: #ffebee; color: #c62828; }
+
+.metal { color: #fb8c00; }
+.metal-bg { background-color: #fff3e0; color: #ef6c00; }
+
+.vidro { color: #43a047; }
+.vidro-bg { background-color: #e8f5e9; color: #2e7d32; }
+
+.eletronicos { color: #7e57c2; }
+.eletronicos-bg { background-color: #f3e5f5; color: #6a1b9a; }
+
+.guia-footer-acao {
+  text-align: center;
+  background-color: #00897b;
+  color: white;
+  padding: 40px 20px;
+  border-radius: 20px;
+  max-width: 850px;
+  margin: 40px auto 0;
+}
+
+.guia-footer-acao p:first-child {
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.btn-voltar {
+  margin-top: 25px;
+  padding: 12px 30px;
+  border-radius: 25px;
+  border: none;
+  background: white;
+  color: #00897b;
+  font-weight: bold;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.2s;
+}
+
+.btn-voltar:hover {
+  transform: translateY(-2px);
+}
