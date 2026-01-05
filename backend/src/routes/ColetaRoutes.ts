@@ -2,7 +2,7 @@ import { Router } from "express";
 import { ColetaController } from "../controllers/ColetaController";
 import { authMiddleware } from "../middlewares/AuthMiddleware";
 
-import { onlyMorador, onlyWorkers, onlyEcoletor } from "../middlewares/RoleMiddleware";
+import { onlyMorador, onlyWorkers, onlyEcoletor, onlyCooperativa } from "../middlewares/RoleMiddleware";
 
 const router = Router();
 const coletaController = new ColetaController();
@@ -42,6 +42,22 @@ router.patch(
     authMiddleware,
     onlyEcoletor, // Importante: só ecoletor aceita
     coletaController.aceitar.bind(coletaController)
+);
+
+//Ecoletor entrega
+router.patch(
+    "/:id/entregar", 
+    authMiddleware, 
+    onlyEcoletor, 
+    coletaController.entregar.bind(coletaController)
+);
+
+//Cooperativa finaliza
+router.patch(
+    "/:id/validar", 
+    authMiddleware, 
+    onlyCooperativa, 
+    coletaController.validar.bind(coletaController)
 );
 
 export { router as coletaRoutes };

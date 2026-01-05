@@ -56,7 +56,7 @@ export class ColetaController {
 
     public async aceitar(req: Request, res: Response): Promise<Response> {
         try{
-            const { id } = req.params; // Vem da URL /coletas/:id/aceitar
+            const { id } = req.params;
             const user = (req as any).user;
 
             const coletaAtualizada = await this.coletaService.aceitarColeta(Number(id), user.id);
@@ -66,4 +66,31 @@ export class ColetaController {
             return res.status(400).json({ message: error.message });
         }
     }
+
+    //ecoletor
+    public async entregar(req: Request, res: Response): Promise<Response> {
+        try {
+            const { id } = req.params;
+            const user = (req as any);
+
+            const result = await this.coletaService.entregarNaCooperativa(Number(id), user.id);
+            return res.status(200).json({ message: "Coleta marcada como entregue.", coleta: result });
+        } catch (error: any ) {
+            return res.status(400).json({ message: error.message });
+        }
+    }
+
+    // Cooperativa avisa: "Confirmei o peso e liberei os pontos"
+    public async validar(req: Request, res: Response): Promise<Response> {
+        try {
+            const { id } = req.params;
+            const user = (req as any).user; // Cooperativa
+
+            const result = await this.coletaService.validarEFinalizar(Number(id), user.id);
+            return res.status(200).json(result);
+        } catch (error: any) {
+            return res.status(400).json({ message: error.message });
+        }
+    }
+    
 }
