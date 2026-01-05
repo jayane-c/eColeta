@@ -10,6 +10,7 @@ import DashboardCooperativa from "../pages/dashboard/cooperativa/DashboardCooper
 import GuiaSeparacao from "../pages/guia-separacao/Guiaseparacao"
 import PontosMorador from "../Components/pontosMorador/PontosMorador"
 
+import Login from "../pages/login/login"
 
 function AppRoutes() {
     return (
@@ -25,6 +26,7 @@ function AppRoutes() {
                 <Route path="/dashboard-cooperativa" element={<DashboardCooperativa/>} />
                 <Route path="/guia-separacao" element={<GuiaSeparacao/>} />
                 <Route path="/pontos-morador" element={<PontosMorador />} />
+                <Route path="/login" element={<Login/>} />
             </Routes>
         </BrowserRouter>
 
