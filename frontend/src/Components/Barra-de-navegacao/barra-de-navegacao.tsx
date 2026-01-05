@@ -1,7 +1,10 @@
 import '../Barra-de-navegacao/barra-de-navegacao.css';
 import Logo from '../../assets/Logo/logo.png';
+import { useNavigate } from 'react-router-dom';
 
 export default function Barra_de_navegacao() {
+    const navigate = useNavigate();
+
     return (
         <header className="header-fix">
             <div className="header-content">
@@ -14,7 +17,7 @@ export default function Barra_de_navegacao() {
                         <li>Como Funciona</li>
                         <li>Contato</li>
                     </ul>
-                    <button className="btn-entrar-fix">Entrar</button>
+                    <button className="btn-entrar-fix" onClick={() => navigate("/login")}>Entrar</button>
                 </nav>
             </div>
         </header>
