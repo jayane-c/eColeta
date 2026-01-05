@@ -2,6 +2,7 @@ import "./PontosMorador.css";
 import { Leaf, Gift, ArrowLeft, Trophy, Check } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import Footer from "../../Components/Footer/footer"; 
 
 const PontosMorador = () => {
     const navegar = useNavigate();
@@ -53,7 +54,6 @@ const PontosMorador = () => {
                                 <div className="fundo-icone-empresa" style={{ backgroundColor: empresa.corFundo }}>
                                     {empresa.icone}
                                 </div>
-                              
                                 <div className="caixa-selo-verde">
                                     <div className="fundo-folha-solida">
                                         <Leaf size={14} color="#fff" fill="#fff" />
@@ -73,12 +73,7 @@ const PontosMorador = () => {
 
                             <div className="rodape-cartao">
                                 <div className="exibicao-custo"><Trophy size={16} /> {empresa.custoPontos} pts</div>
-                                <button 
-                                    className="botao-resgatar" 
-                                    disabled={meusPontos < empresa.custoPontos}
-                                >
-                                    Resgatar
-                                </button>
+                                <button className="botao-resgatar" disabled={meusPontos < empresa.custoPontos}>Resgatar</button>
                             </div>
                         </div>
                     ))}
@@ -100,6 +95,8 @@ const PontosMorador = () => {
                     </div>
                 </section>
             </main>
+
+            <Footer />
         </div>
     );
 };
