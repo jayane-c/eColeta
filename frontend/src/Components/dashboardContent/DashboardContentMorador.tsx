@@ -1,6 +1,7 @@
 import { Clock, Box, CheckCircle, Trophy, Gift, Sparkles, Scale } from 'lucide-react';
 import './DashboardContentMorador.css';
 import { useState } from 'react'; 
+import { useNavigate } from 'react-router-dom'; // Importação necessária para navegação
 import ModalSolicitarColeta from '../modalSolicitarColeta/ModalSolicitarColeta';
 
 interface Coleta {
@@ -16,6 +17,7 @@ interface Usuario {
 
 export default function DashboardContentMorador() {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const navigate = useNavigate(); // Inicialização do hook de navegação
 
     const [stats] = useState(() => {
         const idLogado = localStorage.getItem('usuarioLogadoId');
@@ -92,7 +94,13 @@ export default function DashboardContentMorador() {
                         </div>
                     </div>
                 </div>
-                <button className="botao-troca-lateral">
+                
+                {/* ATUALIZADO: Botão agora navega para a tela de pontos */}
+                <button 
+                    className="botao-troca-lateral" 
+                    onClick={() => navigate('/pontos-morador')}
+                    style={{ cursor: 'pointer' }}
+                >
                     <Gift size={24} color="#FF9D00" />
                     <div className="texto-botao-lateral">
                         <strong>Trocar Pontos</strong>

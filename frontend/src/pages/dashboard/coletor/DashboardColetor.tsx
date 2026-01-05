@@ -4,7 +4,16 @@ import NavbarColetor from "../../../Components/dashboard-coletor/navbar/NavbarCo
 import ColetasDisponiveis from "../../../Components/dashboard-coletor/coletas-disponiveis/ColetasDisponiveis";
 import { useState } from "react";
 import DetalheColetas from "../../../Components/dashboard-coletor/detalhe-coletas/DetalheColetas"
-import { Package, Truck, CheckCircle } from "lucide-react";
+import { Package, Truck, CheckCircle, AlertCircle } from "lucide-react";
+
+interface Coleta {
+  id: string;
+  material: string;
+  quantidade: string;
+  peso: string; 
+  endereco: string;
+  distancia?: string;
+}
 
 function DashboardColetor() {
   const [totalDisponiveis, setTotalDisponiveis] = useState(0)
@@ -12,10 +21,18 @@ function DashboardColetor() {
   const [totalFinalizadas, setTotalFinalizadas] = useState(0)
   const [coletaIniciada, setColetaIniciada] = useState(false);
 
-  const [coletaAtiva, setColetaAtiva] = useState<any>(null);
+  const [coletaAtiva, setColetaAtiva] = useState<Coleta | null>(null);
   const [mostrarModal, setMostrarModal] = useState(false);
 
-  const handleAceitarColeta = (dadosDaColeta: any) => {
+  const [nomeParaExibicao] = useState(() => {
+    const nomeSalvo = localStorage.getItem('@eColeta:nomeUsuario');
+    if (nomeSalvo) {
+      return nomeSalvo.split(" ").slice(0, 2).join(" ");
+    }
+    return "Coletor";
+  });
+
+  const handleAceitarColeta = (dadosDaColeta: Coleta) => {
     if (coletaAtiva) {
       alert("Você já possui uma coleta em andamento! Finalize-a antes de aceitar outra.");
       return;
@@ -27,7 +44,6 @@ function DashboardColetor() {
     setTotalDisponiveis(prev => (prev > 0 ? prev - 1 : 0));
   };
 
-
   const handleFinalizarColeta = () => {
     setMostrarModal(false);
     setColetaAtiva(null);
@@ -38,12 +54,10 @@ function DashboardColetor() {
 
   return (
     <>
-      <NavbarColetor />
+      <NavbarColetor nome={nomeParaExibicao} />
 
       <main className="dashboard-page">
-
         <div className="dashboard-container">
-
           <div className="dashboard-cards">
             <CardResumo
               titulo="Disponíveis"
@@ -51,14 +65,12 @@ function DashboardColetor() {
               icon={<Package size={24} />}
               colorClass="orange"
             />
-
             <CardResumo
               titulo="Em Andamento"
               valor={totalAndamento}
               icon={<Truck size={24} />}
               colorClass="blue"
             />
-
             <CardResumo
               titulo="Finalizadas"
               valor={totalFinalizadas}
@@ -69,7 +81,10 @@ function DashboardColetor() {
 
           {coletaAtiva && !mostrarModal && (
             <div className="alerta-coleta-ativa" onClick={() => setMostrarModal(true)}>
-              <p>🚀 Você tem uma coleta em andamento: <strong>{coletaAtiva.material}</strong></p>
+              <div className="alerta-conteudo">
+                <AlertCircle size={20} />
+                <p>Você tem uma coleta em andamento: <strong>{coletaAtiva.material}</strong></p>
+              </div>
               <span>Clique para ver detalhes</span>
             </div>
           )}
@@ -82,10 +97,8 @@ function DashboardColetor() {
               bloquearBotao={!!coletaAtiva}
             />
           </div>
-
         </div>
 
-  
         {mostrarModal && coletaAtiva && (
           <DetalheColetas
             coleta={coletaAtiva}
@@ -95,12 +108,9 @@ function DashboardColetor() {
             setIniciada={setColetaIniciada}
           />
         )}
-
       </main>
-
     </>
   );
 }
 
 export default DashboardColetor;
-

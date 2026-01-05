@@ -12,10 +12,34 @@ import {
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function CadastroCooperativa() {
+const maskCNPJ = (value: string) => {
+  return value
+    .replace(/\D/g, "")
+    .replace(/^(\d{2})(\d)/, "$1.$2")
+    .replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3")
+    .replace(/\.(\d{3})(\d)/, ".$1/$2")
+    .replace(/(\d{4})(\d)/, "$1-$2")
+    .substring(0, 18);
+};
+
+const maskPhone = (value: string) => {
+  return value
+    .replace(/\D/g, "")
+    .replace(/^(\d{2})(\d)/, "($1) $2")
+    .replace(/(\d{5})(\d)/, "$1-$2")
+    .substring(0, 15);
+};
+
+const maskCEP = (value: string) => {
+  return value
+    .replace(/\D/g, "")
+    .replace(/^(\d{5})(\d)/, "$1-$2")
+    .substring(0, 9);
+};
+
+const CadastroCooperativa: React.FC = () => {
   const navigate = useNavigate();
 
-  // Dados principais
   const [nomeEmpresa, setNomeEmpresa] = useState('');
   const [nomeResponsavel, setNomeResponsavel] = useState('');
   const [cnpj, setCnpj] = useState('');
@@ -24,7 +48,6 @@ function CadastroCooperativa() {
   const [senha, setSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
 
-  // Endereço
   const [cep, setCep] = useState('');
   const [rua, setRua] = useState('');
   const [numero, setNumero] = useState('');
@@ -32,7 +55,6 @@ function CadastroCooperativa() {
   const [bairro, setBairro] = useState('');
   const [cidade, setCidade] = useState('');
 
-  // Materiais
   const [papel, setPapel] = useState(false);
   const [papelao, setPapelao] = useState(false);
   const [plastico, setPlastico] = useState(false);
@@ -41,7 +63,8 @@ function CadastroCooperativa() {
   const [eletronicos, setEletronicos] = useState(false);
   const [oleoDeCozinha, setOleoDeCozinha] = useState(false);
 
-  const [erro, setErro] = useState('');
+  const [erro, setErro] = useState<string>('');
+  const [erroEndereco, setErroEndereco] = useState<string>('');
 
   useEffect(() => {
     const cepLimpo = cep.replace(/\D/g, '');
@@ -50,41 +73,46 @@ function CadastroCooperativa() {
         .then(res => res.json())
         .then(dados => {
           if (!dados.erro) {
-            setRua(dados.logradouro);
-            setBairro(dados.bairro);
-            setCidade(dados.localidade);
+            setRua(dados.logradouro || '');
+            setBairro(dados.bairro || '');
+            setCidade(dados.localidade || '');
+            setErroEndereco('');
+          } else {
+            setErroEndereco('CEP não encontrado.');
           }
-        });
+        })
+        .catch(() => setErroEndereco('Erro ao buscar o CEP.'));
     }
   }, [cep]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setErro('');
 
-    if (senha !== confirmarSenha) {
-      setErro('As senhas não conferem');
+    const algumMaterialSelecionado =
+      papel || papelao || plastico || metal || vidro || eletronicos || oleoDeCozinha;
+
+    if (!nomeEmpresa || !nomeResponsavel || !cnpj || !telefone || !email ||
+        !cep || !rua || !numero || !bairro || !cidade || !senha) {
+      setErro('Preencha todos os campos obrigatórios.');
       return;
     }
 
-    const novaCooperativa = {
-      id: Date.now().toString(),
-      tipo: 'cooperativa',
-      nome: nomeEmpresa,
-      responsavel: nomeResponsavel,
-      email,
-      cnpj,
-      telefone,
-      endereco: { cep, rua, numero, complemento, bairro, cidade },
-      materiais: { papel, papelao, plastico, metal, vidro, eletronicos, oleoDeCozinha },
-      senha
-    };
+    if (erroEndereco) {
+      setErro('Corrija o CEP antes de continuar.');
+      return;
+    }
 
-    const usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
-    usuarios.push(novaCooperativa);
-    localStorage.setItem('usuarios', JSON.stringify(usuarios));
-    localStorage.setItem('usuarioLogadoId', novaCooperativa.id);
+    if (!algumMaterialSelecionado) {
+      setErro('Selecione pelo menos um tipo de material aceito.');
+      return;
+    }
 
+    if (senha !== confirmarSenha) {
+      setErro('As senhas não conferem.');
+      return;
+    }
+
+    setErro('');
     navigate('/dashboard-cooperativa');
   };
 
@@ -93,60 +121,84 @@ function CadastroCooperativa() {
       <div className="cadastro-card">
         <h2><FaBuilding /> Cadastro de Cooperativa</h2>
 
+        {erro && <div className="erro">{erro}</div>}
+
         <form className="cadastro-form" onSubmit={handleSubmit}>
+          
           <div className="section">
-            <label><FaUser /> Nome da Empresa</label>
-            <input value={nomeEmpresa} onChange={e => setNomeEmpresa(e.target.value)} required />
+            <label><FaBuilding /> Nome da Empresa</label>
+            <input required value={nomeEmpresa} onChange={e => setNomeEmpresa(e.target.value)} />
           </div>
 
           <div className="section">
             <label><FaUser /> Responsável</label>
-            <input value={nomeResponsavel} onChange={e => setNomeResponsavel(e.target.value)} />
+            <input required value={nomeResponsavel} onChange={e => setNomeResponsavel(e.target.value)} />
           </div>
 
           <div className="row">
             <div className="section">
               <label><FaIdCard /> CNPJ</label>
-              <input value={cnpj} onChange={e => setCnpj(e.target.value)} />
+              <input
+                required
+                value={cnpj}
+                onChange={e => setCnpj(maskCNPJ(e.target.value))}
+                placeholder="00.000.000/0000-00"
+              />
             </div>
             <div className="section">
               <label><FaPhone /> Telefone</label>
-              <input value={telefone} onChange={e => setTelefone(e.target.value)} />
+              <input
+                required
+                value={telefone}
+                onChange={e => setTelefone(maskPhone(e.target.value))}
+                placeholder="(00) 00000-0000"
+              />
             </div>
           </div>
 
           <div className="section">
             <label><FaEnvelope /> Email</label>
-            <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
+            <input required type="email" value={email} onChange={e => setEmail(e.target.value)} />
           </div>
-          
+
           <h3><FaMapMarkerAlt /> Endereço</h3>
-          <div className="endereco-grid">
+          {erroEndereco && <p className="erro">{erroEndereco}</p>}
+
+          <div className="row">
             <div className="section">
               <label>CEP</label>
-              <input value={cep} onChange={e => setCep(e.target.value)} />
+              <input
+                required
+                value={cep}
+                onChange={e => setCep(maskCEP(e.target.value))}
+                placeholder="00000-000"
+              />
             </div>
             <div className="section">
               <label>Número</label>
-              <input value={numero} onChange={e => setNumero(e.target.value)} />
+              <input required value={numero} onChange={e => setNumero(e.target.value)} />
             </div>
-            <div className="section full">
-              <label>Rua</label>
-          
-              <input value={rua} onChange={e => setRua(e.target.value)} />
-            </div>
+          </div>
+
+          <div className="section">
+            <label>Rua</label>
+            <input required value={rua} onChange={e => setRua(e.target.value)} />
+          </div>
+
+          <div className="row">
             <div className="section">
               <label>Bairro</label>
-              <input value={bairro} onChange={e => setBairro(e.target.value)} />
+              <input required value={bairro} onChange={e => setBairro(e.target.value)} />
             </div>
             <div className="section">
               <label>Cidade</label>
-              <input value={cidade} onChange={e => setCidade(e.target.value)} />
+              <input required value={cidade} onChange={e => setCidade(e.target.value)} />
             </div>
-            <div className="section full">
-              <label>Complemento</label>
-              <input value={complemento} onChange={e => setComplemento(e.target.value)} />
-            </div>
+          </div>
+
+          <div className="section">
+            <label>Complemento (Opcional)</label>
+            <input value={complemento} onChange={e => setComplemento(e.target.value)} />
           </div>
 
           <h3><FaRecycle /> Materiais Aceitos</h3>
@@ -160,25 +212,23 @@ function CadastroCooperativa() {
             <label><input type="checkbox" checked={oleoDeCozinha} onChange={() => setOleoDeCozinha(!oleoDeCozinha)} /> Óleo</label>
           </div>
 
-          <h3><FaLock /> Segurança</h3>
+          <h3><FaLock /> Senha</h3>
           <div className="row">
             <div className="section">
               <label>Senha</label>
-              <input type="password" value={senha} onChange={e => setSenha(e.target.value)} required />
+              <input required type="password" value={senha} onChange={e => setSenha(e.target.value)} />
             </div>
             <div className="section">
-              <label>Confirmar senha</label>
-              <input type="password" value={confirmarSenha} onChange={e => setConfirmarSenha(e.target.value)} required />
+              <label>Confirmar Senha</label>
+              <input required type="password" value={confirmarSenha} onChange={e => setConfirmarSenha(e.target.value)} />
             </div>
           </div>
-
-          {erro && <p className="erro">{erro}</p>}
 
           <button className="btn-criar" type="submit">Criar Conta</button>
         </form>
       </div>
     </div>
   );
-}
+};
 
 export default CadastroCooperativa;

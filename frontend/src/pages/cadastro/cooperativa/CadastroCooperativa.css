@@ -1,4 +1,3 @@
-
 * {
   margin: 0;
   padding: 0;
@@ -72,12 +71,6 @@ body, html {
   box-shadow: 0 0 0 2px rgba(4, 179, 77, 0.15);
 }
 
-.section input[readOnly] {
-  background-color: #f9fafb;
-  color: #6b7280;
-  cursor: not-allowed;
-}
-
 .row {
   display: flex;
   gap: 16px;
@@ -96,17 +89,6 @@ body, html {
   margin: 24px 0 16px;
   border-bottom: 2px solid #f0fdf4;
   padding-bottom: 8px;
-}
-
-.endereco-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin-bottom: 16px;
-}
-
-.endereco-grid .full {
-  grid-column: span 2;
 }
 
 .checkbox-group {
@@ -159,10 +141,6 @@ body, html {
 .btn-criar:hover {
   transform: translateY(-2px);
   opacity: 0.95;
-}
-
-.btn-criar:active {
-  transform: translateY(0);
 }
 
 .erro {
