@@ -2,7 +2,7 @@ import "./NavbarCooperativa.css";
 import { useNavigate } from "react-router-dom";
 import IconeCooperativa from "../../assets/Logo/icone-cooperativa.png";
 import BotaoDescarte from "../BotaoDescarte/BotaoDescarte";
-import BotaoSair from "../botaoSair/BotaoSair"; 
+import BotaoSair from "../botaoSair/BotaoSair";
 
 interface Usuario {
   id: string;
@@ -10,43 +10,49 @@ interface Usuario {
   tipo: string;
 }
 
-interface NavbarProps {
-  nome?: string;
-}
-
-export default function NavbarCooperativa({ nome }: NavbarProps) {
+export default function NavbarCooperativa() {
   const navigate = useNavigate();
 
-  const nomeParaExibir = (() => {
-    if (nome) return nome;
+  const nomeCooperativa = (() => {
+    const idLogado = localStorage.getItem("usuarioLogadoId");
+    const usuariosRaw = localStorage.getItem("usuarios");
 
-    const idLogado = localStorage.getItem('usuarioLogadoId');
-    const usuariosRaw = localStorage.getItem('usuarios');
+    if (!idLogado || !usuariosRaw) return "Cooperativa";
 
-    if (idLogado && usuariosRaw) {
-      try {
-        const usuarios: Usuario[] = JSON.parse(usuariosRaw);
-        const usuarioAtual = usuarios.find((u) => u.id === idLogado);
-        return usuarioAtual?.nome || "Cooperativa";
-      } catch (error) {
-        console.error("Erro ao ler dados da Cooperativa", error);
-      }
+    try {
+      const usuarios: Usuario[] = JSON.parse(usuariosRaw);
+      const cooperativa = usuarios.find(
+        (u) => u.id === idLogado && u.tipo === "cooperativa"
+      );
+
+      return cooperativa?.nome || "Cooperativa";
+    } catch (error) {
+      console.error("Erro ao carregar cooperativa", error);
+      return "Cooperativa";
     }
-    return "Cooperativa";
   })();
 
   const handleSair = () => {
-    localStorage.removeItem('usuarioLogadoId');
+    localStorage.removeItem("usuarioLogadoId");
     navigate("/");
   };
 
   return (
     <nav className="barra-navegacao-coop">
       <div className="conteudo-navegacao">
-        <div className="logo-e-texto" onClick={() => navigate("/dashboard-cooperativa")}>
-          <img src={IconeCooperativa} alt="Logo" className="imagem-logo-png" />
+        <div
+          className="logo-e-texto"
+          onClick={() => navigate("/dashboard-cooperativa")}
+          style={{ cursor: "pointer" }}
+        >
+          <img
+            src={IconeCooperativa}
+            alt="Logo"
+            className="imagem-logo-png"
+          />
+
           <div className="identificacao">
-            <h2 className="titulo-coop">{nomeParaExibir}</h2>
+            <h2 className="titulo-coop">{nomeCooperativa}</h2>
             <p className="subtitulo-coop">Painel de Gestão</p>
           </div>
         </div>
