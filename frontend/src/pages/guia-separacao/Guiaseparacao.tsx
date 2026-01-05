@@ -107,7 +107,7 @@ export default function GuiaSeparacao() {
         <p>A reciclagem começa com a separação correta. Cada material reciclado contribui para um futuro mais sustentável.</p>
         <button onClick={() => navigate("/")} className="btn-voltar">
           Voltar ao Início
-        </button>
+        </button> 
       </footer>
     </div>
   );

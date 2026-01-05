@@ -21,7 +21,7 @@ export default function Home() {
                     <Hero />
                 </section>
 
-                    <CardOrientacao/>
+                    <CardOrientacao/ >
 
                 <section className='cards'>
                     <Card_morador />
