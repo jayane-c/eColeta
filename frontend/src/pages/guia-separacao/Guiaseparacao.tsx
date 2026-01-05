@@ -1,6 +1,6 @@
 import { CheckCircle2, XCircle, Info, FileText, Smartphone, GlassWater, Trash2 } from 'lucide-react';
 import './GuiaSeparacao.css';
-import { useNavigate } from 'react-router-dom'
+
 
 const categorias = [
   {
@@ -46,7 +46,6 @@ const categorias = [
 ];
 
 export default function GuiaSeparacao() {
-    const navigate = useNavigate()
   return (
     <div className="guia-container">
       <div className="card-guia">
@@ -105,9 +104,7 @@ export default function GuiaSeparacao() {
       <footer className="guia-footer-acao">
         <p>Faça sua parte!</p>
         <p>A reciclagem começa com a separação correta. Cada material reciclado contribui para um futuro mais sustentável.</p>
-        <button onClick={() => navigate("/")} className="btn-voltar">
-          Voltar ao Início
-        </button> 
+        
       </footer>
     </div>
   );

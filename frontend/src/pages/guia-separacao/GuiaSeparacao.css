@@ -154,22 +154,3 @@
   font-size: 18px;
   margin-bottom: 10px;
 }
-
-.btn-voltar {
-  margin-top: 25px;
-  padding: 12px 30px;
-  border-radius: 25px;
-  border: none;
-  background: white;
-  color: #00897b;
-  font-weight: bold;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  transition: transform 0.2s;
-}
-
-.btn-voltar:hover {
-  transform: translateY(-2px);
-}
