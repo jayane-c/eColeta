@@ -3,8 +3,11 @@ import { ColetaModel } from "../models/ColetaModel";
 import { MoradorModel } from "../models/MoradorModel";
 import { ItemColetaModel } from "../models/ItemColetaModel";
 import { ResiduoModel } from "../models/ResiduoModel";
-import { ICreateColetaDTO } from "../DTOs/IColetaDTO";
 import { EcoletorModel } from "../models/EcoletorModel";
+import { CooperativaModel } from "../models/CooperativaModel";
+import { TransacaoModel } from "../models/TransacaoModel";
+
+import { ICreateColetaDTO } from "../DTOs/IColetaDTO";
 
 export class ColetaService {
     private coletaRepository = AppDataSource.getRepository(ColetaModel);
@@ -93,5 +96,28 @@ export class ColetaService {
             coleta.status_coleta = 'Aceito';
 
             return this.coletaRepository.save(coleta);
-        }
+    }
+
+    async entregarNaCooperativa(id_coleta: number, id_ecoletor: number) {
+        const coleta = await this.coletaRepository.findOne({ 
+            where: { id_coleta },
+            relations: ['ecoletor']
+        });
+
+            if (!coleta) throw new Error("Coleta não encontrada.");
+
+            // Segurança: Só quem aceitou pode entregar
+            if (coleta.ecoletor?.id_ecoletor !== id_ecoletor) {
+            throw new Error("Você não é o responsável por esta coleta.");
+            }
+
+            if (coleta.status_coleta !== 'Aceito' && coleta.status_coleta !== 'A Caminho') {
+            throw new Error("Status inválido para entrega.");
+            }
+
+            coleta.status_coleta = 'Entregue_Coop';
+            return this.coletaRepository.save(coleta);
+    }
+
+
 }
