@@ -10,7 +10,7 @@ import DashboardCooperativa from "../pages/dashboard/cooperativa/DashboardCooper
 import GuiaSeparacao from "../pages/guia-separacao/Guiaseparacao"
 import PontosMorador from "../Components/pontosMorador/PontosMorador"
 
-import Login from "../pages/login/login"
+import Login from "../pages/login/Login"
 
 function AppRoutes() {
     return (
