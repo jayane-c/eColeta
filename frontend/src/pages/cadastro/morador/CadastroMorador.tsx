@@ -22,6 +22,8 @@ function CadastroMorador() {
     const [erroEndereco, setErroEndereco] = useState('');
     const [erroSenha, setErroSenha] = useState('');
 
+    
+
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
 

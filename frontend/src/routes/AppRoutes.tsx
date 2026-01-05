@@ -8,7 +8,7 @@ import DashboardMorador from "../pages/dashboard/morador/DashboardMorador"
 import PerfilColetor from "../pages/perfil-coletor/PerfilColetor"
 import DashboardCooperativa from "../pages/dashboard/cooperativa/DashboardCooperativa"
 import GuiaSeparacao from "../pages/guia-separacao/Guiaseparacao"
-
+import Login from "../pages/login/login"
 
 function AppRoutes() {
     return (
@@ -23,6 +23,7 @@ function AppRoutes() {
                 <Route path="/perfil" element={<PerfilColetor />} />
                 <Route path="/dashboard-cooperativa" element={<DashboardCooperativa/>} />
                 <Route path="/guia-separacao" element={<GuiaSeparacao/>} />
+                <Route path="/login" element={<Login/>} />
             </Routes>
         </BrowserRouter>
 
