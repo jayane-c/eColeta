@@ -36,7 +36,7 @@ export default function NavbarMorador() {
             </div>
 
             <div className="navegacao-direita">
-                <BotaoDescarte onClick={() => navigate("/guia-morador")} />
+                <BotaoDescarte onClick={() => navigate("/guia-separacao")} />
                 <BotaoSair onSair={() => {
                     localStorage.removeItem('usuarioNome'); 
                     navigate("/");
