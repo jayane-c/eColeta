@@ -4,7 +4,6 @@ import Logo from "../../assets/Logo/logo2.png"
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-
 export default function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
