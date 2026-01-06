@@ -1,5 +1,5 @@
 import './card-cooperativa.css'
-import LogoCooperativa from '../../assets/Logo/cooperativa.jpg' 
+import LogoCooperativa from '../../assets/Logo/cooperativa.png' 
 import { Link } from 'react-router-dom'
 
 export default function Card_cooperativa() {

@@ -2,26 +2,24 @@ import '../../CSS/global.css';
 import './NavbarMorador.css';
 import iconeReciclagem from "../../assets/Logo/recycleIcon.png"; 
 import { useNavigate } from "react-router-dom";
-import { useState } from "react"; 
 import BotaoDescarte from "../BotaoDescarte/BotaoDescarte";
 import BotaoSair from "../botaoSair/BotaoSair";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function NavbarMorador() {
     const navigate = useNavigate();
+    const { user, logout } = useAuth();
 
-    const [nomeExibicao] = useState<string>(() => {
-        const nomeCompleto = localStorage.getItem('usuarioNome');
-        
-        if (nomeCompleto) {
-            const partes = nomeCompleto.trim().split(/\s+/); 
+    const nomeExibicao = (() => {
+        if (user?.nome) {
+            const partes = user.nome.trim().split(/\s+/);
             if (partes.length > 1) {
-                return `${partes[0]} ${partes[1]}`; 
+                return `${partes[0]} ${partes[1]}`;
             }
-            return partes[0]; 
+            return partes[0];
         }
-        
         return 'Morador';
-    });
+    })();
 
     return (
         <header className="navegacao-recipiente">
@@ -38,7 +36,7 @@ export default function NavbarMorador() {
             <div className="navegacao-direita">
                 <BotaoDescarte onClick={() => navigate("/guia-separacao")} />
                 <BotaoSair onSair={() => {
-                    localStorage.removeItem('usuarioNome'); 
+                    logout();
                     navigate("/");
                 }} />
             </div>

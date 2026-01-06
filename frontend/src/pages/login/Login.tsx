@@ -4,6 +4,7 @@ import Logo from "../../assets/Logo/logo2.png"
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../services/api';
+import { useAuth } from '../../contexts/AuthContext';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -13,6 +14,7 @@ export default function Login() {
   const [erro, setErro] = useState('');
 
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,20 +27,18 @@ export default function Login() {
         senha: senha
       });
 
-      // --- LOGS PARA DEPURAÇÃO (Vão aparecer no Console com F12) ---
       console.log("STATUS DA RESPOSTA:", response.status);
       console.log("DADOS CHEGANDO:", response.data);
-      // -------------------------------------------------------------
 
       const { token, user } = response.data;
 
-      // Verifica se o token existe antes de salvar
-      if (token) {
+      if (token && user) {
           console.log("TOKEN ENCONTRADO! Salvando...");
-          localStorage.setItem('token', token);
-          localStorage.setItem('user', JSON.stringify(user));
+          login(user, token);
       } else {
-          console.warn("ATENÇÃO: A resposta não trouxe um campo 'token'.");
+          console.warn("ATENÇÃO: A resposta não trouxe token ou usuário.");
+          setErro("Erro ao fazer login. Tente novamente.");
+          return;
       }
 
       if (tipo === 'morador') navigate('/dashboard-morador');

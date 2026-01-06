@@ -3,7 +3,6 @@
     justify-content: center;
     gap: 3rem;
     padding: 1rem;
-     flex-wrap: wrap;       
 
 }
 
@@ -42,23 +41,4 @@
 }
 
 
-@media (max-width: 1024px) {
-    .cards {
-        flex-wrap: wrap;   
-        gap: 3rem;
-    }
-}
 
-@media (max-width: 600px) {
-    .cards {
-        flex-direction: column; 
-        align-items: center;
-        gap: 2rem;
-    }
-
-    .cards-container {
-        flex-direction: column;
-        align-items: center;
-        gap: 2rem;
-    }
-}
