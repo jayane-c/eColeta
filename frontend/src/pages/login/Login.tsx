@@ -1,5 +1,5 @@
 import './Login.css';
-import { Mail, Lock, User } from 'lucide-react'; // Adicionei icone de User
+import { Mail, Lock, User } from 'lucide-react';
 import Logo from "../../assets/Logo/logo2.png"
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -8,7 +8,6 @@ import { api } from '../../services/api';
 export default function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  // NOVO: Precisamos saber quem está logando para mandar pro backend correto
   const [tipo, setTipo] = useState('morador'); 
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState('');
@@ -21,30 +20,33 @@ export default function Login() {
     setErro('');
 
     try {
-      // 1. AQUI É A MUDANÇA REAL: Chamada ao Backend
-      // A URL muda dinamicamente baseada no tipo (ex: /auth/login/morador)
       const response = await api.post(`/auth/login/${tipo}`, {
         email: email.toLowerCase().trim(),
         senha: senha
       });
 
-      // 2. Pegamos o token REAL que veio do servidor
+      // --- LOGS PARA DEPURAÇÃO (Vão aparecer no Console com F12) ---
+      console.log("STATUS DA RESPOSTA:", response.status);
+      console.log("DADOS CHEGANDO:", response.data);
+      // -------------------------------------------------------------
+
       const { token, user } = response.data;
 
-      // 3. Salvamos o token (vital para as próximas telas funcionarem)
-      localStorage.setItem('token', token);
-      
-      // Opcional: salvar dados do usuário para mostrar nome no dashboard
-      localStorage.setItem('user', JSON.stringify(user));
+      // Verifica se o token existe antes de salvar
+      if (token) {
+          console.log("TOKEN ENCONTRADO! Salvando...");
+          localStorage.setItem('token', token);
+          localStorage.setItem('user', JSON.stringify(user));
+      } else {
+          console.warn("ATENÇÃO: A resposta não trouxe um campo 'token'.");
+      }
 
-      // 4. Redirecionamento correto
       if (tipo === 'morador') navigate('/dashboard-morador');
       else if (tipo === 'ecoletor') navigate('/dashboard-coletor');
       else if (tipo === 'cooperativa') navigate('/dashboard-cooperativa');
 
     } catch (error: any) {
-      console.error(error);
-      // Pega a mensagem de erro do backend (Ex: "Senha incorreta")
+      console.error("ERRO COMPLETO:", error);
       setErro(error.response?.data?.message || "Falha no login. Verifique suas credenciais.");
     } finally {
       setCarregando(false);
@@ -63,13 +65,12 @@ export default function Login() {
         
         <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
           
-          {/* NOVO CAMPO: Seleção de Tipo de Usuário */}
           <div className="input-group">
             <User size={20} className="input-icon" />
             <select 
               value={tipo} 
               onChange={(e) => setTipo(e.target.value)}
-              className="login-select" // Você pode estilizar isso no CSS se quiser
+              className="login-select"
               style={{ flex: 1, border: 'none', outline: 'none', background: 'transparent', padding: '10px' }}
             >
               <option value="morador">Sou Morador</option>
