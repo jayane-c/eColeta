@@ -1,6 +1,6 @@
 import '../Card-morador/card-morador.css'
 import { Link } from 'react-router-dom'
-import LogoMorador from '../../assets/Logo/morador.jpg' 
+import LogoMorador from '../../assets/Logo/morador.png' 
 
 export default function Card_morador() {
     return (

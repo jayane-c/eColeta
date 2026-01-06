@@ -3,37 +3,16 @@ import { useNavigate } from "react-router-dom";
 import IconeCooperativa from "../../assets/Logo/icone-cooperativa.png";
 import BotaoDescarte from "../BotaoDescarte/BotaoDescarte";
 import BotaoSair from "../botaoSair/BotaoSair";
-
-interface Usuario {
-  id: string;
-  nome: string;
-  tipo: string;
-}
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function NavbarCooperativa() {
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
 
-  const nomeCooperativa = (() => {
-    const idLogado = localStorage.getItem("usuarioLogadoId");
-    const usuariosRaw = localStorage.getItem("usuarios");
-
-    if (!idLogado || !usuariosRaw) return "Cooperativa";
-
-    try {
-      const usuarios: Usuario[] = JSON.parse(usuariosRaw);
-      const cooperativa = usuarios.find(
-        (u) => u.id === idLogado && u.tipo === "cooperativa"
-      );
-
-      return cooperativa?.nome || "Cooperativa";
-    } catch (error) {
-      console.error("Erro ao carregar cooperativa", error);
-      return "Cooperativa";
-    }
-  })();
+  const nomeCooperativa = user?.nome || "Cooperativa";
 
   const handleSair = () => {
-    localStorage.removeItem("usuarioLogadoId");
+    logout();
     navigate("/");
   };
 
