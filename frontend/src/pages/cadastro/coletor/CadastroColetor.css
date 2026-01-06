@@ -4,7 +4,8 @@
     box-sizing: border-box;
 }
 
-body, html {
+body,
+html {
     width: 100%;
     height: 100%;
 }
@@ -15,7 +16,7 @@ body, html {
     width: 100%;
     padding: 40px;
     font-family: Arial, sans-serif;
-    
+
 }
 
 .cadastro-card {
@@ -26,6 +27,7 @@ body, html {
     margin: 0 auto;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
+
 .cadastro-card h2 {
     color: #14532D;
     margin-bottom: 10px;
@@ -66,16 +68,16 @@ body, html {
 
 .btn-criar {
     width: 100%;
-  padding: 14px;
-  border: none;
-  border-radius: 10px;
-  background: linear-gradient(90deg, #024D21, #04B34D);
-  color: #FFFFFF;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  margin-top: 14px;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #024D21, #04B34D);
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-top: 14px;
 }
 
 
@@ -87,9 +89,10 @@ body, html {
     color: #333;
     margin-bottom: 6px;
 }
-.label-icon svg{
-color: #14532D;
-font-size: 14px;
+
+.label-icon svg {
+    color: #14532D;
+    font-size: 14px;
 }
 
 .section-title {
@@ -104,34 +107,34 @@ font-size: 14px;
 
 .section-title svg {
     color: #14532D;
-     font-size: 14px;
+    font-size: 14px;
 }
 
 .cadastro-card h3 {
     margin-bottom: 24px;
-}   
+}
 
 .section input,
 .section select {
-  width: 100%;
-  height: 44px;             
-  padding: 10px 12px;
-  border-radius: 10px;       
-  border: 1px solid #e5e7eb;
-  font-size: 14px;
-  outline: none;
-  background-color: #fff;
+    width: 100%;
+    height: 44px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    font-size: 14px;
+    outline: none;
+    background-color: #fff;
 }
 
 .section select {
-  appearance: none;        
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  cursor: pointer;
-  background-image: url("data:image/svg+xml;utf8,<svg fill='%23999' height='20' viewBox='0 0 20 20' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M5.5 7.5l4.5 4.5 4.5-4.5'/></svg>");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  background-size: 16px;   
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='%23999' height='20' viewBox='0 0 20 20' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M5.5 7.5l4.5 4.5 4.5-4.5'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
 }
 
 .erro {
@@ -141,4 +144,40 @@ font-size: 14px;
     border-radius: 8px;
     font-size: 14px;
     margin-bottom: 16px;
+}
+
+
+@media (max-width: 768px) {
+    .cadastro-page {
+        padding: 20px;
     }
+
+    .cadastro-card {
+        padding: 24px;
+        max-width: 100%;
+    }
+
+    .row {
+        flex-direction: column;
+        gap: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .cadastro-page {
+        padding: 10px;
+    }
+
+    .cadastro-card h2 {
+        font-size: 1.5rem;
+    }
+
+    .section-title {
+        font-size: 14px;
+    }
+
+    .btn-criar {
+        padding: 12px;
+        font-size: 15px;
+    }
+}
