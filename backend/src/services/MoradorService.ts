@@ -1,21 +1,17 @@
 import { AppDataSource } from "../config/database";
-import { MoradorModel } from "../models/MoradorModel"
+import { MoradorModel } from "../models/MoradorModel";
 import { EnderecoModel } from "../models/EnderecoModel";
+import { ICreateMoradorDTO, IUpdateMoradorDTO } from "../DTOs/MoradorDTO";
 import bcrypt from 'bcryptjs';
-
-import { ICreateMoradorDTO } from "../DTOs/ICreateMoradorDTO";
-import { IUpdateMoradorDTO } from "../DTOs/IUpdateMoradorDTO";
 
 export class MoradorService {
     private moradorRepository = AppDataSource.getRepository(MoradorModel);
     private enderecoRepository = AppDataSource.getRepository(EnderecoModel);
 
-    //Logica de CRIAÇÃO
     async create(dados: ICreateMoradorDTO) {
         const { nome, email, senha, cpf, telefone, endereco } = dados;
 
-        // Validação
-        const moradorExists = await this.moradorRepository.findOne({ where: { email }});
+        const moradorExists = await this.moradorRepository.findOne({ where: { email } });
         if (moradorExists) {
             throw new Error("Email já cadastrado.");
         }
@@ -25,17 +21,14 @@ export class MoradorService {
         await queryRunner.startTransaction();
 
         try {
-            // hash de senha
             const salt = await bcrypt.genSalt(10);
             const senhaHash = await bcrypt.hash(senha, salt);
 
-            // Criar e salvar o endereço primeiro
             const novoEndereco = queryRunner.manager.create(EnderecoModel, {
                 ...endereco,
             });
             const enderecoSalvo = await queryRunner.manager.save(novoEndereco);
 
-            // salva o morador com o endereço já salvo
             const novoMorador = queryRunner.manager.create(MoradorModel, {
                 nome,
                 email,
@@ -52,13 +45,13 @@ export class MoradorService {
         } catch (error) {
             await queryRunner.rollbackTransaction();
             throw error;
-    } finally {
+        } finally {
             await queryRunner.release();
         }
     }
 
     async findById(id: number) {
-        const morador = await this.moradorRepository.findOne({ 
+        const morador = await this.moradorRepository.findOne({
             where: { id_morador: id },
             relations: ['endereco']
         });
@@ -66,15 +59,26 @@ export class MoradorService {
     }
 
     async update(id: number, dadosAtualizacao: IUpdateMoradorDTO) {
-        const result = await this.moradorRepository.update(id, dadosAtualizacao);
+        const morador = await this.findById(id);
 
-        if (result.affected === 0) {
+        if (!morador) {
             throw new Error('Morador não encontrado para atualização.');
+        }
+
+        const { endereco, ...dadosMorador } = dadosAtualizacao;
+
+        if (endereco) {
+            await this.enderecoRepository.update(
+                morador.endereco.id_endereco,
+                endereco
+            );
+        }
+        if (Object.keys(dadosMorador).length > 0) {
+            await this.moradorRepository.update(id, dadosMorador);
         }
 
         return this.findById(id);
     }
-
     async delete(id: number) {
         const morador = await this.findById(id);
 
@@ -84,14 +88,10 @@ export class MoradorService {
 
         const enderecoId = morador.endereco.id_endereco;
 
-        //remover o morador (endereço será removido em cascade)
         await this.moradorRepository.remove(morador);
-
-        //remover o endereço explicitamente para garantir
+        
         await this.enderecoRepository.delete(enderecoId);
 
         return true;
     }
-
-
 }
