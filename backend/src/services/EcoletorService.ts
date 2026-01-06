@@ -1,7 +1,7 @@
 import { AppDataSource } from "../config/database";
 import { EcoletorModel } from "../models/EcoletorModel";
 import { CooperativaModel } from "../models/CooperativaModel";
-import { ICreateEcoletorDTO } from "../DTOs/ICreateEcoletorDTO";
+import { ICreateEcoletorDTO, IUpdateEcoletorDTO } from "../DTOs/EcoletorDTO";
 import bcrypt from "bcryptjs";
 
 export class EcoletorService {
@@ -70,6 +70,34 @@ export class EcoletorService {
             throw error;
         } finally {
             await queryRunner.release();
+        }  
+    }
+    async findById(id: number) {
+        const ecoletor = await this.ecoletorRepository.findOne({ 
+            where: { id_ecoletor: id },
+            relations: ['cooperativa'] 
+        });
+        return ecoletor;
+    }
+    
+    async update(id: number, dadosAtualizacao: IUpdateEcoletorDTO) {
+        const result = await this.ecoletorRepository.update(id, dadosAtualizacao);
+
+        if (result.affected === 0) {
+            throw new Error('Ecoletor não encontrado para atualização.');
         }
+
+        return this.findById(id);
+}
+    async delete(id: number) {
+        const ecoletor = await this.findById(id);
+
+        if (!ecoletor) {
+            throw new Error('Ecoletor não encontrado para exclusão.');
+        }
+
+        await this.ecoletorRepository.remove(ecoletor);
+
+        return true;
     }
 }

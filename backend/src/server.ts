@@ -5,6 +5,7 @@ import authRoutes from './routes/AuthRoutes';
 import userMoradorRoutes from './routes/UserMoradorRoutes';
 import ResiduoRoutes from "./routes/ResiduoRoutes";
 import { coletaRoutes } from './routes/ColetaRoutes';
+import EcoletorRoutes from './routes/EcoletorRoutes';
 
 // Middleware para parsear JSON
 const app = express();
@@ -17,6 +18,8 @@ app.use(cors());
 app.use('/auth', authRoutes);
 // Rotas do morador
 app.use('/morador', userMoradorRoutes);
+// Rotas do Ecoletor
+app.use('/ecoletor', EcoletorRoutes);
 // Rotas para coletas
 app.use("/coletas", coletaRoutes);
 // Rota para listar residuo
