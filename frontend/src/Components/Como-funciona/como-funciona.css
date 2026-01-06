@@ -1,87 +1,90 @@
+
 .como-funciona {
-    width: 100%;
-    padding: 60px 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #F0FDF4;
-   
+  background-color: #f1fbf4;
+  padding: 80px 60px;
+  text-align: center;
 }
 
 .como-funciona h2 {
-    font-size: 32px;
-    color: #0a5c2f;
-    margin-bottom: 40px;
-    text-align: center;
+  font-size: 32px;
+  color: #0b5d3b;
+  margin-bottom: 60px;
+}
+
+.card-imagens {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
 }
 
 
-.passos-wrapper,
-.descricao {
-    width: 100%;
-    max-width: 1100px;
-    display: flex;
-    justify-content: space-between;
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;   
+  text-align: center;    
 }
 
-.passos-wrapper {
-    margin-bottom: 20px;
+
+.titulo-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 16px;
 }
 
-.passo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex: 1;
-    justify-content: center;
+.titulo-item span {
+  background-color: #1f6b4e;
+  color: #ffffff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
 }
 
-.numero {
-    background-color: #2D6A4F;
-    color: white;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
+.titulo-item h3 {
+  font-size: 18px;
+  color: #0b5d3b;
+  margin: 0;
 }
 
-.titulo-passo {
-    font-size: 1.2rem;
-    color: #1A4731;
-    font-weight: 700;
+.item img {
+  width: 100%;
+  max-width: 260px;
+  border-radius: 18px;
+
 }
 
-.como-funciona img {
-    width: 100%;
-    max-width: 1100px;
-    height: auto;
-    display: block;
-    margin: 0 auto;
-    border-radius: 1rem;
+.item p {
+  margin-top: 12px;
+  font-size: 15px;
+  color: #0b5d3b;
+  line-height: 1.4;
+  text-align: center;
+  font-weight: 500;
+
+}
+@media (max-width: 1024px) {
+  .card-imagens {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+  }
 }
 
-.descricao {
-    margin-top: 20px;
-    color: #0a5c2f;
-}
+@media (max-width: 600px) {
+  .card-imagens {
+    grid-template-columns: 1fr;
+  }
 
-.descricao p {
-    flex: 1;
-    text-align: center;
-    padding: 0 10px;
-    font-size: 1rem;
-    line-height: 1.2;
-}
+  .como-funciona {
+    padding: 60px 20px;
+  }
 
-@media (max-width: 768px) {
-
-    .passos-wrapper,
-    .descricao {
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-    }
+  .como-funciona h2 {
+    font-size: 26px;
+  }
 }
