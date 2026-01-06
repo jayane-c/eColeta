@@ -23,6 +23,9 @@ export class CooperativaModel {
 
     @Column({ length: 255, nullable: false })
     senha!: string;
+
+    @Column({ length: 15, nullable: false })
+    telefone!: string;
     
     @OneToMany(() => EcoletorModel, (ecoletor) => ecoletor.cooperativa)
     coletores!: EcoletorModel[];

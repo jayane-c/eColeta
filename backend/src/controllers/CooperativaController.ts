@@ -1,25 +1,25 @@
 import { Request, Response } from "express";
-import { MoradorService } from "../services/MoradorService";
-import { IMoradorDTO } from "../DTOs/MoradorDTO";
+import { CooperativaService } from "../services/CooperativaService";
+import { ICooperativaDTO } from "../DTOs/CooperativaDTO";
 
-export class MoradorController {
-    private moradorService = new MoradorService();
+export class CooperativaController {
+    private cooperativaService = new CooperativaService();
 
     public async getProfile(req: Request, res: Response): Promise<Response> {
         const userId = (req as any).user.id;
 
         try {
-            const morador = await this.moradorService.findById(userId);
-            
-            if (!morador) {
+            const cooperativa = await this.cooperativaService.findById(userId);
+
+            if (!cooperativa) {
                 return res.status(404).json({ message: 'Perfil não encontrado.' });
             }
 
-            const { senha, ...moradorSemSenha } = morador;
+            const { senha, ...dadosSemSenha } = cooperativa;
 
-            const respostaSegura: IMoradorDTO = moradorSemSenha;
+            const respostaSegura: ICooperativaDTO = dadosSemSenha;
 
-            return res.status(200).json({ morador: respostaSegura });
+            return res.status(200).json({ cooperativa: respostaSegura });
 
         } catch (error) {
             console.error(error);
@@ -30,19 +30,23 @@ export class MoradorController {
     public async updateProfile(req: Request, res: Response): Promise<Response> {
         const userId = (req as any).user.id;
 
-        const { nome, telefone } = req.body;
+        const { nome, telefone, endereco } = req.body;
 
         try {
-            const updatedUser = await this.moradorService.update(userId, { nome, telefone });
+            const updatedCooperativa = await this.cooperativaService.update(userId, {
+                nome,
+                telefone,
+                endereco
+            });
 
-            if (updatedUser) {
-                const { senha, ...moradorSemSenha } = updatedUser;
-                
-                const respostaSegura: IMoradorDTO = moradorSemSenha;
+            if (updatedCooperativa) {
+                const { senha, ...dadosSemSenha } = updatedCooperativa;
 
-                return res.status(200).json({ 
-                    message: 'Perfil atualizado com sucesso.', 
-                    morador: respostaSegura 
+                const respostaSegura: ICooperativaDTO = dadosSemSenha;
+
+                return res.status(200).json({
+                    message: 'Perfil atualizado com sucesso.',
+                    cooperativa: respostaSegura
                 });
             }
 
@@ -50,18 +54,17 @@ export class MoradorController {
 
         } catch (error: any) {
             console.error(error);
-            if (error.message === "Morador não encontrado para atualização.") {
+            if (error.message === "Cooperativa não encontrada.") {
                 return res.status(404).json({ message: error.message });
             }
             return res.status(500).json({ message: 'Erro ao atualizar perfil.' });
         }
     }
-
     public async deleteProfile(req: Request, res: Response): Promise<Response> {
         const userId = (req as any).user.id;
 
         try {
-            await this.moradorService.delete(userId);
+            await this.cooperativaService.delete(userId);
             return res.status(200).json({ message: 'Conta deletada com sucesso.' });
         } catch (error: any) {
             console.error(error);
