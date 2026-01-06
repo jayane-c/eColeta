@@ -234,7 +234,7 @@ function CadastroMorador() {
                     </div>
 
                     <h3 className="section-title">
-                        <FaLock /> Segurança
+                        <FaLock /> Senha
                     </h3>
                     {erroSenha && <p className="erro">{erroSenha}</p>}
 
