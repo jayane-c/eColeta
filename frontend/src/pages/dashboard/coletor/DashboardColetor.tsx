@@ -5,6 +5,7 @@ import ColetasDisponiveis from "../../../Components/dashboard-coletor/coletas-di
 import { useState } from "react";
 import DetalheColetas from "../../../Components/dashboard-coletor/detalhe-coletas/DetalheColetas"
 import { Package, Truck, CheckCircle, AlertCircle } from "lucide-react";
+import Footer from "../../../Components/Footer/footer"
 
 interface Coleta {
   id: string;
@@ -109,6 +110,7 @@ function DashboardColetor() {
           />
         )}
       </main>
+      <Footer />
     </>
   );
 }
