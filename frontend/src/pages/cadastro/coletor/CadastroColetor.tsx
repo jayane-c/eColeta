@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { api } from "../../../services/api"; 
 
 const maskCPF = (value: string) => {
   return value
@@ -48,14 +49,16 @@ function CadastroColetor() {
   const [telefone, setTelefone] = useState("");
   const [senha, setSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
+  
   const [cep, setCep] = useState("");
   const [rua, setRua] = useState("");
   const [numero, setNumero] = useState("");
   const [complemento, setComplemento] = useState("");
   const [bairro, setBairro] = useState("");
   const [cidade, setCidade] = useState("");
-  const [veiculo, setVeiculo] = useState("");
-  const [cnh, setCnh] = useState("");
+  
+  const [veiculo, setVeiculo] = useState(""); 
+  const [cnh, setCnh] = useState(""); 
 
   const [erroDados, setErroDados] = useState("");
   const [erroEndereco, setErroEndereco] = useState("");
@@ -63,7 +66,6 @@ function CadastroColetor() {
   const [erroVeiculo, setErroVeiculo] = useState("");
   const [carregando, setCarregando] = useState(false);
 
-  // Busca de CEP automática (posicionada corretamente fora do handleSubmit)
   useEffect(() => {
     const cepLimpo = cep.replace(/\D/g, "");
     if (cepLimpo.length === 8) {
@@ -91,35 +93,48 @@ function CadastroColetor() {
     setErroVeiculo("");
     setErroSenha("");
 
-    // Validações
     if (!nome || !cpf || !email || !telefone) return setErroDados('Preencha todos os dados pessoais');
     if (!cep || !rua || !numero || !bairro || !cidade) return setErroEndereco('Preencha o endereço completo');
     if (!veiculo || !cnh) return setErroVeiculo('Preencha os dados do veículo');
     if (!senha || senha !== confirmarSenha) return setErroSenha('As senhas não conferem');
 
-    const coletor = {
+    const payload = {
       nome,
-      cpf: cpf.replace(/\D/g, ''),
-      email,
-      telefone: telefone.replace(/\D/g, ''),
-      endereco: { cep, rua, numero, complemento, bairro, cidade },
+      email: email.toLowerCase().trim(),
       senha,
-      veiculo: { tipo: veiculo, cnh }
+      cpf: cpf.replace(/\D/g, ''),
+      telefone: telefone.replace(/\D/g, ''),
+      veiculo_tipo: veiculo, 
     };
 
     try {
       setCarregando(true);
-      console.log("Enviando dados para o servidor...", coletor);
       
-      // Simulação de salvamento local e espera do servidor
-      localStorage.setItem("@eColeta:nomeUsuario", nome);
-      await new Promise(resolve => setTimeout(resolve, 1500)); 
+      // 1. Faz o Cadastro
+      console.log("Cadastrando usuário...");
+      await api.post('/auth/register/ecoletor', payload);
 
-      alert("Cadastro realizado com sucesso!");
+      // 2. Se não deu erro no cadastro, faz o Login Automático (Auto-Login)
+      console.log("Realizando login automático...");
+      const loginResponse = await api.post('/auth/login/ecoletor', {
+        email: email.toLowerCase().trim(),
+        senha: senha
+      });
+
+      // 3. Pega o token e salva
+      const { token, user } = loginResponse.data;
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
+
+      alert("Bem-vindo ao eColeta! Seu cadastro foi realizado.");
+      
+      // 4. Redireciona direto para o Dashboard
       navigate("/dashboard-coletor");
 
-    } catch { 
-      setErroDados("Erro ao conectar com o servidor. Tente novamente.");
+    } catch (error: any) {
+      console.error("Erro no processo:", error);
+      const msg = error.response?.data?.message || "Erro ao realizar cadastro.";
+      setErroDados(msg);
     } finally {
       setCarregando(false); 
     }
@@ -134,6 +149,7 @@ function CadastroColetor() {
         {erroDados && <p className="erro">{erroDados}</p>}
 
         <form className="cadastro-form" onSubmit={handleSubmit}>
+          
           <div className="section">
             <label className="label-icon">
               <FaUser /> Nome Completo
@@ -324,7 +340,7 @@ function CadastroColetor() {
           </div>
 
           <button className="btn-criar" type="submit" disabled={carregando}>
-            {carregando ? "Cadastrando..." : "Criar Conta"}
+            {carregando ? "Criando e Acessando..." : "Criar Conta"}
           </button>
         </form>
       </div>
