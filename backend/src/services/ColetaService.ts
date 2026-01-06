@@ -3,8 +3,11 @@ import { ColetaModel } from "../models/ColetaModel";
 import { MoradorModel } from "../models/MoradorModel";
 import { ItemColetaModel } from "../models/ItemColetaModel";
 import { ResiduoModel } from "../models/ResiduoModel";
-import { ICreateColetaDTO } from "../DTOs/IColetaDTO";
 import { EcoletorModel } from "../models/EcoletorModel";
+import { CooperativaModel } from "../models/CooperativaModel";
+import { TransacaoModel } from "../models/TransacaoModel";
+
+import { ICreateColetaDTO } from "../DTOs/IColetaDTO";
 
 export class ColetaService {
     private coletaRepository = AppDataSource.getRepository(ColetaModel);
@@ -93,5 +96,92 @@ export class ColetaService {
             coleta.status_coleta = 'Aceito';
 
             return this.coletaRepository.save(coleta);
+    }
+
+    async entregarNaCooperativa(id_coleta: number, id_ecoletor: number) {
+        const coleta = await this.coletaRepository.findOne({ 
+            where: { id_coleta },
+            relations: ['ecoletor']
+        });
+
+            if (!coleta) throw new Error("Coleta não encontrada.");
+
+            // Segurança: Só quem aceitou pode entregar
+            if (coleta.ecoletor?.id_ecoletor !== id_ecoletor) {
+            throw new Error("Você não é o responsável por esta coleta.");
+            }
+
+            if (coleta.status_coleta !== 'Aceito' && coleta.status_coleta !== 'A Caminho') {
+            throw new Error("Status inválido para entrega.");
+            }
+
+            coleta.status_coleta = 'Entregue_Coop';
+            return this.coletaRepository.save(coleta);
+    }
+
+    async validarEFinalizar(id_coleta: number, id_cooperativa: number) {
+        // Busca coleta com os itens e o ecoletor (para saber de qual coop ele é)
+        const coleta = await this.coletaRepository.findOne({ 
+            where: { id_coleta },
+            relations: ['ecoletor', 'ecoletor.cooperativa', 'itens', 'itens.residuo'] 
+        });
+
+        if (!coleta) throw new Error("Coleta não encontrada.");
+
+        // 1. Verifica se está no status certo (Entregue)
+        if (coleta.status_coleta !== 'Entregue_Coop') {
+            throw new Error("Esta coleta ainda não foi entregue pelo Ecoletor.");
         }
+
+        // 2. Segurança: A cooperativa logada deve ser a mesma do Ecoletor
+        if (coleta.ecoletor?.cooperativa.id_cooperativa !== id_cooperativa) {
+            throw new Error("Esta coleta pertence a outra cooperativa.");
+        }
+
+        // 3. Transação Atômica (Gera pontos e conclui)
+        const queryRunner = AppDataSource.createQueryRunner();
+        await queryRunner.connect();
+        await queryRunner.startTransaction();
+
+        try {
+            // A. Calcula Pontos (Aqui a Cooperativa poderia até editar o peso se quisesse, 
+            // mas vamos manter o peso estimado por enquanto)
+            let totalPontos = 0;
+            coleta.itens.forEach(item => {
+                const pontosItem = item.quantidade_estimada * item.residuo.pontos_por_kg;
+                totalPontos += pontosItem;
+            });
+
+            // B. Cria o Extrato (Transação)
+            const novaTransacao = queryRunner.manager.create(TransacaoModel, {
+                coleta: coleta,
+                valor: totalPontos, 
+                data_transacao: new Date(),
+                tipo: 'entrada'
+            });
+            await queryRunner.manager.save(novaTransacao);
+
+            // C. Finaliza a Coleta
+            coleta.status_coleta = 'Concluido';
+            // Vincula a cooperativa explicitamente na coleta também (opcional, mas bom pra relatórios)
+            const coop = await queryRunner.manager.findOneBy(CooperativaModel, { id_cooperativa });
+            if(coop) coleta.cooperativa = coop;
+
+            await queryRunner.manager.save(coleta);
+
+            await queryRunner.commitTransaction();
+
+            return { 
+                message: "Coleta validada e pontos creditados!", 
+                pontos: totalPontos,
+                coleta 
+            };
+
+        } catch (error) {
+            await queryRunner.rollbackTransaction();
+            throw error;
+        } finally {
+            await queryRunner.release();
+        }
+    }
 }
