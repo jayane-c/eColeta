@@ -22,6 +22,7 @@
 
 .card-logo-cooperativa img {
     width: 15rem;
+    border-radius: 8px;
     
 }
 
@@ -60,4 +61,42 @@
 .btn-cooperativa:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 1024px) {
+    .card-cooperativa-container {
+        width: 45%;
+    }
+
+    .card-logo-cooperativa img {
+        width: 13rem;
+    }
+
+    .btn-cooperativa {
+        width: 60%;
+    }
+}
+
+@media (max-width: 600px) {
+    .card-cooperativa-container {
+        width: 100%;
+        max-width: 320px;
+    }
+
+    .card-logo-cooperativa img {
+        width: 11rem;
+    }
+
+    .card-cooperativa-container h3 {
+        font-size: 1.3em;
+    }
+
+    .card-cooperativa-container p {
+        font-size: 0.9em;
+    }
+
+    .btn-cooperativa {
+        width: 70%;
+        font-size: 0.85em;
+    }
 }
