@@ -4,7 +4,7 @@ import "./ColetasAndamento.css";
 function ColetasAndamento({ coleta, onFinalizar, onCancelar }: any) {
   return (
     <div className="coleta-card card-andamento-container"> 
-      {/* Barra lateral azul que identifica a coleta ativa */}
+  
       <div className="accent-bar-blue" />
       
       <div className="card-body">

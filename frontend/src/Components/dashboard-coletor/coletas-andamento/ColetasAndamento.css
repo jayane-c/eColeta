@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
-/* Reutilizando as mesmas classes da tela de disponíveis para garantir igualdade */
 .coletas-container {
   font-family: 'Plus Jakarta Sans', sans-serif;
   padding: 20px;
@@ -19,7 +18,6 @@
   gap: 12px;
 }
 
-/* Barrinha lateral azul para Andamento */
 .titulo-secao.andamento::before {
   content: "";
   display: inline-block;
@@ -39,8 +37,6 @@
   margin-bottom: 24px !important; 
 }
 
-/* Barra de destaque lateral azul */
-/* Barra de destaque lateral azul - FORÇADA */
 .accent-bar-blue {
   width: 10px !important;
   min-width: 10px !important;
@@ -130,17 +126,14 @@
 .card-andamento-container .accent-bar-blue {
   width: 10px !important;
   min-width: 10px !important;
-  /* O gradiente azul que você quer */
   background: linear-gradient(to bottom, #3182ce, #38b2ac) !important;
   display: block !important;
 }
 
-/* Isso garante que os ícones SEJAM AZUIS nesta tela */
+
 .card-andamento-container .icon-blue {
   color: #3182ce !important;
 }
-
-/* Garante que o card de andamento aceite a barra corretamente */
 .coleta-card.card-andamento-container {
   display: flex !important;
   flex-direction: row !important;
@@ -159,7 +152,6 @@
   margin-bottom: 24px !important; 
 }
 
-/* Barra de destaque lateral azul (Forçada) */
 .card-andamento-container .accent-bar-blue {
   width: 10px !important;
   min-width: 10px !important;
