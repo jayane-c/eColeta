@@ -9,8 +9,8 @@ type CardResumoColetorProps = {
 
 function CardResumo({ titulo, valor, icon, colorClass }: CardResumoColetorProps) {
   return (
-    <div className="card-resumo">
-      <div className={`card-icon ${colorClass}`}>{icon}</div>
+    <div className={`card-resumo ${colorClass}`}>
+      <div className="card-icon">{icon}</div>
       <div className="card-text">
         <p>{titulo}</p>
         <h3>{valor}</h3>
