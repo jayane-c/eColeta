@@ -19,21 +19,11 @@
     gap: 15px;
 }
 
-.caixa-icone {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    background-color: #f0fdf4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-}
 
-.navegacao-icone {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+
+.navegacao-logo {
+   height: 42px;
+    width: auto;
 }
 
 .navegacao-texto h2 {
@@ -41,6 +31,7 @@
     color: #1f2937;
     margin: 0;
     font-weight: 700;
+   
 }
 
 .navegacao-texto span {
