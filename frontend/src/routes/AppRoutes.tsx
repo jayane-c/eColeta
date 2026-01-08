@@ -10,6 +10,8 @@ import PerfilColetor from "../pages/perfil-coletor/PerfilColetor"
 import DashboardCooperativa from "../pages/dashboard/cooperativa/DashboardCooperativa"
 import GuiaSeparacao from "../pages/guia-separacao/Guiaseparacao"
 import PontosMorador from "../Components/pontosMorador/PontosMorador"
+import { SaibaMais } from '../Components/saibaMais/SaibaMais';
+
 
 import Login from "../pages/login/Login"
 
@@ -19,6 +21,7 @@ function AppRoutes() {
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Home />} />
+                    <Route path="/saibaMais" element={<SaibaMais/>} />
                     <Route path="/cadastro-morador" element={<CadastroMorador />} />
                     <Route path="/cadastro-coletor" element={<CadastroColetor />} />
                     <Route path="/cadastro-cooperativa" element={<CadastroCooperativa />} />
@@ -29,6 +32,9 @@ function AppRoutes() {
                     <Route path="/guia-separacao" element={<GuiaSeparacao/>} />
                     <Route path="/pontos-morador" element={<PontosMorador />} />
                     <Route path="/login" element={<Login/>} />
+                    
+                   
+                   
                 </Routes>
             </BrowserRouter>
         </AuthProvider>
