@@ -1,69 +1,29 @@
-import "./ColetasDisponiveis.css";
 import { Check, X, MapPin, Calendar, Clock } from 'lucide-react';
-import { useState, useEffect } from "react";
+import "./ColetasDisponiveis.css";
 
-function ColetasDisponiveis({ setTotalDisponiveis, onAceitar, bloquearBotao }: any) {
-  const [coletas, setColetas] = useState<any[]>([]);
-  const [carregando, setCarregando] = useState(true);
-
-  useEffect(() => {
-    const buscarColetas = async () => {
-      try {
-        setCarregando(true);
-        const dadosFalsos = [
-          {
-            id: 1,
-            material: "Papelão",
-            peso: "25kg",
-            endereco: "Rua das Flores, 123 - Centro",
-            data: "08/01/2026",
-            horario: "14:00"
-          },
-          {
-            id: 2,
-            material: "Plástico PET",
-            peso: "15kg",
-            endereco: "Av. Principal, 456 - Jardins",
-            data: "08/01/2026",
-            horario: "16:30"
-          }
-        ];
-        setColetas(dadosFalsos);
-        if (setTotalDisponiveis) setTotalDisponiveis(dadosFalsos.length);
-      } catch (error) {
-        console.error("Erro ao carregar coletas:", error);
-      } finally {
-        setCarregando(false);
-      }
-    };
-    buscarColetas();
-  }, [setTotalDisponiveis]);
-
-  const handleAceitar = (coletaClicada: any) => {
+function ColetasDisponiveis({ dados, onAceitar, bloquearBotao }: any) {
+  
+  const handleAceitar = (coleta: any) => {
     if (bloquearBotao) {
       alert("Você já possui uma coleta em andamento!");
       return;
     }
-    const novaLista = coletas.filter(item => item.id !== coletaClicada.id);
-    setColetas(novaLista);
-    if (setTotalDisponiveis) setTotalDisponiveis(novaLista.length);
-    if (onAceitar) onAceitar(coletaClicada);
+    if (onAceitar) onAceitar(coleta);
   };
 
-  const handleRecusar = (id: number) => {
-    const novaLista = coletas.filter(coleta => coleta.id !== id);
-    setColetas(novaLista);
-    if (setTotalDisponiveis) setTotalDisponiveis(novaLista.length);
-  };
+  if (!dados || dados.length === 0) {
+    return (
+      <div className="sem-dados">
+        <MapPin size={48} color="#cbd5e0" />
+        <p>Não há coletas disponíveis na sua região no momento.</p>
+      </div>
+    );
+  }
 
-  if (carregando) return <div className="loading">Carregando coletas...</div>;
-
-return (
+  return (
     <div className="section-main-wrapper">
-      <h2 className="titulo-secao"> Coletas Disponíveis</h2>
-
       <div className="lista-cards-aberta">
-        {coletas.map((coleta) => (
+        {dados.map((coleta: any) => (
           <div className="coleta-card" key={coleta.id}>
             <div className="accent-bar" />
             
@@ -74,7 +34,6 @@ return (
                   <span className="peso-tag">{coleta.peso}</span>
                 </div>
 
-                {/* ALTERADO: Esta div agora conterá os itens lado a lado */}
                 <div className="detalhes-horizontal">
                   <div className="detalhe-item">
                     <MapPin size={20} className="icon-purple" />
@@ -95,7 +54,7 @@ return (
                 <button className="btn-aceitar" onClick={() => handleAceitar(coleta)}>
                   <Check size={20} /> Aceitar
                 </button>
-                <button className="btn-recusar" onClick={() => handleRecusar(coleta.id)}>
+                <button className="btn-recusar">
                   <X size={20} /> Recusar
                 </button>
               </div>
@@ -106,4 +65,5 @@ return (
     </div>
   );
 }
+
 export default ColetasDisponiveis;

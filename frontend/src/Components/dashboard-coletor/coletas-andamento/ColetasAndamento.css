@@ -1,16 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
+/* Configurações Gerais */
 .coletas-container {
   font-family: 'Plus Jakarta Sans', sans-serif;
   padding: 20px;
   width: 100%;
 }
 
+/* Títulos */
 .titulo-secao {
-  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 1.8rem;
   font-weight: 800;
-  letter-spacing: -0.03em; 
+  letter-spacing: -0.03em;
   color: #1a202c;
   margin-bottom: 30px;
   display: flex;
@@ -20,28 +21,28 @@
 
 .titulo-secao.andamento::before {
   content: "";
-  display: inline-block;
   width: 6px;
   height: 32px;
   background: linear-gradient(to bottom, #3182ce, #38b2ac);
   border-radius: 4px;
 }
 
+/* Estrutura do Card */
 .coleta-card {
   background: white;
   border-radius: 16px;
   display: flex;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-  width: 100%; 
-  margin-bottom: 24px !important; 
+  width: 100%;
+  margin-bottom: 24px !important;
 }
 
+/* Barra Lateral Colorida */
 .accent-bar-blue {
   width: 10px !important;
   min-width: 10px !important;
   background: linear-gradient(to bottom, #3182ce, #38b2ac) !important;
-  display: block !important;
 }
 
 .card-body {
@@ -53,8 +54,9 @@
   gap: 20px;
 }
 
+/* Tipografia Interna */
 .material-nome {
-  font-size: 1.7rem; 
+  font-size: 1.7rem;
   font-weight: 800;
   color: #1a202c;
 }
@@ -72,9 +74,7 @@
 
 .detalhes-horizontal {
   display: flex;
-  flex-direction: row; 
-  align-items: center;
-  gap: 30px; 
+  gap: 30px;
   flex-wrap: wrap;
   margin-top: 12px;
 }
@@ -86,126 +86,14 @@
   font-size: 1.1rem;
   font-weight: 500;
   color: #4a5568;
-  white-space: nowrap; 
+  white-space: nowrap;
 }
 
-.icon-blue { color: #3182ce; }
-
-.btn-finalizar {
-  background-color: #10b981;
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 12px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  transition: transform 0.2s;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+.icon-blue { 
+  color: #3182ce !important; 
 }
 
-.btn-finalizar:hover { transform: scale(1.03); }
-
-/* Responsividade idêntica ao disponível */
-@media (max-width: 768px) {
-  .card-body {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
-  }
-  .btn-finalizar {
-    width: 100%;
-    justify-content: center;
-  }
-}
-
-
-
-.card-andamento-container .accent-bar-blue {
-  width: 10px !important;
-  min-width: 10px !important;
-  background: linear-gradient(to bottom, #3182ce, #38b2ac) !important;
-  display: block !important;
-}
-
-
-.card-andamento-container .icon-blue {
-  color: #3182ce !important;
-}
-.coleta-card.card-andamento-container {
-  display: flex !important;
-  flex-direction: row !important;
-  overflow: hidden !important;
-}
-
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-
-.coleta-card.card-andamento-container {
-  background: white;
-  border-radius: 16px;
-  display: flex;
-  overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-  width: 100%; 
-  margin-bottom: 24px !important; 
-}
-
-.card-andamento-container .accent-bar-blue {
-  width: 10px !important;
-  min-width: 10px !important;
-  background: linear-gradient(to bottom, #3182ce, #38b2ac) !important;
-  display: block !important;
-}
-
-.card-body {
-  display: flex;
-  flex: 1;
-  padding: 24px 32px;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-}
-
-.material-nome {
-  font-size: 1.7rem; 
-  font-weight: 800;
-  color: #1a202c;
-}
-
-.badge-andamento {
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: #3182ce;
-  background: #ebf8ff;
-  padding: 4px 10px;
-  border-radius: 6px;
-  border: 1px solid #bee3f8;
-  text-transform: uppercase;
-}
-
-.detalhes-horizontal {
-  display: flex;
-  flex-direction: row; 
-  align-items: center;
-  gap: 30px; 
-  flex-wrap: wrap;
-  margin-top: 12px;
-}
-
-.detalhe-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 1.1rem;
-  font-weight: 500;
-  color: #4a5568;
-}
-
-.icon-blue { color: #3182ce !important; }
-
-/* Seção de botões empilhados */
+/* Seção de Botões */
 .actions-section-vertical {
   display: flex;
   flex-direction: column;
@@ -229,7 +117,9 @@
   box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
 }
 
-.btn-finalizar:hover { transform: scale(1.03); }
+.btn-finalizar:hover { 
+  transform: scale(1.03); 
+}
 
 .btn-cancelar-agendamento {
   background-color: transparent;
@@ -252,12 +142,18 @@
   border-color: #f56565;
 }
 
+/* Responsividade */
 @media (max-width: 768px) {
   .card-body {
     flex-direction: column;
     align-items: flex-start;
   }
+  
   .actions-section-vertical {
+    width: 100%;
+  }
+
+  .btn-finalizar {
     width: 100%;
   }
 }
