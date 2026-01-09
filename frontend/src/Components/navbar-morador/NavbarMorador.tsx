@@ -1,8 +1,8 @@
-
 import './NavbarMorador.css';
 import Logo from "../../assets/Logo/ecoleta-icon.png";
 import { useNavigate } from "react-router-dom";
 import BotaoSair from "../botaoSair/BotaoSair";
+import { User } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 
 export default function NavbarMorador() {
@@ -32,24 +32,29 @@ export default function NavbarMorador() {
                 </div>
             </div>
 
-
             <nav className="nav-menu">
                 <ul>
-                    <li
-                        className="nav-link"
-                        onClick={() => navigate("/saibaMais")}> Saiba Mais
+                    <li className="nav-link" onClick={() => navigate("/saibaMais")}> 
+                        Saiba Mais 
+                    </li>
+                    <li className="nav-link" onClick={() => navigate("/contato")}> 
+                        Contato 
+                    </li>
+                    <li className="nav-link" onClick={() => navigate("/guia-separacao")}> 
+                        Guia de Separação 
                     </li>
 
-                    <li
-                        className="nav-link"
-                        onClick={() => navigate("/contato")}> Contato
+                
+                    <li className="perfil-item">
+                        <button 
+                            className="perfil-link" 
+                            onClick={() => navigate("/perfilMorador")}
+                        >
+                            <User size={18} />
+                            Meu Perfil
+                        </button>
                     </li>
-
-                    <li
-                        className="nav-link"
-                        onClick={() => navigate("/guia-separacao")}> Guia de Separação
-                    </li>
-
+                
                     <li className="nav-item-botao">
                         <BotaoSair onSair={() => { logout(); navigate("/"); }} />
                     </li>

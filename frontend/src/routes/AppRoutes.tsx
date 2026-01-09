@@ -11,9 +11,8 @@ import DashboardCooperativa from "../pages/dashboard/cooperativa/DashboardCooper
 import GuiaSeparacao from "../pages/guia-separacao/Guiaseparacao"
 import PontosMorador from "../Components/pontosMorador/PontosMorador"
 import { SaibaMais } from '../Components/saibaMais/SaibaMais';
-
-
 import Login from "../pages/login/Login"
+import PerfilMorador from "../Components/perfilMorador/PerfilMorador"
 
 function AppRoutes() {
     return (
@@ -32,6 +31,7 @@ function AppRoutes() {
                     <Route path="/guia-separacao" element={<GuiaSeparacao/>} />
                     <Route path="/pontos-morador" element={<PontosMorador />} />
                     <Route path="/login" element={<Login/>} />
+                    <Route path="/PerfilMorador" element={<PerfilMorador/>} />
                     
                    
                    
