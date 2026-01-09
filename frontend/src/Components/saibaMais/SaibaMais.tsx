@@ -102,7 +102,7 @@ export function SaibaMais() {
                         <br />
                         <Recycle />
                         <h4>Aguarde o coletor</h4>
-                        <p>Um coletor aceita sua solicitação e vai até você retirar o materialUm coletor aceitará sua solicitação e irá até você
+                        <p>Um coletor aceita sua solicitação e vai até você retirar o material
                         </p>
                     </div>
 

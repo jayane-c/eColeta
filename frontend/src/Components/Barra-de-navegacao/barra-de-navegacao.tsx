@@ -14,15 +14,18 @@ export default function Barra_de_navegacao() {
                     <ul>
                         <li
                             className="nav-link"
-                            onClick={() => navigate('/saibaMais')}>Como Funciona
-                        </li>
-
+                            onClick={() => navigate('/saibaMais')}>Saiba Mais
+                            </li>
+                            
                         <li
                             className="nav-link"
-                            onClick={() => navigate('/contato')}
-                        >
-                            Contato
+                            onClick={() => navigate('/contato')}>Contato
                         </li>
+                        <li
+                            className="nav-link"
+                            onClick={() => navigate("/guia-separacao")}> Guia de Separação
+                                
+                            </li>
                     </ul>
 
                     <button
