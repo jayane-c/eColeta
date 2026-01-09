@@ -9,15 +9,31 @@ export default function Barra_de_navegacao() {
         <header className="header-fix">
             <div className="header-content">
                 <img src={Logo} alt="eColeta" className="logo-img" />
-                
+
                 <nav className="nav-menu">
                     <ul>
-                        <li>Inicio</li>
-                        <li>Sobre</li>
-                        <li>Como Funciona</li>
-                        <li>Contato</li>
+                        <li
+                            className="nav-link"
+                            onClick={() => navigate('/saibaMais')}>Saiba Mais
+                            </li>
+                            
+                        <li
+                            className="nav-link"
+                            onClick={() => navigate('/contato')}>Contato
+                        </li>
+                        <li
+                            className="nav-link"
+                            onClick={() => navigate("/guia-separacao")}> Guia de Separação
+                                
+                            </li>
                     </ul>
-                    <button className="btn-entrar-fix" onClick={() => navigate("/login")}>Entrar</button>
+
+                    <button
+                        className="btn-entrar-fix"
+                        onClick={() => navigate('/login')}
+                    >
+                        Entrar
+                    </button>
                 </nav>
             </div>
         </header>

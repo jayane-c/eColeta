@@ -9,9 +9,12 @@ import {
 } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { api } from "../../../services/api";
+import { useAuth } from "../../../contexts/AuthContext";
 
 function CadastroMorador() {
     const navigate = useNavigate();
+    const { login } = useAuth();
 
     const [nome, setNome] = useState("");
     const [cpf, setCpf] = useState("");
@@ -29,6 +32,7 @@ function CadastroMorador() {
     const [erroDados, setErroDados] = useState("");
     const [erroEndereco, setErroEndereco] = useState("");
     const [erroSenha, setErroSenha] = useState("");
+    const [carregando, setCarregando] = useState(false);
 
     const handleCPF = (value: string) => {
         const x = value
@@ -82,7 +86,7 @@ function CadastroMorador() {
         }
     }, [cep]);
 
-    const handleSubmit = (event: React.FormEvent) => {
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
         setErroDados("");
@@ -104,10 +108,49 @@ function CadastroMorador() {
             return;
         }
 
-        localStorage.setItem("usuarioNome", nome);
-        localStorage.setItem("usuarioTipo", "morador");
+        const payload = {
+            nome,
+            email: email.toLowerCase().trim(),
+            senha,
+            cpf: cpf.replace(/\D/g, ''),
+            telefone: telefone.replace(/\D/g, ''),
+            endereco: {
+                cep: cep.replace(/\D/g, ''),
+                rua,
+                numero,
+                complemento,
+                bairro,
+                cidade
+            }
+        };
 
-        navigate("/dashboard-morador");
+        try {
+            setCarregando(true);
+
+            // Cadastra o morador
+            console.log("Cadastrando morador...", payload);
+            await api.post('/auth/register/morador', payload);
+
+            // Faz login automático
+            console.log("Realizando login automático...");
+            const loginResponse = await api.post('/auth/login/morador', {
+                email: email.toLowerCase().trim(),
+                senha: senha
+            });
+
+            const { token, user } = loginResponse.data;
+            login(user, token);
+
+            alert("Bem-vindo ao eColeta! Seu cadastro foi realizado.");
+            navigate("/dashboard-morador");
+
+        } catch (error: any) {
+            console.error("Erro no processo:", error);
+            const msg = error.response?.data?.message || "Erro ao realizar cadastro. Tente novamente.";
+            setErroDados(msg);
+        } finally {
+            setCarregando(false);
+        }
     };
 
     return (
@@ -257,7 +300,9 @@ function CadastroMorador() {
                         </div>
                     </div>
 
-                   <button className="btn-criar" type="submit">Criar Conta</button>
+                   <button className="btn-criar" type="submit" disabled={carregando}>
+                        {carregando ? "Criando conta..." : "Criar Conta"}
+                    </button>
         </form>
       </div>
     </div>

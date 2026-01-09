@@ -1,5 +1,5 @@
 import './card-coletor.css'
-import LogoColetor from '../../assets/Logo/coletor.png'
+import LogoColetor from '../../assets/Logo/coletor.jpg'
 import { Link } from 'react-router-dom'
 
 export default function Card_coletor() {

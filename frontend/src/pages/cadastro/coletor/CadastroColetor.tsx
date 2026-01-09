@@ -11,6 +11,7 @@ import {
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../../services/api"; 
+import { useAuth } from "../../../contexts/AuthContext"; 
 
 const maskCPF = (value: string) => {
   return value
@@ -42,6 +43,7 @@ const maskCNH = (value: string) => {
 
 function CadastroColetor() {
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const [nome, setNome] = useState("");
   const [cpf, setCpf] = useState("");
@@ -123,8 +125,7 @@ function CadastroColetor() {
 
       // 3. Pega o token e salva
       const { token, user } = loginResponse.data;
-      localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(user));
+      login(user, token);
 
       alert("Bem-vindo ao eColeta! Seu cadastro foi realizado.");
       

@@ -1,22 +1,29 @@
 .botao-sair-universal {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
     display: flex;
     align-items: center;
     gap: 8px;
-    background-color: #fff1f2;
-    color: #e11d48;
-    border: 1px solid #ffe4e6;
-    padding: 8px 18px;
-    border-radius: 12px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-family: inherit;
+    color: #6d1601;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    transition: color 0.2s ease-in-out;
+}
+
+.icon-sair {
+    transition: stroke 0.2s ease-in-out;
+    stroke: currentColor;
 }
 
 .botao-sair-universal:hover {
-    background-color: #e11d48;
-    color: #ffffff;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(225, 29, 72, 0.15);
+    color: #c12d08;
+
+}
+
+.botao-sair-universal:hover .icon-sair {
+    stroke: #c12d08;
 }

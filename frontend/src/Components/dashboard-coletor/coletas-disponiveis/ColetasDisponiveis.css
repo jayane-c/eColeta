@@ -1,122 +1,203 @@
-.coleta-card {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #fff;
-    padding: 20px;
-    border-radius: 12px;
-    margin-bottom: 16px;
-    border: 1px solid #e2e8f0;
-}
-
-
-.coleta-info {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr 1.5fr 1fr 0.8fr; 
-    gap: 15px;
-    flex: 1; 
-    align-items: center;
-}
-
-.coleta-info div {
-    font-size: 0.9rem;
-    color: #475569;
-}
-
-.coleta-info strong {
-    color: #1e293b;
-    display: inline-block;
-    margin-right: 4px;
-}
-
-.coleta-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-left: 20px;
-}
-
-.btn-aceitar, .btn-recusar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    width: 110px;
-    font-size: 0.85rem;
-}
-
-.btn-aceitar { background-color: #2d6a4f; color: white; }
-.btn-recusar { background-color: #c94b4b; color: white; }
-
-.titulo-secao {
-    font-size: 1.5rem;
-    color: #14532D;
-    margin-bottom: 24px;
-    font-weight: bold;
-    text-align: left; 
-}
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 .coletas-container {
-    width: 100%;
-    margin-top: 30px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  padding: 20px;
+  width: 100%;
+}
+
+.titulo-secao {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: -0.03em; 
+  color: #1a202c;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 
-.endereco-wrapper {
+.titulo-secao::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 32px;
+  background: linear-gradient(to bottom, #f2994a, #eb5757);
+  border-radius: 4px;
+}
+
+.lista-cards {
   display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.coleta-card {
+  background: white;
+  border-radius: 16px;
+  display: flex;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  width: 100%; 
+  margin-bottom: 24px !important; 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.accent-bar {
+  width: 10px;
+  background: linear-gradient(to bottom, #f2994a, #eb5757);
+}
+
+.card-body {
+  display: flex;
+  flex: 1;
+  padding: 24px;
+  justify-content: space-between;
   align-items: center;
 }
 
-.link-mapa {
-  color: #1a5235; 
-  font-size: 0.85rem;
-  text-decoration: underline;
-  font-weight: bold;
-  transition: color 0.2s;
+.header-coleta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
 }
 
-.link-mapa:hover {
-  color: #2e7d32;
-  text-decoration: none;
+.material-nome {
+  font-size: 1.6rem; 
+  font-weight: 800;
+  color: #1a202c;
 }
+
+.peso-tag {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #718096;
+  background: #f7fafc;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid #edf2f7;
+}
+
+.detalhes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.detalhe-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.1rem; 
+  font-weight: 500;
+  color: #4a5568;
+}
+
+
+.icon-purple { color: #805ad5; }
+.icon-blue { color: #3182ce; }
+.icon-orange { color: #ed8936; }
+
+.actions-section {
+  display: flex;
+  gap: 15px;
+}
+
+.btn-aceitar {
+  background-color: #10b981;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+.btn-aceitar:hover { transform: scale(1.03); }
+
+.btn-recusar {
+  background: white;
+  color: #ef4444;
+  border: 1.5px solid #ef4444;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.btn-desativado {
+  background-color: #cbd5e0;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
 
 @media (max-width: 768px) {
-    
-    .coleta-item, .coleta-row { 
-        display: flex;
-        flex-direction: column;
-        padding: 15px;
-        gap: 15px;
-        border: 1px solid #e2e8f0;
-        border-radius: 8px;
-        margin-bottom: 15px;
-    }
-
- 
-    .coleta-info { 
-        display: block;
-        width: 100%;
-    }
-
-   
-    .acoes, .coleta-actions {
-        display: flex;
-        width: 100%;
-        gap: 10px;
-        justify-content: space-between;
-    }
-
-    .acoes button, .coleta-actions button {
-        flex: 1;
-        padding: 12px;
-        font-size: 14px;
-        min-height: 44px; 
-    }
+  .card-body {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  .actions-section {
+    width: 100%;
+  }
+  .btn-aceitar, .btn-recusar {
+    flex: 1;
+    justify-content: center;
+  }
 }
+
+.info-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1; 
+}
+
+
+.detalhes-horizontal {
+  display: flex;
+  flex-direction: row; 
+  align-items: center;
+  gap: 30px; 
+  flex-wrap: wrap; 
+}
+
+.detalhe-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #4a5568;
+  white-space: nowrap; 
+}
+
+.material-nome {
+  font-size: 1.7rem; 
+  font-weight: 800;
+  color: #1a202c;
+}
+
+
+.card-body {
+  display: flex;
+  flex: 1;
+  padding: 24px 32px;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+

@@ -1,33 +1,30 @@
-import '../../CSS/global.css';
+
 import './NavbarMorador.css';
-import iconeReciclagem from "../../assets/Logo/recycleIcon.png"; 
+import Logo from "../../assets/Logo/ecoleta-icon.png";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react"; 
-import BotaoDescarte from "../BotaoDescarte/BotaoDescarte";
 import BotaoSair from "../botaoSair/BotaoSair";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function NavbarMorador() {
     const navigate = useNavigate();
+    const { user, logout } = useAuth();
 
-    const [nomeExibicao] = useState<string>(() => {
-        const nomeCompleto = localStorage.getItem('usuarioNome');
-        
-        if (nomeCompleto) {
-            const partes = nomeCompleto.trim().split(/\s+/); 
+    const nomeExibicao = (() => {
+        if (user?.nome) {
+            const partes = user.nome.trim().split(/\s+/);
             if (partes.length > 1) {
-                return `${partes[0]} ${partes[1]}`; 
+                return `${partes[0]} ${partes[1]}`;
             }
-            return partes[0]; 
+            return partes[0];
         }
-        
         return 'Morador';
-    });
+    })();
 
     return (
         <header className="navegacao-recipiente">
             <div className="navegacao-esquerda">
                 <div className="caixa-icone">
-                    <img src={iconeReciclagem} alt="Ícone de Reciclagem" className="navegacao-icone" />
+                    <img src={Logo} alt="Logo" className="navegacao-logo" />
                 </div>
                 <div className="navegacao-texto">
                     <h2>Olá, {nomeExibicao}!</h2>
@@ -35,13 +32,29 @@ export default function NavbarMorador() {
                 </div>
             </div>
 
-            <div className="navegacao-direita">
-                <BotaoDescarte onClick={() => navigate("/guia-separacao")} />
-                <BotaoSair onSair={() => {
-                    localStorage.removeItem('usuarioNome'); 
-                    navigate("/");
-                }} />
-            </div>
+
+            <nav className="nav-menu">
+                <ul>
+                    <li
+                        className="nav-link"
+                        onClick={() => navigate("/saibaMais")}> Saiba Mais
+                    </li>
+
+                    <li
+                        className="nav-link"
+                        onClick={() => navigate("/contato")}> Contato
+                    </li>
+
+                    <li
+                        className="nav-link"
+                        onClick={() => navigate("/guia-separacao")}> Guia de Separação
+                    </li>
+
+                    <li className="nav-item-botao">
+                        <BotaoSair onSair={() => { logout(); navigate("/"); }} />
+                    </li>
+                </ul>
+            </nav>
         </header>
     );
 }
