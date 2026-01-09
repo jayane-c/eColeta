@@ -81,7 +81,7 @@ export default function Login() {
 
           <div className="input-group">
             <Mail size={20} className="input-icon" />
-            <input type="email" placeholder="E-mail"
+            <input type="email" placeholder="E-mail ou Telefone"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
