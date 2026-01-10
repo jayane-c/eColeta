@@ -2,9 +2,11 @@ import express from 'express';
 import cors from 'cors';
 import { initializeDatabase } from './config/database';
 import authRoutes from './routes/AuthRoutes';
-import userMoradorRoutes from './routes/UserMoradorRoutes';
+import UserMoradorRoutes from './routes/UserMoradorRoutes';
 import ResiduoRoutes from "./routes/ResiduoRoutes";
 import { coletaRoutes } from './routes/ColetaRoutes';
+import UserEcoletorRoutes from './routes/UserEcoletorRoutes';
+import UsercooperativaRoutes from './routes/UserCooperativaRoutes';
 
 // Middleware para parsear JSON
 const app = express();
@@ -16,7 +18,11 @@ app.use(cors());
 // Rotas de autenticação
 app.use('/auth', authRoutes);
 // Rotas do morador
-app.use('/morador', userMoradorRoutes);
+app.use('/morador', UserMoradorRoutes);
+// Rotas do Ecoletor
+app.use('/ecoletor', UserEcoletorRoutes);
+// Rotas da cooperativa
+app.use('/cooperativa', UsercooperativaRoutes);
 // Rotas para coletas
 app.use("/coletas", coletaRoutes);
 // Rota para listar residuo

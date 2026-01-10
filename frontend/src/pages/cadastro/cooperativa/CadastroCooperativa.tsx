@@ -11,6 +11,8 @@ import {
 } from "react-icons/fa";
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { api } from '../../../services/api';
+import { useAuth } from '../../../contexts/AuthContext';
 
 const maskCNPJ = (value: string) => {
   return value
@@ -39,6 +41,7 @@ const maskCEP = (value: string) => {
 
 const CadastroCooperativa: React.FC = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const [nomeEmpresa, setNomeEmpresa] = useState('');
   const [nomeResponsavel, setNomeResponsavel] = useState('');
@@ -65,6 +68,7 @@ const CadastroCooperativa: React.FC = () => {
 
   const [erro, setErro] = useState<string>('');
   const [erroEndereco, setErroEndereco] = useState<string>('');
+  const [carregando, setCarregando] = useState(false);
 
   useEffect(() => {
     const cepLimpo = cep.replace(/\D/g, '');
@@ -85,7 +89,7 @@ const CadastroCooperativa: React.FC = () => {
     }
   }, [cep]);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const algumMaterialSelecionado =
@@ -112,8 +116,60 @@ const CadastroCooperativa: React.FC = () => {
       return;
     }
 
-    setErro('');
-    navigate('/dashboard-cooperativa');
+    const materiais = [];
+    if (papel) materiais.push('papel');
+    if (papelao) materiais.push('papelao');
+    if (plastico) materiais.push('plastico');
+    if (metal) materiais.push('metal');
+    if (vidro) materiais.push('vidro');
+    if (eletronicos) materiais.push('eletronicos');
+    if (oleoDeCozinha) materiais.push('oleo');
+
+    const payload = {
+      nome: nomeEmpresa,
+      nomeRepresentante: nomeResponsavel,
+      email: email.toLowerCase().trim(),
+      senha,
+      cnpj: cnpj.replace(/\D/g, ''),
+      telefone: telefone.replace(/\D/g, ''),
+      materiais,
+      endereco: {
+        cep: cep.replace(/\D/g, ''),
+        rua,
+        numero,
+        complemento,
+        bairro,
+        cidade
+      }
+    };
+
+    try {
+      setCarregando(true);
+
+      // Cadastra a cooperativa
+      console.log("Cadastrando cooperativa...", payload);
+      await api.post('/auth/register/cooperativa', payload);
+
+      // Faz login automático
+      console.log("Realizando login automático...");
+      const loginResponse = await api.post('/auth/login/cooperativa', {
+        email: email.toLowerCase().trim(),
+        senha: senha
+      });
+
+      const { token, user } = loginResponse.data;
+      login(user, token);
+
+      alert("Bem-vindo ao eColeta! Sua cooperativa foi registrada.");
+      navigate('/dashboard-cooperativa');
+
+    } catch (error: any) {
+      console.error("Erro no processo:", error);
+      const msg = error.response?.data?.message || "Erro ao realizar cadastro. Tente novamente.";
+      setErro(msg);
+    } finally {
+      setCarregando(false);
+    }
   };
 
   return (
@@ -224,7 +280,9 @@ const CadastroCooperativa: React.FC = () => {
             </div>
           </div>
 
-          <button className="btn-criar" type="submit">Criar Conta</button>
+          <button className="btn-criar" type="submit" disabled={carregando}>
+            {carregando ? "Criando conta..." : "Criar Conta"}
+          </button>
         </form>
       </div>
     </div>

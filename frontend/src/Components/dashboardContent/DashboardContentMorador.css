@@ -4,7 +4,6 @@
     flex-direction: column;
     gap: 25px;
     font-family: 'Inter', sans-serif;
-
     padding-top: 90px;
 }
 
@@ -66,7 +65,7 @@
 
 .grade-cartoes-status {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
     width: 100%;
 }
@@ -186,20 +185,19 @@
     margin-left: 30px;
     margin-top: 46px;
     
-    /* CORREÇÕES PARA O CLIQUE */
+   
     cursor: pointer !important;
     position: relative;
     z-index: 10;
-    pointer-events: auto; /* Garante que capture o mouse */
+    pointer-events: auto; 
     
     transition: all 0.2s ease;
 }
 
 .botao-troca-lateral:hover {
     transform: translateY(-2px);
-    /* Ajustado para uma sombra que combina mais com o branco/laranja */
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-    background-color: #fffaf0; /* Leve destaque ao passar o mouse */
+    background-color: #fffaf0; 
 }
 
 .botao-troca-lateral:active {
@@ -209,5 +207,41 @@
 .texto-botao-lateral {
     text-align: left;
     color: #FF9100;
-    pointer-events: none; /* Evita que o texto interfira no clique do botão */
+    pointer-events: none; 
+}
+
+@media (max-width: 480px) {
+    .grade-cartoes-status {
+
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .cartao-pontos-destaque {
+        flex-direction: column; 
+        align-items: flex-start;
+        padding: 20px;
+    }
+
+    .grade-estatisticas-internas {
+        flex-direction: column; 
+        width: 100%;
+    }
+
+    .mini-card-transparente {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .botao-troca-lateral {
+        margin-left: 0; 
+        margin-top: 20px; 
+        width: 100%;    
+        justify-content: center;
+    }
+    
+    .texto-pontos-grande h1 {
+        font-size: 2rem; 
+    }
 }

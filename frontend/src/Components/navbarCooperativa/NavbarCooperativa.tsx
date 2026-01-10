@@ -1,39 +1,17 @@
 import "./NavbarCooperativa.css";
 import { useNavigate } from "react-router-dom";
-import IconeCooperativa from "../../assets/Logo/icone-cooperativa.png";
-import BotaoDescarte from "../BotaoDescarte/BotaoDescarte";
+import Logo from "../../assets/Logo/ecoleta-icon.png";
 import BotaoSair from "../botaoSair/BotaoSair";
-
-interface Usuario {
-  id: string;
-  nome: string;
-  tipo: string;
-}
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function NavbarCooperativa() {
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
 
-  const nomeCooperativa = (() => {
-    const idLogado = localStorage.getItem("usuarioLogadoId");
-    const usuariosRaw = localStorage.getItem("usuarios");
-
-    if (!idLogado || !usuariosRaw) return "Cooperativa";
-
-    try {
-      const usuarios: Usuario[] = JSON.parse(usuariosRaw);
-      const cooperativa = usuarios.find(
-        (u) => u.id === idLogado && u.tipo === "cooperativa"
-      );
-
-      return cooperativa?.nome || "Cooperativa";
-    } catch (error) {
-      console.error("Erro ao carregar cooperativa", error);
-      return "Cooperativa";
-    }
-  })();
+  const nomeCooperativa = user?.nome || "Cooperativa";
 
   const handleSair = () => {
-    localStorage.removeItem("usuarioLogadoId");
+    logout();
     navigate("/");
   };
 
@@ -46,22 +24,42 @@ export default function NavbarCooperativa() {
           style={{ cursor: "pointer" }}
         >
           <img
-            src={IconeCooperativa}
+            src={Logo}
             alt="Logo"
             className="imagem-logo-png"
           />
 
           <div className="identificacao">
-            <h2 className="titulo-coop">{nomeCooperativa}</h2>
-            <p className="subtitulo-coop">Painel de Gestão</p>
+            <h2 className="titulo-coop">Olá, {nomeCooperativa}!</h2>
+            <p className="subtitulo-coop">Painel da Cooperativa</p>
           </div>
         </div>
 
-        <div className="acoes-navbar">
-          <BotaoDescarte onClick={() => navigate("/guia-materiais")} />
-          <BotaoSair onSair={handleSair} />
-        </div>
+        <nav className="nav-menu">
+          <ul>
+            <li
+              className="nav-link"
+              onClick={() => navigate("/saibaMais")}> Saiba Mais
+            </li>
+
+            <li
+              className="nav-link"
+              onClick={() => navigate("/contato")}> Contato
+            </li>
+
+            <li
+              className="nav-link"
+              onClick={() => navigate("/guia-separacao")}> Guia de Separação
+            </li>
+
+            <li className="nav-item-botao">
+              <BotaoSair onSair={handleSair} /> 
+            </li>
+          </ul>
+        </nav>
+    
       </div>
+
     </nav>
   );
 }

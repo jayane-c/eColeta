@@ -10,7 +10,7 @@ const authController = new AuthController(); // Instância do Controller
 // [CREATE] Rota POST /api/v1/auth/register/morador (CADASTRO)
 router.post('/register/morador', authController.registerMorador.bind(authController));
 // [CREATE] Rota POST /api/v1/auth/login (LOGIN)
-router.post('/login', authController.loginMorador.bind(authController)); 
+router.post('/login/morador', authController.loginMorador.bind(authController)); 
 
 // --- ROTAS DE COOPERATIVA (A NOVA) ---
 // POST http://localhost:3000/auth/register/cooperativa

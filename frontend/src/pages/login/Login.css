@@ -21,6 +21,7 @@
   flex-direction: column;
   align-items: center;
   margin-bottom: 25px;
+  text-align: center;
 }
 
 .login-logo {
@@ -32,7 +33,7 @@
   color: #2D6A4F;
   font-size: 2.5rem;
   font-weight: 700;
-  margin: 5px 0;
+  margin: 0;
 }
 
 .login-subtitle {
@@ -89,10 +90,16 @@
   margin: 10px 0 0 0; 
   cursor: pointer;
   box-sizing: border-box; 
+  transition: transform 0.2s;
 }
 
 .btn-entrar:hover {
   filter: brightness(1.1);
+  transform: translateY(-1px); 
+}
+
+.btn-entrar:active {
+  transform: scale(0.98); 
 }
 
 .btn-flat {
@@ -126,4 +133,28 @@
   margin-top: 25px;
   cursor: pointer;
   font-size: 0.9rem;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 5px;
+}
+
+.text-bold {
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.3s ease; 
+  color: #1B7F64;
+}
+
+
+.text-bold:hover {
+  transform: translateY(-3px); 
+  filter: brightness(1.3); 
 }

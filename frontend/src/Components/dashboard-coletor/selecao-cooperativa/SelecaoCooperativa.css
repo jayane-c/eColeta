@@ -1,0 +1,172 @@
+.coop-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.coop-container {
+  background: white;
+  width: 90%;
+  max-width: 460px;
+  border-radius: 24px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.coop-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.coop-titulo-grupo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.coop-titulo-grupo h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.coop-icon-principal { color: #34CB79; }
+
+.coop-btn-fechar {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.coop-btn-fechar:hover { background: #f1f5f9; }
+
+.coop-body {
+  padding: 24px;
+}
+
+.coop-alerta {
+  background: #f0fdf4;
+  color: #166534;
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  border: 1px solid #bbf7d0;
+}
+
+.coop-item-card {
+  border: 2px solid #f1f5f9;
+  border-radius: 16px;
+  padding: 14px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s;
+}
+
+.coop-item-card:hover { border-color: #34CB79; }
+
+.coop-item-card.selecionado {
+  border-color: #34CB79;
+  background: #f0fff4;
+}
+
+.coop-info-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.coop-avatar {
+  width: 40px;
+  height: 40px;
+  background: #34CB79;
+  color: white;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.coop-textos {
+  display: flex;
+  flex-direction: column;
+}
+
+.coop-nome-label {
+  font-weight: 600;
+  color: #334155;
+  font-size: 0.95rem;
+}
+
+.coop-endereco-label {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.coop-radio {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #cbd5e1;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coop-radio.marcado {
+  background: #34CB79;
+  border-color: #34CB79;
+}
+
+.coop-footer {
+  padding: 16px 24px;
+  background: #f8fafc;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.coop-btn-voltar {
+  background: white;
+  border: 1px solid #cbd5e1;
+  color: #64748b;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.coop-btn-confirmar {
+  background: #34CB79;
+  color: white;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.coop-btn-confirmar:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}

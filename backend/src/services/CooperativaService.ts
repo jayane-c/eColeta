@@ -1,11 +1,12 @@
 import { AppDataSource } from "../config/database";
 import { CooperativaModel } from "../models/CooperativaModel";
 import { EnderecoModel } from "../models/EnderecoModel";
-import { ICreateCooperativaDTO } from "../DTOs/ICreateCooperativaDTO";
+import { ICreateCooperativaDTO, IUpdateCooperativaDTO } from "../DTOs/CooperativaDTO";
 import bcrypt from "bcryptjs";
 
 export class CooperativaService {
     private cooperativaRepository = AppDataSource.getRepository(CooperativaModel);
+    private enderecoRepository = AppDataSource.getRepository(EnderecoModel);
 
     async create(dados: ICreateCooperativaDTO) {
         const { nome, email, senha, cnpj, telefone, endereco } = dados;
@@ -30,23 +31,17 @@ export class CooperativaService {
             const senhaHash = await bcrypt.hash(senha, salt);
 
             const novoEndereco = queryRunner.manager.create(EnderecoModel, {
-                rua: endereco.rua,
-                cep: endereco.cep,
-                numero: endereco.numero,
-                bairro: endereco.bairro,
-                cidade: endereco.cidade, // Campos opcionais no DTO precisam ser tratados se o model exigir
-                estado: endereco.estado,
-                complemento: endereco.complemento || undefined,
+                ...endereco,
+                complemento: endereco.complemento || undefined
             });
-
-            const enderecoSalvo = await queryRunner.manager.save(novoEndereco);
+            const enderecoSalvo = await queryRunner.manager.save(EnderecoModel, novoEndereco);
 
             const novaCooperativa = queryRunner.manager.create(CooperativaModel, {
                 nome,
                 email,
                 cnpj,
                 senha: senhaHash,
-                // telefone,
+                telefone: telefone,
                 endereco: enderecoSalvo
             });
 
@@ -60,7 +55,52 @@ export class CooperativaService {
             await queryRunner.rollbackTransaction();
             throw error;
         } finally {
-            await queryRunner.release
+            await queryRunner.release();
         }
+    }
+    async findById(id: number) {
+        return await this.cooperativaRepository.findOne({
+            where: { id_cooperativa: id },
+            relations: ['endereco'] 
+        });
+    }
+    
+    async update(id: number, dados: IUpdateCooperativaDTO) {
+        const cooperativa = await this.findById(id);
+
+        if (!cooperativa) {
+            throw new Error("Cooperativa não encontrada.");
+        }
+
+        const { endereco, ...dadosDaCooperativa } = dados;
+
+        if (endereco) {
+            await this.enderecoRepository.update(
+                cooperativa.endereco.id_endereco, 
+                endereco
+            );
+        }
+
+        if (Object.keys(dadosDaCooperativa).length > 0) {
+            await this.cooperativaRepository.update(id, dadosDaCooperativa);
+        }
+
+        return this.findById(id);
+    }
+
+    async delete(id: number) {
+        const cooperativa = await this.findById(id);
+
+        if (!cooperativa) {
+            throw new Error("Cooperativa não encontrada.");
+        }
+
+        const idEndereco = cooperativa.endereco.id_endereco;
+
+        await this.cooperativaRepository.remove(cooperativa);
+
+        await this.enderecoRepository.delete(idEndereco);
+
+        return true;
     }
 }

@@ -1,22 +1,24 @@
 .barra-navegacao-coop {
-    position: sticky;
+    position: fixed; 
     top: 0;
     left: 0;
     width: 100%;
-    height: 85px;
+    height: 80px; 
     background-color: #ffffff;
     display: flex;
     align-items: center;
     border-bottom: 1px solid #f1f5f9;
+    z-index: 1000;
 }
 
 .conteudo-navegacao {
     width: 100%;
-    padding: 0 40px;
+    padding: 0 40px; 
     display: flex;
-    justify-content: space-between; 
+    justify-content: space-between;
     align-items: center;
 }
+
 
 .logo-e-texto {
     display: flex;
@@ -25,9 +27,8 @@
 }
 
 .imagem-logo-png {
-    width: 55px;
-    height: 55px;
-    object-fit: contain;
+    height: 42px; 
+    width: auto;
 }
 
 .textos-logo {
@@ -36,17 +37,16 @@
 }
 
 .titulo-coop {
-    margin: 0;
-    font-size: 1.35rem;
-    color: #064e3b;
+    font-size: 1.1rem;
+    color: #1f2937;
     font-weight: 700;
 }
 
 .subtitulo-coop {
-    margin: 0;
-    font-size: 0.85rem;
-    color: #94a3b8;
+    font-size: 0.85rem;     
+    color: #6b7280;
 }
+
 
 .acoes-navbar {
     display: flex;

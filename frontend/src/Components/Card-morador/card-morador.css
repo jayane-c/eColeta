@@ -1,5 +1,3 @@
-
-
 .card-morador-container {
     background-color: white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
@@ -23,6 +21,7 @@
 
 .card-logo-morador img {
     width: 15rem;
+    border-radius: 8px;
     
 }
 
@@ -61,4 +60,42 @@
 .btn-morador:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 1024px) {
+    .card-morador-container {
+        width: 45%; 
+    }
+
+    .card-logo-morador img {
+        width: 13rem;
+    }
+
+    .btn-morador {
+        width: 60%;
+    }
+}
+
+@media (max-width: 600px) {
+    .card-morador-container {
+        width: 100%;
+        max-width: 320px;
+    }
+
+    .card-logo-morador img {
+        width: 11rem;
+    }
+
+    .card-morador-container h3 {
+        font-size: 1.3em;
+    }
+
+    .card-morador-container p {
+        font-size: 0.9em;
+    }
+
+    .btn-morador {
+        width: 70%;
+        font-size: 0.85em;
+    }
 }

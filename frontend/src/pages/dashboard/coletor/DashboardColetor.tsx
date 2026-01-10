@@ -2,113 +2,183 @@ import CardResumo from "../../../Components/dashboard-coletor/card-resumo/CardRe
 import "./DashboardColetor.css"
 import NavbarColetor from "../../../Components/dashboard-coletor/navbar/NavbarColetor";
 import ColetasDisponiveis from "../../../Components/dashboard-coletor/coletas-disponiveis/ColetasDisponiveis";
+import ColetasAndamento from "../../../Components/dashboard-coletor/coletas-andamento/ColetasAndamento";
+import ColetasFinalizadas from "../../../Components/dashboard-coletor/coletas-finalizadas/ColetasFinalizadas";
 import { useState } from "react";
 import DetalheColetas from "../../../Components/dashboard-coletor/detalhe-coletas/DetalheColetas"
-import { Package, Truck, CheckCircle, AlertCircle } from "lucide-react";
+import { Package, Truck, CheckCircle } from "lucide-react";
+import Footer from "../../../Components/Footer/footer"
+import SelecaoCooperativa from "../../../Components/dashboard-coletor/selecao-cooperativa/SelecaoCooperativa";
+
 
 interface Coleta {
   id: string;
   material: string;
   quantidade: string;
-  peso: string; 
+  peso: string;
   endereco: string;
   distancia?: string;
+  data?: string;
+  horario?: string;
 }
 
 function DashboardColetor() {
-  const [totalDisponiveis, setTotalDisponiveis] = useState(0)
-  const [totalAndamento, setTotalAndamento] = useState(0)
-  const [totalFinalizadas, setTotalFinalizadas] = useState(0)
+  const [totalFinalizadas, setTotalFinalizadas] = useState(0);
+  const [mostrarModal, setMostrarModal] = useState(false);
+  const [filtro, setFiltro] = useState('disponiveis');
+  const [coletaParaModal, setColetaParaModal] = useState<Coleta | null>(null);
   const [coletaIniciada, setColetaIniciada] = useState(false);
 
-  const [coletaAtiva, setColetaAtiva] = useState<Coleta | null>(null);
-  const [mostrarModal, setMostrarModal] = useState(false);
+  const [listaDisponiveis, setListaDisponiveis] = useState<Coleta[]>([
+    { id: '1', material: 'Papelão', quantidade: '1', peso: '25kg', endereco: 'Rua das Flores, 123 - Centro', data: '08/01/2026', horario: '14:00' },
+    { id: '2', material: 'Plástico', quantidade: '1', peso: '15kg', endereco: 'Av. Principal, 456 - Jardins', data: '08/01/2026', horario: '16:30' },
+  ]);
 
-  const [nomeParaExibicao] = useState(() => {
-    const nomeSalvo = localStorage.getItem('@eColeta:nomeUsuario');
-    if (nomeSalvo) {
-      return nomeSalvo.split(" ").slice(0, 2).join(" ");
-    }
-    return "Coletor";
-  });
+  const [coletasAceitas, setColetasAceitas] = useState<Coleta[]>([]);
+  const [historicoFinalizadas, setHistoricoFinalizadas] = useState<Coleta[]>([]);
 
   const handleAceitarColeta = (dadosDaColeta: Coleta) => {
-    if (coletaAtiva) {
-      alert("Você já possui uma coleta em andamento! Finalize-a antes de aceitar outra.");
-      return;
-    }
-
-    setColetaAtiva(dadosDaColeta);
-    setMostrarModal(true);
-    setTotalAndamento(prev => prev + 1);
-    setTotalDisponiveis(prev => (prev > 0 ? prev - 1 : 0));
+    setColetasAceitas(prev => [...prev, dadosDaColeta]);
+    setListaDisponiveis(prev => prev.filter(item => item.id !== dadosDaColeta.id));
+    setFiltro('andamento');
   };
 
-  const handleFinalizarColeta = () => {
-    setMostrarModal(false);
-    setColetaAtiva(null);
-    setColetaIniciada(false);
-    setTotalAndamento(prev => prev - 1);
-    setTotalFinalizadas(prev => prev + 1);
+  const handleRecusarColeta = (id: string) => {
+    setListaDisponiveis(prev => prev.filter(item => item.id !== id));
+  };
+
+  const handleFinalizarColeta = (id: string) => {
+    const coletaConcluida = coletasAceitas.find(c => c.id === id) || coletaParaModal;
+
+    if (coletaConcluida) {
+      setHistoricoFinalizadas(prev => [coletaConcluida, ...prev]);
+      setColetasAceitas(prev => prev.filter(item => item.id !== id));
+      setTotalFinalizadas(prev => prev + 1);
+      setMostrarModal(false);
+      setFiltro('finalizadas');
+    }
+  };
+
+  const handleCancelarColeta = (id: string) => {
+    const confirmar = window.confirm("Tem certeza que deseja cancelar este agendamento? A coleta voltará para a lista de disponíveis.");
+
+    if (confirmar) {
+      const coletaParaVoltar = coletasAceitas.find(item => item.id === id);
+      if (coletaParaVoltar) {
+        setColetasAceitas(prev => prev.filter(item => item.id !== id));
+        setListaDisponiveis(prev => [...prev, coletaParaVoltar]);
+        setFiltro('disponiveis');
+      }
+    }
+  };
+
+  const [isSelecaoOpen, setIsSelecaoOpen] = useState(false);
+  const [coletaPendente, setColetaPendente] = useState<Coleta | null>(null);
+
+  const handleAbrirSelecao = (coleta: Coleta) => {
+    setColetaPendente(coleta);
+    setIsSelecaoOpen(true);
+  };
+
+  const confirmarSelecao = (coopId: string) => {
+    if (coletaPendente) {
+      handleAceitarColeta(coletaPendente);
+      setIsSelecaoOpen(false);
+      console.log("Coleta enviada para cooperativa:", coopId);
+    }
   };
 
   return (
     <>
-      <NavbarColetor nome={nomeParaExibicao} />
+      <NavbarColetor />
 
       <main className="dashboard-page">
         <div className="dashboard-container">
           <div className="dashboard-cards">
-            <CardResumo
-              titulo="Disponíveis"
-              valor={totalDisponiveis}
-              icon={<Package size={24} />}
-              colorClass="orange"
-            />
-            <CardResumo
-              titulo="Em Andamento"
-              valor={totalAndamento}
-              icon={<Truck size={24} />}
-              colorClass="blue"
-            />
-            <CardResumo
-              titulo="Finalizadas"
-              valor={totalFinalizadas}
-              icon={<CheckCircle size={24} />}
-              colorClass="green"
-            />
+            <div onClick={() => setFiltro('disponiveis')} className={filtro === 'disponiveis' ? 'card-selecionado' : ''}>
+              <CardResumo titulo="Disponíveis" valor={listaDisponiveis.length} icon={<Package size={24} />} colorClass="orange" />
+            </div>
+
+            <div onClick={() => setFiltro('andamento')} className={filtro === 'andamento' ? 'card-selecionado' : ''}>
+              <CardResumo titulo="Em Andamento" valor={coletasAceitas.length} icon={<Truck size={24} />} colorClass="blue" />
+            </div>
+
+            <div onClick={() => setFiltro('finalizadas')} className={filtro === 'finalizadas' ? 'card-selecionado' : ''}>
+              <CardResumo titulo="Finalizadas" valor={totalFinalizadas} icon={<CheckCircle size={24} />} colorClass="green" />
+            </div>
           </div>
 
-          {coletaAtiva && !mostrarModal && (
-            <div className="alerta-coleta-ativa" onClick={() => setMostrarModal(true)}>
-              <div className="alerta-conteudo">
-                <AlertCircle size={20} />
-                <p>Você tem uma coleta em andamento: <strong>{coletaAtiva.material}</strong></p>
-              </div>
-              <span>Clique para ver detalhes</span>
-            </div>
-          )}
+          <div className="dashboard-section-wrapper coletas-container">
 
-          <div className="dashboard-section-wrapper">
-            <ColetasDisponiveis
-              setTotalDisponiveis={setTotalDisponiveis}
-              setTotalAndamento={setTotalAndamento}
-              onAceitar={handleAceitarColeta}
-              bloquearBotao={!!coletaAtiva}
-            />
+
+            {filtro === 'disponiveis' && (
+              <div className="animar-entrada">
+                <h2 className="titulo-secao">Coletas Disponíveis</h2>
+                <ColetasDisponiveis
+                  dados={listaDisponiveis}
+                  onAceitar={handleAbrirSelecao} 
+                  onRecusar={handleRecusarColeta}
+                  bloquearBotao={false}
+                />
+              </div>
+            )}
+
+
+            {filtro === 'andamento' && (
+              <div className="animar-entrada">
+                <h2 className="titulo-secao andamento">Coletas em Andamento</h2>
+
+                {coletasAceitas.length > 0 ? (
+                  <div className="lista-cards-stack">
+                    {coletasAceitas.map(item => (
+                      <ColetasAndamento
+                        key={item.id}
+                        coleta={item}
+                        onFinalizar={() => handleFinalizarColeta(item.id)}
+                        onCancelar={() => handleCancelarColeta(item.id)}
+                        onVerDetalhes={() => {
+                          setColetaParaModal(item);
+                          setMostrarModal(true);
+                        }}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="sem-dados">
+                    <Truck size={48} color="#cbd5e0" />
+                    <p>Nenhuma coleta em andamento.</p>
+                  </div>
+                )}
+              </div>
+            )}
+
+
+            {filtro === 'finalizadas' && (
+              <div className="animar-entrada">
+                <h2 className="titulo-secao finalizadas">Coletas Finalizadas</h2>
+                <ColetasFinalizadas dados={historicoFinalizadas} />
+              </div>
+            )}
           </div>
         </div>
 
-        {mostrarModal && coletaAtiva && (
+        {mostrarModal && coletaParaModal && (
           <DetalheColetas
-            coleta={coletaAtiva}
+            coleta={coletaParaModal}
             onClose={() => setMostrarModal(false)}
-            onFinalizar={handleFinalizarColeta}
+            onFinalizar={() => handleFinalizarColeta(coletaParaModal.id)}
             iniciada={coletaIniciada}
             setIniciada={setColetaIniciada}
           />
         )}
+        <SelecaoCooperativa
+          isOpen={isSelecaoOpen}
+          onClose={() => setIsSelecaoOpen(false)}
+          onConfirm={confirmarSelecao}
+        />
+
       </main>
+      <Footer />
     </>
   );
 }

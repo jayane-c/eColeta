@@ -1,36 +1,65 @@
 .card-resumo {
-    background-color: #ffffff;
     border-radius: 12px;
-    padding: 20px;
+    padding: 24px;
     display: flex;
     align-items: center; 
-    gap: 15px;          
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); 
+    gap: 18px;          
     width: 100%;
-    border: 1px solid #e2e8f0;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    
+
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.card-resumo:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    filter: brightness(1.1); 
+}
+
+
+.card-resumo.orange {
+    background: linear-gradient(135deg, #f2994a, #f2c94c);
+}
+
+.card-resumo.blue {
+    background: linear-gradient(135deg, #2d9cdb, #56ccf2);
+}
+
+.card-resumo.green {
+    background: linear-gradient(135deg, #27ae60, #6fcf97);
+}
+
+
+.card-resumo h3, .card-resumo p {
+    color: #ffffff !important;
+    margin: 0;
 }
 
 .card-resumo p {
-    margin: 0;
-    font-size: 0.875rem;
-    color: #64748b; 
+    font-size: 0.9rem;
     font-weight: 500;
+    opacity: 0.9;
 }
 
 .card-resumo h3 {
-    margin: 0;
-    font-size: 1.5rem;
-    color: #1e293b; 
-    font-weight: 700;
+    font-size: 1.8rem;
+    font-weight: 800;
 }
 
 
 .card-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 10px;
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
-} 
+    background: rgba(255, 255, 255, 0.25); 
+    color: white;
+    backdrop-filter: blur(4px);
+}

@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { AuthProvider } from "../contexts/AuthContext"
 import Home from '../pages/home/home'
 import CadastroMorador from "../pages/cadastro/morador/CadastroMorador"
 import CadastroColetor from "../pages/cadastro/coletor/CadastroColetor"
@@ -9,26 +10,34 @@ import PerfilColetor from "../pages/perfil-coletor/PerfilColetor"
 import DashboardCooperativa from "../pages/dashboard/cooperativa/DashboardCooperativa"
 import GuiaSeparacao from "../pages/guia-separacao/Guiaseparacao"
 import PontosMorador from "../Components/pontosMorador/PontosMorador"
-
+import { SaibaMais } from '../Components/saibaMais/SaibaMais';
 import Login from "../pages/login/Login"
+import PerfilMorador from "../Components/perfilMorador/PerfilMorador"
 
 function AppRoutes() {
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/cadastro-morador" element={<CadastroMorador />} />
-                <Route path="/cadastro-coletor" element={<CadastroColetor />} />
-                <Route path="/cadastro-cooperativa" element={<CadastroCooperativa />} />
-                <Route path="/dashboard-coletor" element={<DashboardColetor />} />
-                <Route path="/dashboard-morador" element={<DashboardMorador/>}/>
-                <Route path="/perfil" element={<PerfilColetor />} />
-                <Route path="/dashboard-cooperativa" element={<DashboardCooperativa/>} />
-                <Route path="/guia-separacao" element={<GuiaSeparacao/>} />
-                <Route path="/pontos-morador" element={<PontosMorador />} />
-                <Route path="/login" element={<Login/>} />
-            </Routes>
-        </BrowserRouter>
+        <AuthProvider>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/saibaMais" element={<SaibaMais/>} />
+                    <Route path="/cadastro-morador" element={<CadastroMorador />} />
+                    <Route path="/cadastro-coletor" element={<CadastroColetor />} />
+                    <Route path="/cadastro-cooperativa" element={<CadastroCooperativa />} />
+                    <Route path="/dashboard-coletor" element={<DashboardColetor />} />
+                    <Route path="/dashboard-morador" element={<DashboardMorador/>}/>
+                    <Route path="/perfil" element={<PerfilColetor />} />
+                    <Route path="/dashboard-cooperativa" element={<DashboardCooperativa/>} />
+                    <Route path="/guia-separacao" element={<GuiaSeparacao/>} />
+                    <Route path="/pontos-morador" element={<PontosMorador />} />
+                    <Route path="/login" element={<Login/>} />
+                    <Route path="/PerfilMorador" element={<PerfilMorador/>} />
+                    
+                   
+                   
+                </Routes>
+            </BrowserRouter>
+        </AuthProvider>
 
     )
 }

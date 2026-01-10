@@ -1,46 +1,46 @@
 .dashboard-page {
-    background-color: #f0fdfa;
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+  background-color: #f0fdfa;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 
 .dashboard-container {
-    width: 100%;
-    padding: 32px;
-    display: flex;
-    flex-direction: column;
-    gap: 32px; 
-    box-sizing: border-box; 
+  width: 100%;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  box-sizing: border-box;
 }
 
 
 .dashboard-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  width: 100%;
 }
 
 
 .dashboard-title {
-    font-size: 1.5rem;
-    color: #115e59;
-    font-weight: 600;
-    margin: 0;
+  font-size: 1.5rem;
+  color: #115e59;
+  font-weight: 600;
+  margin: 0;
 }
 
 .dashboard-section-wrapper {
-    width: 100%;
-    background-color: #ffffff;
-    border: 2px solid #e2e8f0; 
-    border-radius: 12px;       
-    padding: 24px;             
-    margin-top: 32px;         
-    box-sizing: border-box;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02); 
+  width: 100%;
+  background-color: #ffffff;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 32px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
 }
 
 .alerta-coleta-ativa {
@@ -57,6 +57,133 @@
 }
 
 @keyframes slideIn {
-  from { opacity: 0; transform: translateX(-10px); }
-  to { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.alerta-conteudo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.alerta-conteudo p {
+  margin: 0;
+  align-items: center;
+}
+
+
+@media (max-width: 1024px) {
+  .dashboard-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 16px;
+  }
+
+  .dashboard-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .coleta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .coleta-info {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .coleta-actions {
+    display: flex;
+    width: 100%;
+    gap: 12px;
+  }
+
+  .coleta-actions button {
+    flex: 1;
+    height: 48px;
+    font-size: 14px;
+    border-radius: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .coleta-actions {
+    flex-direction: column;
+  }
+
+  .coleta-actions button {
+    width: 100%;
+  }
+}
+
+
+.card-selecionado {
+  transform: translateY(-12px); 
+  transition: all 0.3s ease; 
+  filter: drop-shadow(0px 10px 15px rgba(0, 0, 0, 0.2)); 
+}
+
+.dashboard-cards > div {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+/* 1. Define a animação: de invisível e um pouco abaixo para visível na posição correta */
+@keyframes surgirSuave {
+  from {
+    opacity: 0;
+    transform: translateY(15px); /* Deslocamento inicial para baixo */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0); 
+  }
+}
+
+
+.animar-entrada {
+ 
+  animation: surgirSuave 0.6s ease-out forwards;
+}
+
+
+.sem-dados {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  color: #a0aec0;
+  text-align: center;
+  gap: 15px;
+}
+
+.sem-dados p {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.lista-cards-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Espaço entre cada card de coleta */
+  width: 100%;
 }
