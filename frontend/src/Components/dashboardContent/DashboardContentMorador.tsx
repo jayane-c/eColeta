@@ -95,7 +95,6 @@ export default function DashboardContentMorador() {
                     </div>
                 </div>
                 
-                {/* ATUALIZADO: Botão agora navega para a tela de pontos */}
                 <button 
                     className="botao-troca-lateral" 
                     onClick={() => navigate('/pontos-morador')}
