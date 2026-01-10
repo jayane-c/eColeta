@@ -44,7 +44,6 @@
 
 .nav-menu li:hover {
     color: #0c9f6e;
-
 }
 
 .btn-entrar-fix {
@@ -62,4 +61,34 @@
 .btn-entrar-fix:hover {
     background-color: #086328;
     transform: scale(1.02);
+}
+
+
+
+@media (max-width: 850px) {
+    .header-fix {
+        padding: 15px 20px;
+    }
+
+    .header-content {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .nav-menu {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .nav-menu ul {
+        gap: 15px;
+        flex-wrap: wrap; 
+        justify-content: center;
+    }
+
+    .btn-entrar-fix {
+        padding: 8px 20px;
+        width: 100%; 
+        max-width: 150px;
+    }
 }

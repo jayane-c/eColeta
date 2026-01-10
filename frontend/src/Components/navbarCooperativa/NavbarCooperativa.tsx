@@ -39,12 +39,12 @@ export default function NavbarCooperativa() {
           <ul>
             <li
               className="nav-link"
-              onClick={() => navigate("/saibaMais")}> Saiba Mais
+              onClick={() => navigate("/")}> Home
             </li>
 
             <li
               className="nav-link"
-              onClick={() => navigate("/contato")}> Contato
+              onClick={() => navigate("/saibaMais")}> Saiba Mais
             </li>
 
             <li
@@ -57,9 +57,7 @@ export default function NavbarCooperativa() {
             </li>
           </ul>
         </nav>
-    
       </div>
-
     </nav>
   );
 }

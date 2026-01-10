@@ -1,34 +1,52 @@
 .footer {
   background: linear-gradient(180deg, #065f46, #064e3b);
   color: #e5f9f2;
-  padding: 2.2rem 3rem 1.2rem;
+  padding: 3rem 2rem 1.5rem;
   font-family: "Inter", sans-serif;
 }
 
 .footer-container {
-  max-width: 1280px;
-  margin: auto;
-  display: grid;
-  grid-template-columns: 2.2fr 1.2fr 1.4fr 1.2fr;
-  gap: 3rem;
-  align-items: flex-start;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; 
+  gap: 2rem;
+}
+
+.footer-marca, 
+.footer-links, 
+.footer-contato {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;   
+  text-align: center;   
+}
+
+.footer-marca {
+  margin-top: -12px;      
 }
 
 .footer-logo {
   display: flex;
   align-items: center;
   gap: 0.6rem;
+  justify-content: center;
 }
 
 .footer-icone-localizacao {
   width: 26px;
   height: 26px;
-  color: #22c55e;
+  color: #22c55e;         
 }
 
 .footer-logo h2 {
-  font-size: 1.7rem;
-  font-weight: 600;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0;
+  color: #ffffff;
+   margin-right: 12px; 
 }
 
 .footer-slogan {
@@ -40,106 +58,98 @@
 
 .footer-descricao {
   margin: 1.2rem 0;
-  line-height: 1.7;
-  max-width: 380px;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  max-width: 280px;
 }
 
-.footer-selo {
-  margin-top: 0.8rem;
-  background: rgba(34, 197, 94, 0.15);
-  padding: 0.5rem 1rem;
-  border-radius: 999px;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.8rem;
-}
-
-.footer-links h4,
-.footer-contato h4 {
-  font-size: 1rem;
-  margin-bottom: 1rem;
+h4 {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
   font-weight: 600;
+  color: #ffffff;
 }
 
 .footer-links ul {
   list-style: none;
   padding: 0;
   margin: 0;
-}
-
-.footer-links li {
-  margin-bottom: 0.7rem;
-  font-size: 0.9rem;
-  color: #d1fae5;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;           
 }
 
 .footer-links li a {
-  color: inherit;
+  color: #d1fae5;
   text-decoration: none;
+  font-size: 0.95rem;
 }
 
-.footer-links li a:hover {
-  text-decoration: underline;
+.footer-contato-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;   
+  gap: 1rem;              
 }
 
-.footer-contato .contato-item {
+.contato-item {
   display: flex;
   align-items: center;
   gap: 0.7rem;
-  margin-bottom: 0.9rem;
-  font-size: 0.9rem;
   color: #d1fae5;
+}
+
+.footer-selo {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .footer-divisor {
-  margin: 2.5rem auto 1.2rem;
-  max-width: 1280px;
+  margin: 2.5rem auto 1.5rem;
+  max-width: 1200px;
   border: none;
   height: 1px;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.1);
 }
 
-.footer-inferior {
-  max-width: 1280px;
-  margin: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.85rem;
-  color: #d1fae5;
-}
-
-.footer-impacto {
-  margin: 1.4rem auto 0;
-  max-width: 1280px;
-  background: rgba(0, 0, 0, 0.18);
-  border-radius: 14px;
-  padding: 0.6rem 1rem;
+.footer-inferior, .footer-impacto {
   text-align: center;
+  font-size: 0.9rem;
+  color: #a7f3d0;
+  margin-bottom: 1rem;
+}
+.footer-impacto {
+  display: flex;
+  align-items: center;  
+  justify-content: center; 
+  gap: 8px;               
   font-size: 0.85rem;
-  color: #e5f9f2;
+  color: #a7f3d0;
+  margin-top: 10px;
 }
 
-@media (max-width: 900px) {
+.footer-icone-impacto {
+  color: #22c55e;        
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
   .footer-container {
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+  }
+
+  .footer-marca {
+    margin-top: 0; 
   }
 
   .footer-descricao {
-    max-width: 100%;
-  }
-}
-
-@media (max-width: 600px) {
-  .footer-container {
-    grid-template-columns: 1fr;
-  }
-
-  .footer-inferior {
-    flex-direction: column;
-    gap: 0.6rem;
-    text-align: center;
+    max-width: 100%; 
   }
 }
