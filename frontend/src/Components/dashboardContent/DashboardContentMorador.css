@@ -1,12 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
 .conteudo-principal-recipiente {
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: 25px;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     padding-top: 90px;
 }
 
+/* --- BOTÃO SOLICITAR --- */
 .container-botao-topo {
     display: flex;
     justify-content: flex-start;
@@ -17,18 +20,14 @@
     background: linear-gradient(135deg, #2f80ff, #1c6eff);
     color: #ffffff;
     border: none;
-
     padding: 14px 30px;
     border-radius: 999px;
-
     display: inline-flex;
     align-items: center;
     gap: 12px;
-
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
-
     box-shadow: 0 10px 20px rgba(46, 128, 255, 0.25);
     transition: all 0.3s ease;
 }
@@ -38,17 +37,7 @@
     box-shadow: 0 14px 26px rgba(46, 128, 255, 0.35);
 }
 
-.botao-solicitar-coleta:active {
-    transform: translateY(0);
-    box-shadow: 0 8px 16px rgba(46, 128, 255, 0.25);
-}
-
-.icone-mais {
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 1;
-}
-
+/* --- CARD DE PONTOS --- */
 .cartao-pontos-destaque {
     background: linear-gradient(90deg, #FF9100 0%, #FF7000 100%);
     border-radius: 20px;
@@ -62,32 +51,61 @@
     box-sizing: border-box;
 }
 
-
+/* --- GRADE DE STATUS (ESTILO COLETOR) --- */
 .grade-cartoes-status {
     display: grid;
-   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
     width: 100%;
+    padding: 10px 0;
 }
 
 .cartao-status-individual {
     background: white;
-    border-radius: 20px;
-    padding: 20px;
+    border-radius: 16px;
+    padding: 24px;
     display: flex;
     align-items: center;
-    gap: 15px;
-    border: 1px solid #f0f0f0;
+    gap: 16px;
+    border: none; /* Borda removida como solicitado */
+    cursor: pointer !important;
+    
+    /* Transição mais lenta para troca de card */
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
+/* Efeito de Hover */
+.cartao-status-individual:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* CARD ATIVO (PERMANECE ELEVADO) */
+.cartao-status-individual.ativo {
+    transform: translateY(-10px); /* Fica mais alto que o hover */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12); /* Sombra mais profunda */
+    background-color: #ffffff;
+}
+
+/* CORES DOS ÍCONES IGUAIS AO COLETOR */
 .icone-status {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
+    width: 54px;
+    height: 54px;
+    border-radius: 14px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-shrink: 0;
+    transition: transform 0.3s ease;
+}
+
+.fundo-laranja { background: #FFF4E5; } /* Pendente */
+.fundo-azul { background: #E6F0FF; }    /* Em Coleta */
+.fundo-verde { background: #E6FCF5; }   /* Coletado */
+
+.cartao-status-individual.ativo .icone-status {
+    transform: scale(1.1);
 }
 
 .texto-status {
@@ -96,33 +114,21 @@
 }
 
 .titulo-status {
-    color: #64748b;
-    font-size: 0.85rem;
-    margin: 0;
+    color: #718096;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
 }
 
 .valor-status {
-    font-size: 1.3rem;
-    color: #333;
-    font-weight: bold;
-    margin: 0;
+    font-size: 1.6rem;
+    color: #1a202c;
+    font-weight: 800;
 }
 
-.fundo-laranja {
-    background: #fff4e5;
-}
-
-.fundo-azul {
-    background: #e6f0ff;
-}
-
-.fundo-verde {
-    background: #e6fcf5;
-}
-
-.painel-pontos-esquerda {
-    flex: 1;
-}
+/* --- OUTROS ELEMENTOS --- */
+.painel-pontos-esquerda { flex: 1; }
 
 .cabecalho-principal {
     display: flex;
@@ -140,6 +146,7 @@
 .texto-pontos-grande h1 {
     margin: 0;
     font-size: 2.5rem;
+    font-weight: 800;
 }
 
 .grade-estatisticas-internas {
@@ -153,12 +160,11 @@
     border-radius: 15px;
     padding: 15px 20px;
     flex: 1;
-    display: flex;
-    flex-direction: column;
 }
 
 .mini-card-transparente strong {
     font-size: 1.8rem;
+    display: block;
     margin-top: 5px;
 }
 
@@ -171,77 +177,91 @@
     align-items: center;
     gap: 12px;
     margin-left: 30px;
-    margin-top: 46px;
     cursor: pointer;
-}
-.botao-troca-lateral {
-    background: white;
-    border: none;
-    padding: 15px 25px;
-    border-radius: 15px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-left: 30px;
-    margin-top: 46px;
-    
-   
-    cursor: pointer !important;
-    position: relative;
-    z-index: 10;
-    pointer-events: auto; 
-    
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
+    font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
 .botao-troca-lateral:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-    background-color: #fffaf0; 
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
 
-.botao-troca-lateral:active {
-    transform: translateY(0);
-}
-
-.texto-botao-lateral {
-    text-align: left;
-    color: #FF9100;
-    pointer-events: none; 
-}
-
-@media (max-width: 480px) {
-    .grade-cartoes-status {
-
-        grid-template-columns: 1fr;
-    }
-}
-
+/* Responsividade */
 @media (max-width: 768px) {
-    .cartao-pontos-destaque {
-        flex-direction: column; 
-        align-items: flex-start;
-        padding: 20px;
-    }
+    .grade-cartoes-status { grid-template-columns: 1fr; }
+    .cartao-pontos-destaque { flex-direction: column; gap: 20px; }
+    .botao-troca-lateral { margin-left: 0; width: 100%; justify-content: center; }
+}
 
-    .grade-estatisticas-internas {
-        flex-direction: column; 
-        width: 100%;
-    }
 
-    .mini-card-transparente {
-        width: 100%;
-        box-sizing: border-box;
-    }
+/* --- GRADE DE STATUS --- */
+.grade-cartoes-status {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    width: 100%;
+    padding: 15px 0;
+}
 
-    .botao-troca-lateral {
-        margin-left: 0; 
-        margin-top: 20px; 
-        width: 100%;    
-        justify-content: center;
-    }
-    
-    .texto-pontos-grande h1 {
-        font-size: 2rem; 
-    }
+.cartao-status-individual {
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border: none;
+    cursor: pointer !important;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.cartao-status-individual.pendente-click {
+    background: linear-gradient(135deg, #f2994a, #f2c94c);
+}
+
+.cartao-status-individual.coleta-click {
+   background: linear-gradient(135deg, #2d9cdb, #56ccf2);
+}
+
+.cartao-status-individual.coletado-click {
+     background: linear-gradient(135deg, #27ae60, #6fcf97);
+}
+
+.cartao-status-individual .titulo-status,
+.cartao-status-individual .valor-status,
+.cartao-status-individual svg {
+    color: white !important;
+}
+
+
+.cartao-status-individual.ativo {
+    transform: translateY(-15px); 
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
+}
+
+.cartao-status-individual:hover {
+    transform: translateY(-5px);
+}
+
+.icone-status {
+    width: 54px;
+    height: 54px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.2); 
+}
+
+.titulo-status {
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    opacity: 0.9;
+}
+
+.valor-status {
+    font-size: 1.8rem;
+    font-weight: 800;
 }

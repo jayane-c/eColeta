@@ -152,3 +152,37 @@
   padding: 40px;
   color: #cbd5e0;
 }
+
+.titulo-secao {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: -0.03em; 
+  color: #1a202c; /* Cor fixa para o nome */
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* A Barrinha Base */
+.titulo-secao::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 32px;
+  border-radius: 4px;
+  transition: background 0.4s ease; 
+}
+
+.titulo-secao.pendente::before {
+  background: linear-gradient(to bottom, #f2994a, #eb5757);
+}
+
+.titulo-secao.em-coleta::before {
+  background: linear-gradient(to bottom, #4299e1, #3182ce);
+}
+
+.titulo-secao.coletado::before {
+  background: linear-gradient(to bottom, #48bb78, #38a169);
+}
