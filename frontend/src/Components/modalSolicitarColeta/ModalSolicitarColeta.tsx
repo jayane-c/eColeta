@@ -22,14 +22,12 @@ export default function ModalSolicitarColeta({ isOpen, onClose }: ModalProps) {
   const [horario, setHorario] = useState('');
   const [materiaisSelecionados, setMateriaisSelecionados] = useState<string[]>([]);
 
-  // ===============================
-  // ENVIA A COLETA PARA O HISTÓRICO
-  // ===============================
+
+
   const handleSubmit = () => {
-  // 1. Verificação de campos obrigatórios
   if (!cep || !rua || !peso || !dataColeta || !horario || materiaisSelecionados.length === 0) {
     alert('Por favor, preencha todos os campos e selecione pelo menos um tipo de material.');
-    return; // Interrompe a função aqui
+    return;
   }
 
     const idLogado = localStorage.getItem('usuarioLogadoId');
@@ -70,7 +68,7 @@ Swal.fire({
   confirmButtonText: 'Entendido'
 }).then((result) => {
   if (result.isConfirmed) {
-      onClose(); // Isso vai disparar o handleFecharModal com a rolagem
+      onClose(); 
   }
 });
 
@@ -81,9 +79,7 @@ Swal.fire({
     onClose();
   };
 
-  // ===============================
-  // BUSCA CEP
-  // ===============================
+
   const handleCepBlur = async () => {
     const cleanCep = cep.replace(/\D/g, '');
     if (cleanCep.length === 8) {

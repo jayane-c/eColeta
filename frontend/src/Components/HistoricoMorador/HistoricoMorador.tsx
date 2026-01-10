@@ -16,7 +16,6 @@ interface Usuario {
   historico: Coleta[];
 }
 
-// Interface para receber o filtro do Dashboard
 interface Props {
   filtroStatus?: 'Pendente' | 'Em Coleta' | 'Coletado';
 }
@@ -52,7 +51,6 @@ const HistoricoMorador = ({ filtroStatus }: Props) => {
 
     let lista = usuarioAtual.historico ? [...usuarioAtual.historico] : [];
 
-    // Lógica de filtro: Só mostra o que o usuário clicou no Dashboard
     if (filtroStatus) {
       lista = lista.filter(c => c.status === filtroStatus);
     }
@@ -87,7 +85,7 @@ const HistoricoMorador = ({ filtroStatus }: Props) => {
     carregarDados();
     window.addEventListener('storage', carregarDados);
     return () => window.removeEventListener('storage', carregarDados);
-  }, [filtroStatus]); // Recarrega sempre que o filtro mudar
+  }, [filtroStatus]); 
 
   const handleInfo = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -136,7 +134,6 @@ const HistoricoMorador = ({ filtroStatus }: Props) => {
                 </div>
 
                 <div className="actions-section">
-                  {/* O botão cancelar só aparece em coletas Pendentes */}
                   {coleta.status === 'Pendente' && (
                     <button
                       className="btn-cancelar-estilizado"

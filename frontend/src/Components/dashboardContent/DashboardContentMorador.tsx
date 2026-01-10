@@ -146,7 +146,6 @@ export default function DashboardContentMorador() {
                 </div>
             </div>
 
-            {/* O histórico agora recebe o filtro e renderiza com animação interna */}
             <HistoricoMorador filtroStatus={filtroAtivo} />
 
         <ModalSolicitarColeta isOpen={isModalOpen} onClose={handleFecharModal} />
