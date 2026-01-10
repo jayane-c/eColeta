@@ -9,9 +9,9 @@
   max-width: 1280px;
   margin: auto;
   display: grid;
-  grid-template-columns: 2.2fr 1.2fr 1.4fr 1.2fr; 
+  grid-template-columns: 2.2fr 1.2fr 1.4fr 1.2fr;
   gap: 3rem;
-  align-items: flex-start; 
+  align-items: flex-start;
 }
 
 .footer-logo {
@@ -65,12 +65,22 @@
 .footer-links ul {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .footer-links li {
   margin-bottom: 0.7rem;
   font-size: 0.9rem;
   color: #d1fae5;
+}
+
+.footer-links li a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.footer-links li a:hover {
+  text-decoration: underline;
 }
 
 .footer-contato .contato-item {
@@ -81,7 +91,6 @@
   font-size: 0.9rem;
   color: #d1fae5;
 }
-
 
 .footer-divisor {
   margin: 2.5rem auto 1.2rem;
