@@ -4,6 +4,7 @@ import {
   Droplets, Clock, Calendar as CalendarIcon
 } from 'lucide-react';
 import './ModalSolicitarColeta.css';
+import Swal from "sweetalert2"
 
 interface ModalProps {
   isOpen: boolean;
@@ -21,10 +22,14 @@ export default function ModalSolicitarColeta({ isOpen, onClose }: ModalProps) {
   const [horario, setHorario] = useState('');
   const [materiaisSelecionados, setMateriaisSelecionados] = useState<string[]>([]);
 
-  // ===============================
-  // ENVIA A COLETA PARA O HISTÓRICO
-  // ===============================
+
+
   const handleSubmit = () => {
+  if (!cep || !rua || !peso || !dataColeta || !horario || materiaisSelecionados.length === 0) {
+    alert('Por favor, preencha todos os campos e selecione pelo menos um tipo de material.');
+    return;
+  }
+
     const idLogado = localStorage.getItem('usuarioLogadoId');
     const usuariosRaw = localStorage.getItem('usuarios');
 
@@ -54,14 +59,27 @@ export default function ModalSolicitarColeta({ isOpen, onClose }: ModalProps) {
       return u;
     });
 
-    localStorage.setItem('usuarios', JSON.stringify(usuariosAtualizados));
+   localStorage.setItem('usuarios', JSON.stringify(usuariosAtualizados));
 
+Swal.fire({
+  title: 'Solicitação Enviada!',
+  text: 'Obrigado por colaborar com o meio ambiente. Acompanhe o status no seu histórico.',
+  icon: 'success',
+  confirmButtonText: 'Entendido'
+}).then((result) => {
+  if (result.isConfirmed) {
+      onClose(); 
+  }
+});
+
+    setPeso('');                  
+    setDataColeta('');            
+    setHorario('');              
+    setMateriaisSelecionados([]);
     onClose();
   };
 
-  // ===============================
-  // BUSCA CEP
-  // ===============================
+
   const handleCepBlur = async () => {
     const cleanCep = cep.replace(/\D/g, '');
     if (cleanCep.length === 8) {

@@ -152,3 +152,36 @@
   padding: 40px;
   color: #cbd5e0;
 }
+.titulo-secao {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 25px;
+    font-size: 1.3rem !important; 
+    font-weight: 700;
+    color: #014321;
+    
+   
+    text-transform: none; 
+    letter-spacing: -0.02em;
+}
+
+.titulo-secao::before {
+    content: "";
+    display: inline-block;
+    width: 5px;
+    height: 24px; 
+    border-radius: 4px;
+}
+
+.titulo-secao.pendente::before {
+  background: linear-gradient(to bottom, #f2994a, #eb5757);
+}
+
+.titulo-secao.em-coleta::before {
+  background: linear-gradient(to bottom, #4299e1, #3182ce);
+}
+
+.titulo-secao.coletado::before {
+  background: linear-gradient(to bottom, #48bb78, #38a169);
+}

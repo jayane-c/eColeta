@@ -112,24 +112,20 @@ function CadastroColetor() {
     try {
       setCarregando(true);
       
-      // 1. Faz o Cadastro
       console.log("Cadastrando usuário...");
       await api.post('/auth/register/ecoletor', payload);
 
-      // 2. Se não deu erro no cadastro, faz o Login Automático (Auto-Login)
       console.log("Realizando login automático...");
       const loginResponse = await api.post('/auth/login/ecoletor', {
         email: email.toLowerCase().trim(),
         senha: senha
       });
 
-      // 3. Pega o token e salva
       const { token, user } = loginResponse.data;
       login(user, token);
 
       alert("Bem-vindo ao eColeta! Seu cadastro foi realizado.");
       
-      // 4. Redireciona direto para o Dashboard
       navigate("/dashboard-coletor");
 
     } catch (error: any) {
