@@ -8,6 +8,8 @@ import { useState } from "react";
 import DetalheColetas from "../../../Components/dashboard-coletor/detalhe-coletas/DetalheColetas"
 import { Package, Truck, CheckCircle } from "lucide-react";
 import Footer from "../../../Components/Footer/footer"
+import SelecaoCooperativa from "../../../Components/dashboard-coletor/selecao-cooperativa/SelecaoCooperativa";
+
 
 interface Coleta {
   id: string;
@@ -26,7 +28,7 @@ function DashboardColetor() {
   const [filtro, setFiltro] = useState('disponiveis');
   const [coletaParaModal, setColetaParaModal] = useState<Coleta | null>(null);
   const [coletaIniciada, setColetaIniciada] = useState(false);
-  
+
   const [listaDisponiveis, setListaDisponiveis] = useState<Coleta[]>([
     { id: '1', material: 'Papelão', quantidade: '1', peso: '25kg', endereco: 'Rua das Flores, 123 - Centro', data: '08/01/2026', horario: '14:00' },
     { id: '2', material: 'Plástico', quantidade: '1', peso: '15kg', endereco: 'Av. Principal, 456 - Jardins', data: '08/01/2026', horario: '16:30' },
@@ -38,7 +40,7 @@ function DashboardColetor() {
   const handleAceitarColeta = (dadosDaColeta: Coleta) => {
     setColetasAceitas(prev => [...prev, dadosDaColeta]);
     setListaDisponiveis(prev => prev.filter(item => item.id !== dadosDaColeta.id));
-    setFiltro('andamento'); 
+    setFiltro('andamento');
   };
 
   const handleRecusarColeta = (id: string) => {
@@ -59,7 +61,7 @@ function DashboardColetor() {
 
   const handleCancelarColeta = (id: string) => {
     const confirmar = window.confirm("Tem certeza que deseja cancelar este agendamento? A coleta voltará para a lista de disponíveis.");
-    
+
     if (confirmar) {
       const coletaParaVoltar = coletasAceitas.find(item => item.id === id);
       if (coletaParaVoltar) {
@@ -67,6 +69,22 @@ function DashboardColetor() {
         setListaDisponiveis(prev => [...prev, coletaParaVoltar]);
         setFiltro('disponiveis');
       }
+    }
+  };
+
+  const [isSelecaoOpen, setIsSelecaoOpen] = useState(false);
+  const [coletaPendente, setColetaPendente] = useState<Coleta | null>(null);
+
+  const handleAbrirSelecao = (coleta: Coleta) => {
+    setColetaPendente(coleta);
+    setIsSelecaoOpen(true);
+  };
+
+  const confirmarSelecao = (coopId: string) => {
+    if (coletaPendente) {
+      handleAceitarColeta(coletaPendente);
+      setIsSelecaoOpen(false);
+      console.log("Coleta enviada para cooperativa:", coopId);
     }
   };
 
@@ -91,32 +109,32 @@ function DashboardColetor() {
           </div>
 
           <div className="dashboard-section-wrapper coletas-container">
-            
-           
+
+
             {filtro === 'disponiveis' && (
               <div className="animar-entrada">
                 <h2 className="titulo-secao">Coletas Disponíveis</h2>
                 <ColetasDisponiveis
-                  dados={listaDisponiveis} 
-                  onAceitar={handleAceitarColeta}
+                  dados={listaDisponiveis}
+                  onAceitar={handleAbrirSelecao} 
                   onRecusar={handleRecusarColeta}
-                  bloquearBotao={false} 
+                  bloquearBotao={false}
                 />
               </div>
             )}
 
-         
+
             {filtro === 'andamento' && (
               <div className="animar-entrada">
                 <h2 className="titulo-secao andamento">Coletas em Andamento</h2>
-                
+
                 {coletasAceitas.length > 0 ? (
                   <div className="lista-cards-stack">
                     {coletasAceitas.map(item => (
-                      <ColetasAndamento 
+                      <ColetasAndamento
                         key={item.id}
-                        coleta={item} 
-                        onFinalizar={() => handleFinalizarColeta(item.id)} 
+                        coleta={item}
+                        onFinalizar={() => handleFinalizarColeta(item.id)}
                         onCancelar={() => handleCancelarColeta(item.id)}
                         onVerDetalhes={() => {
                           setColetaParaModal(item);
@@ -134,7 +152,7 @@ function DashboardColetor() {
               </div>
             )}
 
-          
+
             {filtro === 'finalizadas' && (
               <div className="animar-entrada">
                 <h2 className="titulo-secao finalizadas">Coletas Finalizadas</h2>
@@ -153,6 +171,12 @@ function DashboardColetor() {
             setIniciada={setColetaIniciada}
           />
         )}
+        <SelecaoCooperativa
+          isOpen={isSelecaoOpen}
+          onClose={() => setIsSelecaoOpen(false)}
+          onConfirm={confirmarSelecao}
+        />
+
       </main>
       <Footer />
     </>
