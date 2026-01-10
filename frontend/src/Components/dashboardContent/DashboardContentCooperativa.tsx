@@ -1,14 +1,22 @@
 import "./DashBoardContentCooperativa.css";
-import { Package, Scale, BarChart3, Calendar, X } from "lucide-react";
-import { useState } from "react";
+import { 
+  Clock, MapPin, Calendar, 
+  Check, Scale, X, History, User, Truck, AlertTriangle, 
+} from "lucide-react";
+import { useState, useEffect } from "react";
 
 interface Coleta {
   id: string;
   material: string;
   quantidade: string;
-  status: 'Pendente' | 'Em Coleta' | 'Coletado';
+  status: 'Pendente' | 'Em Coleta' | 'Coletado' | 'Recusado';
   data: string;
   peso: number;
+  coletorNome?: string;
+  coletorId?: string;
+  motivoRecusa?: string;
+  endereco?: string;
+  horario?: string;
 }
 
 interface Usuario {
@@ -19,184 +27,205 @@ interface Usuario {
   pontos?: number;
 }
 
+interface ItemColetaExtendida extends Coleta {
+  moradorNome: string;
+  moradorId: string;
+}
+
 export default function DashBoardContentCooperativa() {
-  const [coletaSelecionada, setColetaSelecionada] = useState<{moradorId: string, coleta: Coleta} | null>(null);
-  const [novoPeso, setNovoPeso] = useState("");
-  const [novoStatus, setNovoStatus] = useState<Coleta['status']>('Pendente');
+  const [abaAtiva, setAbaAtiva] = useState<'Em Andamento' | 'Histórico'>('Em Andamento');
+  const [loading, setLoading] = useState(true);
+  const [dados, setDados] = useState<{ emAndamento: ItemColetaExtendida[], historico: ItemColetaExtendida[] }>({
+    emAndamento: [],
+    historico: []
+  });
 
-  const carregarDados = () => {
-    const usuariosRaw = localStorage.getItem('usuarios');
-    const metricas = {
-      totalColetas: 0,
-      materialKg: 0,
-      tiposUnicos: new Set<string>(),
-      esteMes: 0,
-      solicitacoes: [] as { moradorId: string; moradorNome: string; coleta: Coleta }[]
-    };
+  const [modalFinalizar, setModalFinalizar] = useState<ItemColetaExtendida | null>(null);
+  const [modalRecusar, setModalRecusar] = useState<ItemColetaExtendida | null>(null);
+  const [pesoFinal, setPesoFinal] = useState("");
+  const [motivoRecusa, setMotivoRecusa] = useState("");
 
-    if (usuariosRaw) {
-      const usuarios: Usuario[] = JSON.parse(usuariosRaw);
-      const mesAtual = new Date().getMonth();
+  const carregarDados = async () => {
+    setLoading(true);
+    try {
+      const usuariosRaw = localStorage.getItem('usuarios');
+      const metricas = { emAndamento: [] as ItemColetaExtendida[], historico: [] as ItemColetaExtendida[] };
 
-      usuarios.forEach(user => {
-        user.historico?.forEach(coleta => {
-          if (coleta.status === 'Coletado') {
-            metricas.totalColetas++;
-            metricas.materialKg += coleta.peso || 0;
-            metricas.tiposUnicos.add(coleta.material);
-            
-            const partesData = coleta.data.split('/');
-            if (partesData.length > 1) {
-              const mesColeta = parseInt(partesData[1]);
-              if (mesColeta - 1 === mesAtual) metricas.esteMes++;
-            }
-          }
-          if (coleta.status !== 'Coletado') {
-            metricas.solicitacoes.push({ moradorId: user.id, moradorNome: user.nome, coleta });
-          }
-        });
-      });
-    }
-    return metricas;
-  };
-
-  const dados = carregarDados();
-
-  const salvarGerenciamento = () => {
-    if (!coletaSelecionada) return;
-
-    const usuariosRaw = localStorage.getItem('usuarios');
-    if (usuariosRaw) {
-      const usuarios: Usuario[] = JSON.parse(usuariosRaw);
-      const pesoNumerico = parseFloat(novoPeso) || 0;
-
-      const novosUsuarios = usuarios.map(user => {
-        if (user.id === coletaSelecionada.moradorId) {
-          const novoHistorico = user.historico?.map(c => {
-            if (c.id === coletaSelecionada.coleta.id) {
-              if (novoStatus === 'Coletado') {
-                user.pontos = (user.pontos || 0) + (pesoNumerico * 10);
-              }
-              return { ...c, status: novoStatus, peso: pesoNumerico };
-            }
-            return c;
+      if (usuariosRaw) {
+        const usuarios: Usuario[] = JSON.parse(usuariosRaw);
+        usuarios.forEach(user => {
+          user.historico?.forEach(coleta => {
+            const item: ItemColetaExtendida = { ...coleta, moradorNome: user.nome, moradorId: user.id };
+            if (coleta.status === 'Em Coleta') metricas.emAndamento.push(item);
+            else if (coleta.status === 'Coletado' || coleta.status === 'Recusado') metricas.historico.push(item);
           });
-          return { ...user, historico: novoHistorico };
-        }
-        return user;
-      });
-
-      localStorage.setItem('usuarios', JSON.stringify(novosUsuarios));
-      setColetaSelecionada(null);
-      setNovoPeso("");
-      window.location.reload();
+        });
+      }
+      setDados(metricas);
+    } catch {
+      console.error("Erro ao processar dados locais");
+    } finally {
+      setLoading(false);
     }
   };
+
+  useEffect(() => {
+    carregarDados();
+  }, []);
+
+  const processarAcao = async (status: 'Coletado' | 'Recusado') => {
+    const itemAlvo = status === 'Coletado' ? modalFinalizar : modalRecusar;
+    if (!itemAlvo) return;
+
+    try {
+      const usuariosRaw = localStorage.getItem('usuarios');
+      if (usuariosRaw) {
+        const usuarios: Usuario[] = JSON.parse(usuariosRaw);
+        const novosUsuarios = usuarios.map(user => {
+          if (user.id === itemAlvo.moradorId) {
+            const novoHist = user.historico?.map(c => {
+              if (c.id === itemAlvo.id) {
+                if (status === 'Coletado') return { ...c, status, peso: parseFloat(pesoFinal) };
+                return { ...c, status, motivoRecusa };
+              }
+              return c;
+            });
+            return { ...user, historico: novoHist };
+          }
+          return user;
+        });
+        localStorage.setItem('usuarios', JSON.stringify(novosUsuarios));
+        
+        // Limpa estados e recarrega
+        setModalFinalizar(null);
+        setModalRecusar(null);
+        setPesoFinal("");
+        setMotivoRecusa("");
+        carregarDados();
+      }
+    } catch {
+      alert("Erro ao processar ação.");
+    }
+  };
+
+  const gerarDadosTeste = () => {
+    const dadosMock: Usuario[] = [
+      { id: "u1", nome: "Carlos Silva", tipo: "morador", historico: [{ id: "c1", material: "Papelão", quantidade: "25kg est.", status: "Em Coleta", data: "10/01/2026", horario: "14:00", endereco: "Rua das Flores, 123", peso: 0, coletorNome: "Marcos Oliveira" }] },
+      { id: "u2", nome: "Ana Oliveira", tipo: "morador", historico: [{ id: "c2", material: "Vidro PET", quantidade: "12 unidades", status: "Em Coleta", data: "10/01/2026", horario: "15:30", endereco: "Av. Paulista, 900", peso: 0, coletorNome: "Ricardo Souza" }] }
+    ];
+    localStorage.setItem('usuarios', JSON.stringify(dadosMock));
+    carregarDados();
+  };
+
+  if (loading && dados.emAndamento.length === 0) return null;
 
   return (
     <div className="corpo-painel-coop">
+      <div className="controles-teste">
+        <button onClick={gerarDadosTeste} className="btn-gerar">🔄 Gerar Teste</button>
+        <button onClick={() => { localStorage.removeItem('usuarios'); carregarDados(); }} className="btn-limpar">🗑️ Zerar</button>
+      </div>
+
       <div className="grade-metricas">
-        <div className="cartao-metrica">
-          <div className="icone-fundo-verde"><Package size={24} /></div>
-          <div className="textos-metrica">
-            <span>Total Concluído</span>
-            <strong>{dados.totalColetas}</strong>
-          </div>
+        <div className={`cartao-metrica azul ${abaAtiva === 'Em Andamento' ? 'ativa' : ''}`} onClick={() => setAbaAtiva('Em Andamento')}>
+          <div className="icone-fundo-box"><Clock size={24} /></div>
+          <div className="textos-metrica"><span>A Caminho</span><strong>{dados.emAndamento.length}</strong></div>
         </div>
-        <div className="cartao-metrica">
-          <div className="icone-fundo-azul"><Scale size={24} /></div>
-          <div className="textos-metrica">
-            <span>Peso Total</span>
-            <strong>{dados.materialKg.toFixed(1)} kg</strong>
-          </div>
-        </div>
-        <div className="cartao-metrica">
-          <div className="icone-fundo-laranja"><BarChart3 size={24} /></div>
-          <div className="textos-metrica">
-            <span>Tipos de Material</span>
-            <strong>{dados.tiposUnicos.size}</strong>
-          </div>
-        </div>
-        <div className="cartao-metrica">
-          <div className="icone-fundo-roxo"><Calendar size={24} /></div>
-          <div className="textos-metrica">
-            <span>Coletas no Mês</span>
-            <strong>{dados.esteMes}</strong>
-          </div>
+        <div className={`cartao-metrica verde ${abaAtiva === 'Histórico' ? 'ativa' : ''}`} onClick={() => setAbaAtiva('Histórico')}>
+          <div className="icone-fundo-box"><History size={24} /></div>
+          <div className="textos-metrica"><span>Histórico</span><strong>{dados.historico.length}</strong></div>
         </div>
       </div>
 
-      <div className="quadro-principal">
-        <h3 className="titulo-secao">Solicitações Pendentes</h3>
-        <div className="tabela-coop-container">
-          <table className="tabela-coop">
-            <thead>
-              <tr>
-                <th>Morador</th>
-                <th>Material</th>
-                <th>Status</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              {dados.solicitacoes.map((item) => (
-                <tr key={item.coleta.id}>
-                  <td><strong>{item.moradorNome}</strong></td>
-                  <td>{item.coleta.material}</td>
-                  <td>
-                    <span className={`tag-status ${item.coleta.status.toLowerCase().replace(/\s+/g, '-')}`}>
-                      {item.coleta.status}
-                    </span>
-                  </td>
-                  <td>
-                    <button 
-                      className="btn-acao-tabela"
-                      onClick={() => {
-                        setColetaSelecionada({ moradorId: item.moradorId, coleta: item.coleta });
-                        setNovoStatus(item.coleta.status);
-                      }}
-                    >
-                      Gerenciar
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {coletaSelecionada && (
-        <div className="modal-overlay">
-          <div className="modal-gerenciar">
-            <div className="modal-header">
-              <h4>Atualizar Coleta</h4>
-              <button onClick={() => setColetaSelecionada(null)}><X size={20}/></button>
-            </div>
-            <div className="modal-body">
-              <label>Status:</label>
-              <select 
-                value={novoStatus} 
-                onChange={(e) => setNovoStatus(e.target.value as Coleta['status'])}
-              >
-                <option value="Pendente">Pendente</option>
-                <option value="Em Coleta">Em Coleta</option>
-                <option value="Coletado">Coletado (Finalizar)</option>
-              </select>
-
-              {novoStatus === 'Coletado' && (
-                <div className="campo-peso">
-                  <label>Peso Final (kg):</label>
-                  <input 
-                    type="number" 
-                    value={novoPeso} 
-                    onChange={(e) => setNovoPeso(e.target.value)}
-                    placeholder="Ex: 5.5"
-                  />
+      <div className="quadro-lista-coletas">
+        <h3 className="titulo-secao-coop">Coletas {abaAtiva}</h3>
+        
+        <div className="lista-cards-container">
+          {abaAtiva === 'Em Andamento' && (
+            dados.emAndamento.length > 0 ? (
+              dados.emAndamento.map(item => (
+                <div key={item.id} className="card-coleta-item border-azul">
+                  <div className="card-info-detalhada">
+                    <div className="topo-card">
+                      <h4>{item.material} <span className="badge-quantidade">{item.quantidade}</span></h4>
+                      <span className="badge-status azul">COLETOR A CAMINHO</span>
+                    </div>
+                    <div className="grade-envolvidos">
+                      <div className="perfil-mini"><User size={16} className="cor-morador"/><div><label>Morador</label><p>{item.moradorNome}</p></div></div>
+                      <div className="perfil-mini"><Truck size={16} className="cor-coletor"/><div><label>Coletor</label><p>{item.coletorNome}</p></div></div>
+                    </div>
+                    <div className="detalhes-linha">
+                      <span><MapPin size={14} /> {item.endereco}</span>
+                      <span><Calendar size={14} /> {item.data}</span>
+                    </div>
+                  </div>
+                  <div className="card-acoes-coop">
+                    <button className="btn-receber" onClick={() => setModalFinalizar(item)}>Recebida <Check size={18}/></button>
+                    <button className="btn-recusar-link" onClick={() => setModalRecusar(item)}>Recusar Material</button>
+                  </div>
                 </div>
-              )}
+              ))
+            ) : <div className="mensagem-vazia"><Truck size={40} /><p>Não há nenhuma coleta em andamento.</p></div>
+          )}
+
+          {abaAtiva === 'Histórico' && (
+            dados.historico.length > 0 ? (
+              dados.historico.map(item => (
+                <div key={item.id} className={`card-coleta-item ${item.status === 'Recusado' ? 'border-vermelho' : 'border-verde'}`}>
+                  <div className="card-info-principal">
+                    <div className="titulo-material">
+                      <h4>{item.material}</h4>
+                      <span className={`badge-status ${item.status === 'Recusado' ? 'vermelho' : 'verde'}`}>
+                        {item.status === 'Recusado' ? 'RECUSADA' : 'CONCLUÍDA'}
+                      </span>
+                    </div>
+                    {item.status === 'Coletado' ? (
+                      <p className="peso-validado"><Scale size={16} /> Peso: <strong>{item.peso} kg</strong></p>
+                    ) : <div className="motivo-info"><AlertTriangle size={16} /> {item.motivoRecusa}</div>}
+                    <p className="txt-sub">Morador: {item.moradorNome} | Coletor: {item.coletorNome}</p>
+                  </div>
+                </div>
+              ))
+            ) : <div className="mensagem-vazia"><History size={40} /><p>Histórico vazio.</p></div>
+          )}
+        </div>
+      </div>
+
+      {modalFinalizar && (
+        <div className="modal-overlay">
+          <div className="modal-container-recusa">
+            <div className="modal-header-recusa">
+              <h3>Validar Peso</h3>
+              <button className="fechar-x" onClick={() => setModalFinalizar(null)}><X/></button>
             </div>
-            <button className="btn-confirmar" onClick={salvarGerenciamento}>Salvar</button>
+            <div className="input-peso-container">
+              <Scale size={24} />
+              <input type="number" value={pesoFinal} onChange={(e) => setPesoFinal(e.target.value)} placeholder="0.0 kg" autoFocus />
+            </div>
+            <div className="modal-footer-recusa">
+              <button className="btn-receber" style={{width: '100%'}} onClick={() => processarAcao('Coletado')}>Confirmar Recebimento</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {modalRecusar && (
+        <div className="modal-overlay">
+          <div className="modal-container-recusa">
+            <div className="modal-header-recusa">
+              <h3>Motivo da Recusa</h3>
+              <button className="fechar-x" onClick={() => setModalRecusar(null)}><X/></button>
+            </div>
+            <textarea 
+              className="input-area-motivo" 
+              value={motivoRecusa} 
+              onChange={(e) => setMotivoRecusa(e.target.value)} 
+              placeholder="Descreva o motivo..."
+            />
+            <div className="modal-footer-recusa">
+              <button className="btn-confirmar-recusa-v2" onClick={() => processarAcao('Recusado')}>Confirmar Recusa</button>
+              <button className="btn-cancelar-v2" onClick={() => setModalRecusar(null)}>Cancelar</button>
+            </div>
           </div>
         </div>
       )}

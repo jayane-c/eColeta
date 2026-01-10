@@ -1,5 +1,5 @@
 .barra-navegacao-coop {
-    position: fixed; 
+    position: sticky; 
     top: 0;
     left: 0;
     width: 100%;
@@ -23,13 +23,17 @@
 .logo-e-texto {
     display: flex;
     align-items: center;
-    gap: 15px;
-    cursor: pointer;
+    gap: 12px;
 }
 
 .imagem-logo-png {
     height: 42px; 
     width: auto;
+}
+
+.textos-logo {
+    display: flex;
+    flex-direction: column;
 }
 
 .titulo-coop {
@@ -47,5 +51,53 @@
 .acoes-navbar {
     display: flex;
     align-items: center;
-    gap: 15px; 
+    gap: 20px;
+}
+
+
+@media (max-width: 850px) {
+    .barra-navegacao-coop {
+        height: 70px;
+    }
+
+    .conteudo-navegacao {
+        padding: 0 15px;
+    }
+
+    .textos-logo, 
+    .subtitulo-coop,
+    .titulo-coop {
+        display: none;
+    }
+
+    .links-centralizados, 
+    .nav-links, 
+    .menu-opcoes { 
+        display: none;
+    }
+
+    .btn-sair span, 
+    .texto-sair {
+        display: none;
+    }
+
+    .acoes-navbar {
+        gap: 15px;
+    }
+}
+
+@media (max-width: 600px) {
+    .grade-envolvidos {
+        grid-template-columns: 1fr; 
+        padding: 10px;
+    }
+
+    .perfil-mini p {
+        font-size: 0.85rem;
+    }
+
+    .card-acoes-coop {
+        min-width: 100%;
+        margin-top: 15px;
+    }
 }
