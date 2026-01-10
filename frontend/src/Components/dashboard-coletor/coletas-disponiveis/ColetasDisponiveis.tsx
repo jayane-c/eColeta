@@ -1,8 +1,8 @@
 import { Check, X, MapPin, Calendar, Clock } from 'lucide-react';
 import "./ColetasDisponiveis.css";
 
-function ColetasDisponiveis({ dados, onAceitar, bloquearBotao }: any) {
-  
+function ColetasDisponiveis({ dados, onAceitar, onRecusar, bloquearBotao }: any) {
+
   const handleAceitar = (coleta: any) => {
     if (bloquearBotao) {
       alert("Você já possui uma coleta em andamento!");
@@ -26,7 +26,7 @@ function ColetasDisponiveis({ dados, onAceitar, bloquearBotao }: any) {
         {dados.map((coleta: any) => (
           <div className="coleta-card" key={coleta.id}>
             <div className="accent-bar" />
-            
+
             <div className="card-body">
               <div className="info-section">
                 <div className="header-coleta">
@@ -54,7 +54,9 @@ function ColetasDisponiveis({ dados, onAceitar, bloquearBotao }: any) {
                 <button className="btn-aceitar" onClick={() => handleAceitar(coleta)}>
                   <Check size={20} /> Aceitar
                 </button>
-                <button className="btn-recusar">
+                <button
+                  className="btn-recusar"
+                  onClick={() => onRecusar && onRecusar(coleta.id)}>
                   <X size={20} /> Recusar
                 </button>
               </div>
