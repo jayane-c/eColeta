@@ -19,10 +19,6 @@ export default function Barra_de_navegacao() {
                             
                         <li
                             className="nav-link"
-                            onClick={() => navigate('/contato')}>Contato
-                        </li>
-                        <li
-                            className="nav-link"
                             onClick={() => navigate("/guia-separacao")}> Guia de Separação
                                 
                             </li>

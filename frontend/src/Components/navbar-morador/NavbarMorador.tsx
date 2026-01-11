@@ -24,7 +24,13 @@ export default function NavbarMorador() {
         <header className="navegacao-recipiente">
             <div className="navegacao-esquerda">
                 <div className="caixa-icone">
-                    <img src={Logo} alt="Logo" className="navegacao-logo" />
+                    <img
+                        src={Logo}
+                        alt="Logo"
+                        className="navegacao-logo"
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => navigate("/")}
+                    />
                 </div>
                 <div className="navegacao-texto">
                     <h2>Olá, {nomeExibicao}!</h2>
@@ -34,27 +40,28 @@ export default function NavbarMorador() {
 
             <nav className="nav-menu">
                 <ul>
-                    <li className="nav-link" onClick={() => navigate("/saibaMais")}> 
-                        Saiba Mais 
-                    </li>
-                    <li className="nav-link" onClick={() => navigate("/contato")}> 
-                        Contato 
-                    </li>
-                    <li className="nav-link" onClick={() => navigate("/guia-separacao")}> 
-                        Guia de Separação 
+                    <li className="nav-link" onClick={() => navigate("/")}>
+                        Home
                     </li>
 
-                
+                    <li className="nav-link" onClick={() => navigate("/saibaMais")}>
+                        Saiba Mais
+                    </li>
+
+                    <li className="nav-link" onClick={() => navigate("/guia-separacao")}>
+                        Guia de Separação
+                    </li>
+
                     <li className="perfil-item">
-                        <button 
-                            className="perfil-link" 
-                            onClick={() => navigate("/perfilMorador")}
+                        <button
+                            className="perfil-link"
+                            onClick={() => navigate("/PerfilMorador")}
                         >
                             <User size={18} />
                             Meu Perfil
                         </button>
                     </li>
-                
+
                     <li className="nav-item-botao">
                         <BotaoSair onSair={() => { logout(); navigate("/"); }} />
                     </li>
